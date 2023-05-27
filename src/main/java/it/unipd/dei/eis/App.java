@@ -21,10 +21,13 @@ public class App {
         // conteggio
         Map<String, Integer> map = new HashMap<>();
         for (Article a : articles) {
-            Set<String> set = new HashSet<>(Arrays.asList(a.getBody().toLowerCase().split(" ")));
+            // pulizia punteggiatura dal corpo dell'articolo
+            List<String> body = Arrays.asList(a.getBody().toLowerCase().replaceAll("[^a-zA-Z0-9\\s]", "").split(" "));
+            // elimino i doppioni inserendoli in un set
+            Set<String> set = new HashSet<>(body);
             for (String token : set) {
-                int k = map.getOrDefault(token.toLowerCase(), 0);
-                map.put(token.toLowerCase(), k+1);
+                int k = map.getOrDefault(token, 0);
+                map.put(token, k+1);
             }
         }
 

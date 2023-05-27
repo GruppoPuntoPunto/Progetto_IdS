@@ -18,26 +18,29 @@ public class GuardianContentApi implements Source {
     public Response getContent() { return getContent(null); }
 
     public Response getContent(final String query) {
-        String cmd = ""; // comando da eseguire
+        String command = ""; // comando da eseguire
+        boolean osIsWindows = OS.equals("windows 10") || OS.equals("windows 11");
 
-        if (OS.equals("windows 10") || OS.equals("windows 11"))
-            cmd += "Invoke-WebRequest -Method GET -URI ";
-        else cmd += "curl ";
+        if (osIsWindows)
+            command += "Invoke-WebRequest -OutFile \"data.json\" -Method GET -URI ";
+        else command += "curl -o data.json ";
 
-        cmd += "\"" + TARGET_URL;
+        command += "\"" + TARGET_URL;
 
         if (query != null && !query.isEmpty())
-            cmd += "&q=" + query;
+            command += "&q=" + query;
 
-        cmd += "&api-key=" + apiKey + "\" "; 
-
-        if (OS.equals("windows 10") || OS.equals("windows 11"))
-            cmd += "-OutFile \"data.json\"";
-        else cmd += "-o data.json";
+        command += "&api-key=" + apiKey + "\" "; 
 
         try {
-            // lancio un processo per eseguire il comando e aspetto che termini
-            Process process = Runtime.getRuntime().exec(cmd);
+            // creo il processo
+            ProcessBuilder builder = null;
+            if (osIsWindows)
+                builder = new ProcessBuilder("cmd.exe", "/c", command);
+            else builder = new ProcessBuilder("bash", "-c", command);
+
+            // lancio il processo
+            Process process = builder.start();
             process.waitFor();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -46,7 +49,7 @@ public class GuardianContentApi implements Source {
         ObjectMapper mapper = new ObjectMapper();
         ResponseWrapper response = new ResponseWrapper();
         try { response = mapper.readValue(new File("data.json"), ResponseWrapper.class); }
-        catch (IOException e) { System.out.println(e); }
+        catch (IOException e) { e.printStackTrace(); }
         return response.getResponse();
     }
 
