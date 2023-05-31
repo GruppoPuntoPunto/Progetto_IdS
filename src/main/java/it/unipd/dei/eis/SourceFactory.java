@@ -8,10 +8,10 @@ public class SourceFactory {
     private SourceFactory() { }
 
     public Source createSource(String sourceType, Object... args) {
-        if (sourceType.equals("GuardianContentApi") && args[0] instanceof String)
-            return new GuardianContentApi((String) args[0]);
-        else if (sourceType.equals("NewYorkTimesCSV") && args[0] instanceof FileReader)
-            return new NewYorkTimesCSV((FileReader) args[0]);
+        if (sourceType.equals("GuardianJSONSource") && args[0] instanceof String)
+            return new GuardianJSONSource((String) args[0]);
+        else if (sourceType.equals("NewYorkTimesCSVSource") && args[0] instanceof FileReader)
+            return new NewYorkTimesCSVSource((FileReader) args[0]);
         return null;
     }
 

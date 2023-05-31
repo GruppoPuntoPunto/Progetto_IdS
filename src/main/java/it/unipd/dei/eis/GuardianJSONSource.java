@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.io.IOException;
 
-public class GuardianContentApi implements Source {
+public class GuardianJSONSource implements Source {
     private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all";
     private final String apiKey;
     private final String OS; // per decidere quale script lanciare
 
-    public GuardianContentApi(final String apiKey) {
+    public GuardianJSONSource(final String apiKey) {
         this.apiKey = apiKey;
         OS = System.getProperty("os.name").toLowerCase();
     }

@@ -12,11 +12,11 @@ public class Response {
     private int currentPage;
     private int pages;
     private String orderBy;
-    private ArticleAPI[] results;
+    private ArticleJSON[] results;
 
     public Response() { }
     public Response(final String status, final String userTier, final int total, final int startIndex, final int pageSize,
-                    final int currentPage, final int pages, final String orderBy, final ArticleAPI[] results) {
+                    final int currentPage, final int pages, final String orderBy, final ArticleJSON[] results) {
         this.status = status;
         this.userTier = userTier;
         this.total = total;
@@ -28,39 +28,21 @@ public class Response {
         this.results = results;
     }
 
-    public String getStatus() {
-        return status;
-    }
+    public String getStatus() { return status; }
 
-    public String getUserTier() {
-        return userTier;
-    }
+    public String getUserTier() { return userTier; }
 
-    public int getTotal() {
-        return total;
-    }
+    public int getTotal() { return total; }
 
-    public int getCurrentPage() {
-        return currentPage;
-    }
+    public int getCurrentPage() { return currentPage; }
 
-    public int getPages() {
-        return pages;
-    }
+    public int getPages() { return pages; }
 
-    public int getPageSize() {
-        return pageSize;
-    }
+    public int getPageSize() { return pageSize; }
 
-    public int getStartIndex() {
-        return startIndex;
-    }
+    public int getStartIndex() { return startIndex; }
 
-    public String getOrderBy() {
-        return orderBy;
-    }
+    public String getOrderBy() { return orderBy; }
 
-    public ArticleAPI[] getResults() {
-        return results;
-    }
+    public ArticleJSON[] getResults() { return results; }
 }
