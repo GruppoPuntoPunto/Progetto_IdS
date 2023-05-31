@@ -26,8 +26,8 @@ public class App {
             // elimino i doppioni inserendoli in un set
             Set<String> set = new HashSet<>(body);
             for (String token : set) {
-                int k = map.getOrDefault(token, 0);
-                map.put(token, k+1);
+                int v = map.getOrDefault(token, 0);
+                map.put(token, v+1);
             }
         }
 
@@ -44,11 +44,11 @@ public class App {
             System.exit(1);
         }
 
-        // creo le sorgenti sorgenti
+        // creo le sorgenti del the guardian e new york times
         SourceFactory factory = SourceFactory.getInstance();
-        Source guardianContentApi = factory.createSource("GuardianContentApi", args[0]);
+        Source guardianContentApi = factory.createSource("GuardianJSONSource", args[0]);
         Source nyTimesCSV = null;
-        try { nyTimesCSV = factory.createSource("NewYorkTimesCSV", new FileReader("nytimes_articles_v2.csv")); }
+        try { nyTimesCSV = factory.createSource("NewYorkTimesCSVSource", new FileReader("nytimes_articles_v2.csv")); }
         catch (IOException e) { e.printStackTrace(); }
 
         // creo una lista contenente tutti gli articoli delle sorgenti

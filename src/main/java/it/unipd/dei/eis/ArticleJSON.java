@@ -6,11 +6,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ArticleAPI implements Article {
+public class ArticleJSON implements Article {
     private String webTitle;
     private String bodyText;
 
-    public ArticleAPI() { }
+    public ArticleJSON() { }
 
     public String getBodyText() { return bodyText; }
     public String getBody() { return getBodyText(); }
