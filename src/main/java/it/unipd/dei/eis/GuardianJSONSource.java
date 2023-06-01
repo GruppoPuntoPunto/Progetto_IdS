@@ -21,23 +21,19 @@ public class GuardianJSONSource implements Source {
         String command = ""; // comando da eseguire
         boolean osIsWindows = OS.equals("windows 10") || OS.equals("windows 11");
 
-        if (osIsWindows)
-            command += "Invoke-WebRequest -OutFile \"data.json\" -Method GET -URI ";
-        else command += "curl -o data.json ";
-
-        command += "\"" + TARGET_URL;
+        command += "curl -o data.json \"" + TARGET_URL;
 
         if (query != null && !query.isEmpty())
             command += "&q=" + query;
 
-        command += "&api-key=" + apiKey + "\" "; 
+        command += "&api-key=" + apiKey + "\" ";
 
         try {
             // creo il processo
             ProcessBuilder builder = null;
             if (osIsWindows)
                 builder = new ProcessBuilder("cmd.exe", "/c", command);
-            else builder = new ProcessBuilder("bash", "-c", command);
+            else  builder = new ProcessBuilder("bash", "-c", command);
 
             // lancio il processo
             Process process = builder.start();
@@ -58,3 +54,4 @@ public class GuardianJSONSource implements Source {
         return getContent().getResults();
     }
 }
+
