@@ -15,28 +15,6 @@ import java.util.HashSet;
 import java.util.Comparator;
 
 public class App {
-    // metodo che riceve in input una lista di articoli e restituisce una lista 
-    // ordinata delle parole più frequenti per articolo (ordine decrescente)
-    public static List<Map.Entry<String, Integer>> countWordsFrequency(List<Article> articles) {
-        // conteggio
-        Map<String, Integer> map = new HashMap<>();
-        for (Article a : articles) {
-            // pulizia punteggiatura dal corpo dell'articolo
-            List<String> body = Arrays.asList(a.getBody().toLowerCase().replaceAll("[^a-zA-Z0-9\\s]", "").split(" "));
-            // elimino i doppioni inserendoli in un set
-            Set<String> set = new HashSet<>(body);
-            for (String token : set) {
-                int v = map.getOrDefault(token, 0);
-                map.put(token, v+1);
-            }
-        }
-
-        // riordino
-        List<Map.Entry<String, Integer>> lst = new ArrayList<>(map.entrySet());
-        lst.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        return lst;
-    }
-
     public static void main(String[] args) {
         // la api-key viene passata da riga di comando
         if (args.length != 1) {
@@ -57,7 +35,9 @@ public class App {
         allArticles.addAll(Arrays.asList(nyTimesCSV.getArticles()));
 
         // conteggio frequenza e stampa resoconto
-        List<Map.Entry<String, Integer>> result = countWordsFrequency(allArticles);
+        WordCountStrategy strategy = new FrequencyPerArticleStrategy(); //creo la strategia di tipo FrequencyPerArticle
+        List<Map.Entry<String, Integer>> result = strategy.execute(allArticles);// salvo in una lista coppia stringa valore il resiultato dell'algoritmo precedentemente scelto
+
         for (Map.Entry<String, Integer> e : result)
             System.out.println(e.getKey() + " : " + e.getValue());
 

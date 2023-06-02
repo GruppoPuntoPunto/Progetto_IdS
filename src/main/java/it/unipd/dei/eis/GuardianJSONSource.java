@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class GuardianJSONSource implements Source {
-    private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all";
+    private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all&page-size=200";
     private final String apiKey;
     private final String OS; // per decidere quale script lanciare
 
