@@ -35,8 +35,14 @@ public class App {
         allArticles.addAll(Arrays.asList(nyTimesCSV.getArticles()));
 
         // conteggio frequenza e stampa resoconto
-        WordCountStrategy strategy = new FrequencyPerArticleStrategy(); //creo la strategia di tipo FrequencyPerArticle
-        List<Map.Entry<String, Integer>> result = strategy.execute(allArticles);// salvo in una lista coppia stringa valore il resiultato dell'algoritmo precedentemente scelto
+        WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());//creo l'oggetto counter e gli affido la strategia FrequencyPerArticle
+        List<Map.Entry<String, Integer>> result = counter.count(allArticles);// salvo in una lista coppia stringa valore il resiultato dell'algoritmo precedentemente scelto
+
+        // Cambio dinamicamente la strategia di conteggio
+        //counter.setCountStrategy(nuova strategia);
+        // Cambio dinamicamente la strategia di conteggio
+        //counter.setCountStrategy(nuova strategia);
+
 
         for (Map.Entry<String, Integer> e : result)
             System.out.println(e.getKey() + " : " + e.getValue());
