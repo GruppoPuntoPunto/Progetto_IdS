@@ -4,7 +4,7 @@ public class ArticleCSV implements Article {
     private String title;
     private String body;
 
-    public ArticleCSV() { }
+    public ArticleCSV() {}
     public ArticleCSV(String title, String body) { 
         this.body = body;
         this.title = title;

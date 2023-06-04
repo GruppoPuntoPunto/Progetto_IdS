@@ -24,7 +24,7 @@ public class App {
 
         // creo le sorgenti del the guardian e new york times
         SourceFactory factory = SourceFactory.getInstance();
-        Source guardianContentApi = factory.createSource("GuardianJSONSource", args[0]);
+        Source guardianContentApi = factory.createSource("GuardianJSONSource", "args[0]");
         Source nyTimesCSV = null;
         try { nyTimesCSV = factory.createSource("NewYorkTimesCSVSource", new FileReader("nytimes_articles_v2.csv")); }
         catch (IOException e) { e.printStackTrace(); }
@@ -33,6 +33,27 @@ public class App {
         List<Article> allArticles = new ArrayList<>();
         allArticles.addAll(Arrays.asList(guardianContentApi.getArticles()));
         allArticles.addAll(Arrays.asList(nyTimesCSV.getArticles()));
+
+    /*  Prova se/deserializzazione Xml
+
+        XmlSerializer serializer = new XmlSerializer("repository/");
+        // per il momento non gestisco le eccezioni
+        try {
+            serializer.serialize(allArticles);
+        } catch (Exception e) {
+            System.out.println("Serializzazione: " + e.getMessage());
+        }
+
+        List<Article> deserializedArticles = new ArrayList<>();
+        // per il momento non gestisco le eccezioni
+        try {
+            deserializedArticles.addAll(serializer.deserialize());
+        } catch (Exception e) {
+            System.out.println("Deserializzazione: " + e.getMessage());
+        }
+
+        System.out.println(deserializedArticles);
+        */
 
         // conteggio frequenza e stampa resoconto
         WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());//creo l'oggetto counter e gli affido la strategia FrequencyPerArticle
@@ -46,6 +67,5 @@ public class App {
 
         for (Map.Entry<String, Integer> e : result)
             System.out.println(e.getKey() + " : " + e.getValue());
-
     }
 }
