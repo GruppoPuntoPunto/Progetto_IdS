@@ -2,9 +2,15 @@ package it.unipd.dei.eis;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.reflect.Field;
 
+import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementUnion;
+import org.simpleframework.xml.Root;
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.simpleframework.xml.stream.CamelCaseStyle;
@@ -16,16 +22,12 @@ public class XmlSerializer {
     Serializer serializer;
     private File directory;
 
+    private static int productionCount = 0;
 
-    public XmlSerializer(File directory, Format f) {
-        this.serializer = new Persister(f);
-        this.directory = directory;
-        if (!this.directory.exists())
-            this.directory.mkdirs(); // Crea la cartella se non esiste già
-    }
-    public XmlSerializer(File directory) {
+
+    public XmlSerializer(String directory) {
         this.serializer = new Persister(new Format(4, new CamelCaseStyle()));
-        this.directory = directory;
+        this.directory = new File(directory);
         if (!this.directory.exists())
             this.directory.mkdirs(); // Crea la cartella se non esiste già
     }
@@ -37,27 +39,14 @@ public class XmlSerializer {
             this.directory.mkdirs(); // Crea la cartella se non esiste già
     }
 
-    public XmlSerializer(String directory) {
-        this.serializer = new Persister(new Format(4, new CamelCaseStyle()));
-        this.directory = new File(directory);
-        if (!this.directory.exists())
-            this.directory.mkdirs(); // Crea la cartella se non esiste già
+    public void serialize(Article[] list) throws Exception {
+        for(Article article :list)
+            serializer.write(new ArticleXml(article.getTitle(), article.getBody()), new File(this.directory, productionCount++ + ".xml"));
     }
-
 
     public void serialize(List<? extends Article> list) throws Exception {
-        int i = 1;
         for(Article article : list)
-            serializer.write(article, new File(this.directory, i++ + ".xml"));
-    }
-
-    public void serialize(List<? extends Article> list, File directory) throws Exception {
-        if (!directory.exists())
-            directory.mkdirs(); // Crea la cartella se non esiste già
-
-        int i = 1;
-        for(Article article : list)
-            serializer.write(article, new File(directory, i++ + ".xml"));
+            serializer.write(new ArticleXml(article.getTitle(), article.getBody()), new File(this.directory, productionCount++ + ".xml"));
     }
 
     public void serialize(List<? extends Article> list, String fileDirectory) throws Exception {
@@ -65,26 +54,13 @@ public class XmlSerializer {
         if (!directory.exists())
             directory.mkdirs(); // Crea la cartella se non esiste già
 
-        int i = 1;
         for(Article article : list)
-            serializer.write(article, new File(directory, i++ + "a.xml"));
+            serializer.write(article, new File(directory, productionCount++ + ".xml"));
     }
 
 
     public List<Article> deserialize() throws Exception {
         File[] files = this.directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml")); // raccoglie tutti i file .xml
-        List<Article> allArticles = new ArrayList<>(); // Articoli deserializzati
-
-        if(files != null) {
-            for (File file : files)
-                allArticles.add(serializer.read(ArticleXml.class, file));
-            return allArticles;
-        }
-        else { throw new FileNotFoundException(); }
-    }
-
-    public List<Article> deserialize(File directory) throws Exception {
-        File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml")); // raccoglie tutti i file .xml
         List<Article> allArticles = new ArrayList<>(); // Articoli deserializzati
 
         if(files != null) {
