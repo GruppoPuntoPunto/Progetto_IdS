@@ -1,75 +1,47 @@
 package it.unipd.dei.eis;
 
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementUnion;
 import org.simpleframework.xml.Root;
 
 @Root
 public class ArticleXml implements  Article{
-    @Element(required = false)
-    private String Title;
-    @Element(required = false)
-    private String Body;
-    @Element(required = false)
-    private String WebTitle;
-    @Element(required = false)
-    private String BodyText;
+    @Element(name = "title", required = false)
+    private String title;
+    @Element(name = "body", required = false)
+    private String body;
 
 
     public ArticleXml() {}
 
-    public ArticleXml(String title, String body, String webTitle, String bodyText) {
-        Title = title;
-        Body = body;
-        WebTitle = webTitle;
-        BodyText = bodyText;
-    }
-
-    public ArticleXml(String webTitle, String bodyText) {
-        WebTitle = webTitle;
-        BodyText = bodyText;
-    }
-
-    public String getWebTitle() {
-        return WebTitle;
-    }
-
-    public void setWebTitle(String webTitle) {
-        WebTitle = webTitle;
-    }
-
-    public String getBodyText() {
-        return BodyText;
-    }
-
-    public void setBodyText(String bodyText) {
-        BodyText = bodyText;
+    public ArticleXml(String title, String body) {
+        this.title = title;
+        this.body = body;
     }
 
     @Override
     public String getTitle() {
-        return Title;
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
     public String getBody() {
-        return Body;
-    }
-
-    public void setTitle(String title) {
-        Title = title;
+        return body;
     }
 
     public void setBody(String body) {
-        Body = body;
+        this.body = body;
     }
 
     @Override
     public String toString() {
         return "\nArticleXml{" +
-                "Title='" + Title + '\'' +
-                ", Body='" + Body + '\'' +
-                ", WebTitle='" + WebTitle + '\'' +
-                ", BodyText='" + BodyText + '\'' +
-                '}';
+                "title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                "}";
     }
 }

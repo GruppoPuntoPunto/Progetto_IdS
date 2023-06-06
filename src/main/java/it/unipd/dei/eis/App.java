@@ -16,11 +16,12 @@ import java.util.Comparator;
 
 public class App {
     public static void main(String[] args) {
+        /*
         // la api-key viene passata da riga di comando
         if (args.length != 1) {
             System.out.println("Missing api-key");
             System.exit(1);
-        }
+        }*/
 
         // creo le sorgenti del the guardian e new york times
         SourceFactory factory = SourceFactory.getInstance();
@@ -34,7 +35,7 @@ public class App {
         allArticles.addAll(Arrays.asList(guardianContentApi.getArticles()));
         allArticles.addAll(Arrays.asList(nyTimesCSV.getArticles()));
 
-    /*  Prova se/deserializzazione Xml
+    //  Prova se/deserializzazione Xml
 
         XmlSerializer serializer = new XmlSerializer("repository/");
         // per il momento non gestisco le eccezioni
@@ -53,7 +54,7 @@ public class App {
         }
 
         System.out.println(deserializedArticles);
-        */
+
 
         // conteggio frequenza e stampa resoconto
         WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());//creo l'oggetto counter e gli affido la strategia FrequencyPerArticle
