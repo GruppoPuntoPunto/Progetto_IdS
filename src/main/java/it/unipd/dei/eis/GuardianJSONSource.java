@@ -9,22 +9,25 @@ public class GuardianJSONSource implements Source {
     private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all&page-size=200";
     private final String apiKey;
     private final String OS; // per decidere quale script lanciare
+    private Article[] results;
 
-    public GuardianJSONSource(final String apiKey) {
+    public GuardianJSONSource(String apiKey) {
         this.apiKey = apiKey;
-        OS = System.getProperty("os.name").toLowerCase();
+        this.OS = System.getProperty("os.name").toLowerCase();
+        this.results = new ArticleJSON[0];
     }
 
-    public Response getContent() { return getContent(null); }
+    //public Response getContent() { return getContent(null); }
 
-    public Response getContent(final String query) {
+    public void download() {
         String command = ""; // comando da eseguire
-        boolean osIsWindows = OS.equals("windows 10") || OS.equals("windows 11");
+        boolean osIsWindows = OS.contains("windows");
 
+        // costruisco il comando per scaricare la risposta json
         command += "curl -o data.json \"" + TARGET_URL;
 
-        if (query != null && !query.isEmpty())
-            command += "&q=" + query;
+        //if (query != null && !query.isEmpty())
+        //    command += "&q=" + query;
 
         command += "&api-key=" + apiKey + "\" ";
 
@@ -42,16 +45,17 @@ public class GuardianJSONSource implements Source {
             e.printStackTrace();
         }
 
+        // serializzo 
         ObjectMapper mapper = new ObjectMapper();
         ResponseWrapper response = new ResponseWrapper();
         try { response = mapper.readValue(new File("data.json"), ResponseWrapper.class); }
         catch (IOException e) { e.printStackTrace(); }
-        return response.getResponse();
+
+        // acquisisco gli articoli
+        this.results = response.getResponse().getResults();
     }
 
     public Article[] getArticles() {
-        // in questo modo non possiamo sfruttare le query
-        return getContent().getResults();
+        return results;
     }
 }
-

@@ -23,11 +23,11 @@ public class App {
         // getione argomenti linea di comando
         Options opt = new Options();
 
-        // azioni possibili
-        OptionGroup grp1 = new OptionGroup(); // grppo per per la chiave api
+        // definisco i gruppi di opzioni
+        OptionGroup grp1 = new OptionGroup(); // gruppo per per la chiave api
         grp1.addOption(new Option("ak", "api-key", true, "Set the guardian API"));
 
-        OptionGroup grp2= new OptionGroup(); // gruppo per download ed download + estrazione
+        OptionGroup grp2= new OptionGroup(); // gruppo per download e download+estrazione
         grp2.addOption(new Option("d", "download", false, "Dowload all articles form all the resources"));
         grp2.addOption(new Option("de", "download-extract", false, "Download and extract terms"));
 
@@ -45,40 +45,42 @@ public class App {
         Options helpOpt = new Options();
         helpOpt.addOption(new Option("h", "help", false, "Print this help message"));
 
-        // parse comandi
+        // parse
         HelpFormatter formatter = new HelpFormatter();
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
         CommandLine help;
         try { 
-            // controllo se sono stati passati gli argomenti obbligatori
+            // controllo se sono state passate le opzioni obbligatorie
             cmd = parser.parse(opt, args); 
         }  catch (org.apache.commons.cli.ParseException e) {
             try {
                 // controllo se è presente l'opzione help
                 help = parser.parse(helpOpt, args);
-                formatter.printHelp("App -{ak} -{d,de} [options]", opt);
+                formatter.printHelp("App -{ak} -{d,de} [OPTION]...", opt);
             }  catch (org.apache.commons.cli.ParseException ex) {
                 System.err.println("ERROR - parsing command line:");
                 System.err.println(e.getMessage());
-                formatter.printHelp("App -{} [options]", opt);
+                formatter.printHelp("App -{ak} -{d,de} [OPTION]...", opt);
             }
+            return;
+        }
+
+        if (cmd.hasOption("h")) {
+            formatter.printHelp("App -{ak} -{d,de} [OPTION]...", opt);
             return;
         }
 
         // prelevo l'api
         String apiKey = cmd.getOptionValue("ak");
-        //System.out.println(apiKey);
 
         // controllo passaggio file path csv nytimes
         String nytCsvPath = getOptionValueOrDefault(cmd, "csv", "nytimes_articles_v2.csv");
-        //System.out.println(nytCsvPath);
 
         // controllo passaggio path files xml
         String xmlOutputPath = getOptionValueOrDefault(cmd, "xml", "outputXml/");
-        //System.out.println(xmlOutputPath);
 
-        // creo le sorgenti del the guardian e new york times
+        // creo le sorgenti del The Guardian e del New York Times
         SourceFactory factory = SourceFactory.getInstance();
         Source guardianContentApi = factory.createSource("GuardianJSONSource", apiKey);
         Source nyTimesCSV = null;
@@ -87,6 +89,10 @@ public class App {
         } catch (IOException e) { 
             e.printStackTrace(); 
         }
+
+        // effettuo il download dalle sorgenti
+        guardianContentApi.download();
+        nyTimesCSV.download();
 
         // creo una lista contenente tutti gli articoli delle sorgenti
         List<Article> allArticles = new ArrayList<>();
@@ -101,7 +107,7 @@ public class App {
             e.printStackTrace();
         }
 
-        // termino programma solo se specificato solo download
+        // fine fase di download
         if (cmd.hasOption("d")) return;
 
         // deserializzo gli articoli partendo dai file xml
