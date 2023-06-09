@@ -20,7 +20,7 @@ public class XmlSerializer {
     Serializer serializer;
     private File directory;
 
-    private static int productionCount = 0;
+    private static int productionCount = 1;
 
     public XmlSerializer(String directory) {
         this.serializer = new Persister(new Format(4, new CamelCaseStyle()));
@@ -60,8 +60,12 @@ public class XmlSerializer {
         List<Article> allArticles = new ArrayList<>(); // Articoli deserializzati
 
         if(files != null) {
-            for (File file : files)
-                allArticles.add(serializer.read(ArticleXml.class, file));
+            for (File file : files) {
+                Article a = serializer.read(ArticleXml.class, file);
+                // se il corpo è nullo
+                if (a.getBody() == null) a.setBody("");
+                allArticles.add(a);
+            }
             return allArticles;
         }
         else { throw new FileNotFoundException(); }

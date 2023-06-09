@@ -120,7 +120,7 @@ public class App {
 
         // setto la strategia di conteggio delle parole ed effettuo il conteggio
         WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());
-        List<Map.Entry<String, Integer>> result = counter.count(allArticles);
+        List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
         // stampa le prime 50 parolo più frequenti
         for (int i = 0; i < 50; i++)
             System.out.println(result.get(i));

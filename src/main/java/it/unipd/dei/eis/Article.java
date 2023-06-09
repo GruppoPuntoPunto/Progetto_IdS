@@ -5,6 +5,10 @@ public interface Article {
 
     String getBody();
 
+    void setBody(String body);
+
+    void setTitle(String title);
+
     // provvisorio
     public String toString();
 }
