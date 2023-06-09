@@ -16,14 +16,11 @@ import org.simpleframework.xml.core.Persister;
 import org.simpleframework.xml.stream.CamelCaseStyle;
 import org.simpleframework.xml.stream.Format;
 
-
-// Utilizza la libreria standard di Java -> JAXB (Java Architecture for XML Binding)
 public class XmlSerializer {
     Serializer serializer;
     private File directory;
 
-    private static int productionCount = 0;
-
+    private static int productionCount = 1;
 
     public XmlSerializer(String directory) {
         this.serializer = new Persister(new Format(4, new CamelCaseStyle()));
@@ -40,7 +37,7 @@ public class XmlSerializer {
     }
 
     public void serialize(Article[] list) throws Exception {
-        for(Article article :list)
+        for(Article article : list)
             serializer.write(new ArticleXml(article.getTitle(), article.getBody()), new File(this.directory, productionCount++ + ".xml"));
     }
 
@@ -58,14 +55,17 @@ public class XmlSerializer {
             serializer.write(article, new File(directory, productionCount++ + ".xml"));
     }
 
-
     public List<Article> deserialize() throws Exception {
         File[] files = this.directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml")); // raccoglie tutti i file .xml
         List<Article> allArticles = new ArrayList<>(); // Articoli deserializzati
 
         if(files != null) {
-            for (File file : files)
-                allArticles.add(serializer.read(ArticleXml.class, file));
+            for (File file : files) {
+                Article a = serializer.read(ArticleXml.class, file);
+                // se il corpo è nullo
+                if (a.getBody() == null) a.setBody("");
+                allArticles.add(a);
+            }
             return allArticles;
         }
         else { throw new FileNotFoundException(); }

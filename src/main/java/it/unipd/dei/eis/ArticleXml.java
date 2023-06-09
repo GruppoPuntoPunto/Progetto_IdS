@@ -1,7 +1,8 @@
 package it.unipd.dei.eis;
 
+import org.simpleframework.xml.DefaultType;
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.ElementUnion;
+import org.simpleframework.xml.Default;
 import org.simpleframework.xml.Root;
 
 @Root

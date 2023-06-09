@@ -18,6 +18,9 @@ public class ArticleJSON implements Article {
     public String getWebTitle() { return webTitle; }
     public String getTitle() { return getWebTitle(); }
  
+    public void setTitle(String title) { this.webTitle = title; }
+    public void setBody(String body) { this.bodyText = body; }
+
     @JsonProperty("fields")
     private void unpackNasted(Map<String, Object> fields) {
         this.bodyText = (String) fields.get("bodyText");

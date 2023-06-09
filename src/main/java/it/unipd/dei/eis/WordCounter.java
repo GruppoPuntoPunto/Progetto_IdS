@@ -16,7 +16,7 @@ public class WordCounter {
     }
     //Metodo per eseguire il tipo di strategia selezionata
     public  List<Map.Entry<String, Integer>> count(List<Article> articles) {
-        return strategy.execute( articles);
+        return strategy.execute(articles);
     }
 
 }

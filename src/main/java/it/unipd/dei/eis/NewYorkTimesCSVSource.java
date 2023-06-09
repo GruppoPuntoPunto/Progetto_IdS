@@ -13,13 +13,18 @@ public class NewYorkTimesCSVSource implements Source {
     private FileReader CSVInput;
     private Article[] results;
 
-    public NewYorkTimesCSVSource (FileReader CSVInput) { 
+    public NewYorkTimesCSVSource(FileReader CSVInput) { 
         this.CSVInput = CSVInput; 
-        this.results = new ArticleCSV[1];
+        this.results = new ArticleCSV[0];
+    }
 
+    public void download() {
         Iterable<CSVRecord> records = null;
-        try { records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(CSVInput); }
-        catch(IOException e) { e.printStackTrace(); }
+        try { 
+            records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(CSVInput); 
+        } catch(IOException e) { 
+            e.printStackTrace(); 
+        }
 
         ArrayList<Article> res = new ArrayList<>();
         for (CSVRecord record : records)
