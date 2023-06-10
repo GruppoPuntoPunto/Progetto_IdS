@@ -95,6 +95,8 @@ public class ArticleXml implements  Article{
         this.body = body;
     }
 
+    /* -- Other methods -- */
+
     /**
      * Returns a string variable with all the object attributes
      *
@@ -108,5 +110,18 @@ public class ArticleXml implements  Article{
                 "title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 "}";
+    }
+
+    /**
+     * Checks all the element of the object, if an element is null, it's changed to an empty string, in order to get an object full initialized
+     *
+     * @return The object with all initialized elements
+     *
+     * @since 0.1
+     */
+    public Article initializedArticle() {
+        if(this.getTitle() == null) this.setTitle("");
+        if(this.getBody() == null) this.setBody("");
+        return this;
     }
 }
