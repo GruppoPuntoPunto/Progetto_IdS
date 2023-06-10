@@ -8,7 +8,4 @@ public interface Article {
     void setBody(String body);
 
     void setTitle(String title);
-
-    // provvisorio
-    public String toString();
 }
