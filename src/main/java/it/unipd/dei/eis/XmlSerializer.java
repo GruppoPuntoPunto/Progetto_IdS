@@ -25,7 +25,7 @@ import org.simpleframework.xml.stream.Format;
  */
 public class XmlSerializer {
     /**
-     * Component from {@link org.simpleframework.xml.Serializer}
+     * Internal instance of {@link org.simpleframework.xml.Serializer}
      */
     Serializer serializer;
 
@@ -47,8 +47,8 @@ public class XmlSerializer {
      *
      *  @param directory The default directory pathname string
      *
-     *  @see org.simpleframework.xml.core.Persister
-     *  @see org.simpleframework.xml.stream.Format
+     *  @see Persister
+     *  @see Format
      *  @since 0.1
      */
     public XmlSerializer(String directory) {
@@ -65,8 +65,8 @@ public class XmlSerializer {
      * @param directory The default directory pathname string
      * @param format Specifies the <code>Format</code> to build the <code>Serializer</code> with
      *
-     *  @see org.simpleframework.xml.core.Persister
-     *  @see org.simpleframework.xml.stream.Format
+     *  @see Persister
+     *  @see Format
      *  @since 0.1
      */
     public XmlSerializer(String directory, Format format) {
@@ -83,7 +83,7 @@ public class XmlSerializer {
      *
      * @param list Array of <code>Article</code> to serialize
      *
-     * @see org.simpleframework.xml.core.Persister
+     * @see Persister#write(Object, File)
      * @since 0.1
      */
     public void serialize(Article[] list) {
@@ -104,7 +104,7 @@ public class XmlSerializer {
      * @param list Array of <code>Article</code> to serialize
      * @param fileDirectory The directory pathname string to use
      *
-     * @see org.simpleframework.xml.core.Persister
+     * @see Persister#write(Object, File)
      * @since 0.1
      */
     public void serialize(Article[] list, String fileDirectory) {
@@ -127,7 +127,7 @@ public class XmlSerializer {
      *
      * @param list List of <code>Article</code> to serialize
      *
-     * @see org.simpleframework.xml.core.Persister
+     * @see Persister#write(Object, File)
      * @since 0.1
      */
     public void serialize(List<? extends Article> list) {
@@ -148,7 +148,7 @@ public class XmlSerializer {
      * @param list List of <code>Article</code> to serialize
      * @param fileDirectory The directory pathname string to use
      *
-     * @see org.simpleframework.xml.core.Persister
+     * @see Persister#write(Object, File)
      * @since 0.1
      */
     public void serialize(List<? extends Article> list, String fileDirectory) {
@@ -173,22 +173,21 @@ public class XmlSerializer {
      *
      *  @return An <code>Article</code> typed list or null if no .xml files are found
      *
+     *  @throws Exception If an object cannot be fully deserialized
+     *
      * @see File#listFiles(FilenameFilter)
-     * @see org.simpleframework.xml.core.Persister
+     * @see Persister#read(Object, File)
      * @since 0.1
      */
     public List<Article> deserialize() throws Exception {
-        // Lambda function: accept(File dir, String name) -> raccoglie tutti i file .xml
+        // Lambda function: accept(File dir, String name) -> collects all files .xml
         File[] files = this.directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml"));
         List<Article> allArticles = new ArrayList<>();
 
         if(files != null) {
             for (File file : files) {
                 // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
-                Article a = serializer.read(ArticleXml.class, file);
-                // se il corpo è nullo
-                if (a.getBody() == null) a.setBody("");
-                allArticles.add(a);
+                allArticles.add(serializer.read(ArticleXml.class, file).initializedArticle());
             }
             return allArticles;
         }
@@ -202,24 +201,23 @@ public class XmlSerializer {
      *
      * @return An <code>Article</code> typed list or null if no .xml files are found
      *
+     * @throws Exception If an object cannot be fully deserialized
+     *
      * @see File#listFiles(FilenameFilter)
-     * @see org.simpleframework.xml.core.Persister
+     * @see Persister#read(Object, File)
      * @since 0.1
      */
     public List<Article> deserialize(String fileDirectory) throws Exception {
         File directory = new File(fileDirectory);
 
-        // Lambda function: accept(File dir, String name) -> raccoglie tutti i file .xml
+        // Lambda function: accept(File dir, String name) -> collects all files .xml
         File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml"));
         List<Article> allArticles = new ArrayList<>();
 
         if(files != null) {
             for (File file : files) {
                 // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
-                Article a = serializer.read(ArticleXml.class, file);
-                // se il corpo è nullo
-                if (a.getBody() == null) a.setBody("");
-                allArticles.add(a);
+                allArticles.add(serializer.read(ArticleXml.class, file).initializedArticle());
             }
             return allArticles;
         }
