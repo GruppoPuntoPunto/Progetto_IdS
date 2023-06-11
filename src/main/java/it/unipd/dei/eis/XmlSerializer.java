@@ -171,12 +171,12 @@ public class XmlSerializer {
     /**
      *  Deserialize all the array files stored in the default directory into an <code>Article</code> typed list.
      *
-     *  @return An <code>Article</code> typed list or null if no .xml files are found
+     *  @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found
      *
      *  @throws Exception If an object cannot be fully deserialized
      *
      * @see File#listFiles(FilenameFilter)
-     * @see Persister#read(Object, File)
+     * @see Persister#read(Object, File)/bin
      * @since 0.1
      */
     public List<Article> deserialize() throws Exception {
@@ -184,7 +184,7 @@ public class XmlSerializer {
         File[] files = this.directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml"));
         List<Article> allArticles = new ArrayList<>();
 
-        if(files != null) {
+        if(files != null && files.length != 0) {
             for (File file : files) {
                 // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
                 allArticles.add(serializer.read(ArticleXml.class, file).initializedArticle());
@@ -199,22 +199,24 @@ public class XmlSerializer {
      *
      * @param fileDirectory The directory pathname string to search in
      *
-     * @return An <code>Article</code> typed list or null if no .xml files are found
+     * @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found or the directory specified doesn't exist
      *
      * @throws Exception If an object cannot be fully deserialized
+     * @throws NullPointerException If <code>fileDirectory</code> is <code>null</code>
      *
      * @see File#listFiles(FilenameFilter)
      * @see Persister#read(Object, File)
      * @since 0.1
      */
     public List<Article> deserialize(String fileDirectory) throws Exception {
-        File directory = new File(fileDirectory);
+        // File(String pathname) -> throws NullPointerException If fileDirectory is null
+        File directory= new File(fileDirectory);
 
         // Lambda function: accept(File dir, String name) -> collects all files .xml
         File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml"));
         List<Article> allArticles = new ArrayList<>();
 
-        if(files != null) {
+        if(files != null && files.length != 0) {
             for (File file : files) {
                 // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
                 allArticles.add(serializer.read(ArticleXml.class, file).initializedArticle());
