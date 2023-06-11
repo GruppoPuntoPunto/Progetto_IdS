@@ -27,18 +27,18 @@ public class XmlSerializerTest extends TestCase {
     public void testSerializeWithList() {
         XmlSerializer serializer = new XmlSerializer("TestOutput/Xml3");
         List<Article> list = new ArrayList<>();
-        list.add(new ArticleXml("Titolo1", "Corpo1"));
-        list.add(new ArticleXml("Titolo2", "Corpo2"));
-        list.add(new ArticleXml("Titolo3", "Corpo3"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
         serializer.serialize(list);
     }
 
     public void testSerializeWithListAndDirectory() {
         XmlSerializer serializer = new XmlSerializer("TestOutput/Xml4");
         List<Article> list = new ArrayList<>();
-        list.add(new ArticleXml("Titolo1", "Corpo1"));
-        list.add(new ArticleXml("Titolo2", "Corpo2"));
-        list.add(new ArticleXml("Titolo3", "Corpo3"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
         serializer.serialize(list, "TestOutput/Xml4/bin");
     }
 
@@ -47,9 +47,9 @@ public class XmlSerializerTest extends TestCase {
     public void testDeserialize() throws Exception {
         XmlSerializer serializer = new XmlSerializer("TestOutput/Xml5", new Format(8, new CamelCaseStyle()));
         List<Article> list = new ArrayList<>();
-        list.add(new ArticleXml("Titolo1", "Corpo1"));
-        list.add(new ArticleXml("Titolo2", "Corpo2"));
-        list.add(new ArticleXml("Titolo3", "Corpo3"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
         serializer.serialize(list);
         assertEquals(list.toString(), serializer.deserialize().toString());
     }
@@ -62,9 +62,9 @@ public class XmlSerializerTest extends TestCase {
     public void testDeserializeWithDirectory() throws Exception {
         XmlSerializer serializer = new XmlSerializer("TestOutput/Xml7");
         List<Article> list = new ArrayList<>();
-        list.add(new ArticleXml("Titolo1", "Corpo1"));
-        list.add(new ArticleXml("Titolo2", "Corpo2"));
-        list.add(new ArticleXml("Titolo3", "Corpo3"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
+        list.add(new ArticleXml("Titolo", "Corpo"));
         serializer.serialize(list);
         assertEquals(list.toString(), serializer.deserialize("TestOutput/Xml7").toString());
     }
