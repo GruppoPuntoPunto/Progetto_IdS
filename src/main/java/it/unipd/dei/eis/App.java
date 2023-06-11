@@ -3,7 +3,6 @@ package it.unipd.dei.eis;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +65,7 @@ public class App {
             return;
         }
 
+        // controllo se tra i comandi passati è presente help
         if (cmd.hasOption("h")) {
             formatter.printHelp("App -{ak} -{d,de} [OPTION]...", opt);
             return;
@@ -75,14 +75,14 @@ public class App {
         String apiKey = cmd.getOptionValue("ak");
 
         // controllo passaggio file path csv nytimes
-        String nytCsvPath = getOptionValueOrDefault(cmd, "csv", "nytimes_articles_v2.csv");
+        String nytCsvPath = getOptionValueOrDefault(cmd, "csv", "src/main/resources/nytimes_articles_v2.csv");
 
         // controllo passaggio path files xml
-        String xmlOutputPath = getOptionValueOrDefault(cmd, "xml", "outputXml/");
+        String xmlOutputPath = getOptionValueOrDefault(cmd, "xml", "output/outputXml/");
 
         // creo le sorgenti del The Guardian e del New York Times
         SourceFactory factory = SourceFactory.getInstance();
-        Source guardianContentApi = factory.createSource("GuardianJSONSource", apiKey);
+        Source guardianContentApi = factory.createSource("GuardianJSONSource", apiKey, "output/outJsonTheGuardian");
         Source nyTimesCSV = null;
         try { 
             nyTimesCSV = factory.createSource("NewYorkTimesCSVSource", new FileReader(nytCsvPath)); 

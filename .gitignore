@@ -1,7 +1,3 @@
-target
-data.json
-App.sh
-esempioDiOutput.txt
 .idea
-outputXml
-Log.txt
+target
+output
