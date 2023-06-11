@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: it.unipd.dei.eis.XmlSerializerTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.697 s - in it.unipd.dei.eis.XmlSerializerTest
