@@ -1,8 +1,8 @@
 package it.unipd.dei.eis;
 
 import junit.framework.TestCase;
-import org.junit.After;
-import org.junit.rules.ExpectedException;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 import org.simpleframework.xml.stream.CamelCaseStyle;
 import org.simpleframework.xml.stream.Format;
 
@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class XmlSerializerTest extends TestCase {
     public void testSerializeWithArray() {
         XmlSerializer serializer = new XmlSerializer("TestOutput/Xml1");
@@ -83,8 +84,7 @@ public class XmlSerializerTest extends TestCase {
         assertNull(serializer.deserialize(""));
     }
 
-    @After
-    public void testCleanResources() {
+    public void testZCleanResources() {
         deleteFiles("TestOutput");
     }
 
