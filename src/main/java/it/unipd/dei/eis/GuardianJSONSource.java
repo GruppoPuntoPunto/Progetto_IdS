@@ -63,13 +63,15 @@ public class GuardianJSONSource implements Source {
 
             // comando da eseguire da shell
             StringBuilder buildCmd = new StringBuilder();
-            buildCmd.append("echo > " + filePath)
-                    .append(" && curl -o " + filePath + " ")
+            buildCmd.append("echo > " + '\"' + filePath + '\"')
+                    .append(" && curl -o " + '\"' + filePath + '\"' +" ")
                     .append('\"' + TARGET_URL)
                     .append("&page-size=" + 200)
                     .append("&page=" + i)
                     .append("&api-key=" + apiKey + '\"');
             String cmd = buildCmd.toString();
+
+            System.out.println(cmd);
 
             // eseguo il comando
             executeShellCommand(cmd);
