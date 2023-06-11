@@ -8,11 +8,10 @@
             <item name="Apache" href="http://www.apache.org/"/>
         </links>
 
-        <menu name="Menu">
+        <menu name="Aree">
             <item name="Homepage" href="index.html"/>
             <item name="Info sul progetto software" href="info.html"/>
-            <item name="Come installare e utilizzare il progetto" href="use&amp;installation.html"/>
-            <item name="Librerie utilizzate nel progetto" href="index.html"/>
+            <item name="Come installare correttamente ed utilizzare il software" href="use&amp;installation.html"/>
         </menu>
 
         <menu ref="reports"/>
