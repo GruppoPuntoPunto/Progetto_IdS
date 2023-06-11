@@ -176,7 +176,7 @@ public class XmlSerializer {
      *  @throws Exception If an object cannot be fully deserialized
      *
      * @see File#listFiles(FilenameFilter)
-     * @see Persister#read(Object, File)/bin
+     * @see Persister#read(Object, File)
      * @since 0.1
      */
     public List<Article> deserialize() throws Exception {
