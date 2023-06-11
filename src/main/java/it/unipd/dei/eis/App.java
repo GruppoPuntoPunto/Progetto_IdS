@@ -23,56 +23,39 @@ public class App {
         Options opt = new Options();
 
         // definisco i gruppi di opzioni
-        OptionGroup grp1 = new OptionGroup(); // gruppo per per la chiave api
-        grp1.addOption(new Option("ak", "api-key", true, "Set the guardian API"));
+        OptionGroup grp = new OptionGroup(); // gruppo per download e download+estrazione
+        grp.addOption(new Option("d", "download", false, "Dowload articles form all the sources"));
+        grp.addOption(new Option("e", "extract", false, "Extracts terms from all the downloaded files"));
+        grp.addOption(new Option("de", "download-extract", false, "Download articles and extracts terms"));
+        grp.addOption(new Option("h", "help", false, "Print this help message"));
 
-        OptionGroup grp2= new OptionGroup(); // gruppo per download e download+estrazione
-        grp2.addOption(new Option("d", "download", false, "Dowload all articles form all the resources"));
-        grp2.addOption(new Option("de", "download-extract", false, "Download and extract terms"));
+        grp.setRequired(true);
+        opt.addOptionGroup(grp);
 
-        grp2.setRequired(true);
-        grp2.setRequired(true);
-        opt.addOptionGroup(grp1);
-        opt.addOptionGroup(grp2);
-
-        // possible options
-        opt.addOption(new Option("h", "help", false, "Print this help message"));
+        // opzioni possibili 
+        opt.addOption(new Option("ak", "api-key", true, "Set the guardian API"));
         opt.addOption(new Option("csv", "csv-input", true, "Set new york times .csv file input path"));
         opt.addOption(new Option("xml", "xml-output", true, "Set xml files output path"));
-
-        // gestione help a parte, in questo modo separo le opzioni
-        Options helpOpt = new Options();
-        helpOpt.addOption(new Option("h", "help", false, "Print this help message"));
 
         // parse
         HelpFormatter formatter = new HelpFormatter();
         CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
-        CommandLine help;
         try { 
             // controllo se sono state passate le opzioni obbligatorie
             cmd = parser.parse(opt, args); 
         }  catch (org.apache.commons.cli.ParseException e) {
-            try {
-                // controllo se è presente l'opzione help
-                help = parser.parse(helpOpt, args);
-                formatter.printHelp("App -{ak} -{d,de} [OPTION]...", opt);
-            }  catch (org.apache.commons.cli.ParseException ex) {
-                System.err.println("ERROR - parsing command line:");
-                System.err.println(e.getMessage());
-                formatter.printHelp("App -{ak} -{d,de} [OPTION]...", opt);
-            }
+            System.err.println("ERROR - parsing command line:");
+            System.err.println(e.getMessage());
+            formatter.printHelp("App -{d,e,de,h} [OPTION]...", opt);
             return;
         }
 
         // controllo se tra i comandi passati è presente help
         if (cmd.hasOption("h")) {
-            formatter.printHelp("App -{ak} -{d,de} [OPTION]...", opt);
+            formatter.printHelp("App -{d,e,de,h} [OPTION]...", opt);
             return;
         }
-
-        // prelevo l'api
-        String apiKey = cmd.getOptionValue("ak");
 
         // controllo passaggio file path csv nytimes
         String nytCsvPath = getOptionValueOrDefault(cmd, "csv", "src/main/resources/nytimes_articles_v2.csv");
@@ -80,49 +63,66 @@ public class App {
         // controllo passaggio path files xml
         String xmlOutputPath = getOptionValueOrDefault(cmd, "xml", "output/outputXml/");
 
-        // creo le sorgenti del The Guardian e del New York Times
-        SourceFactory factory = SourceFactory.getInstance();
-        Source guardianContentApi = factory.createSource("GuardianJSONSource", apiKey, "output/outJsonTheGuardian");
-        Source nyTimesCSV = null;
-        try { 
-            nyTimesCSV = factory.createSource("NewYorkTimesCSVSource", new FileReader(nytCsvPath)); 
-        } catch (IOException e) { 
-            e.printStackTrace(); 
-        }
-
-        // effettuo il download dalle sorgenti
-        guardianContentApi.download();
-        nyTimesCSV.download();
-
-        // creo una lista contenente tutti gli articoli delle sorgenti
-        List<Article> allArticles = new ArrayList<>();
-        allArticles.addAll(Arrays.asList(guardianContentApi.getArticles()));
-        allArticles.addAll(Arrays.asList(nyTimesCSV.getArticles()));
-
-        // serializzo gli articoli nei file xml
+        // definisco il serializzatore
         XmlSerializer serializer = new XmlSerializer(xmlOutputPath);
-        try {
-            serializer.serialize(allArticles);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        // fine fase di download
-        if (cmd.hasOption("d")) return;
+        // effettuo il download dalle sorgenti e serializzo
+        if (cmd.hasOption("d") || cmd.hasOption("de")) {
+            // prelevo l'api
+            String apiKey = getOptionValueOrDefault(cmd, "ak", null);
+            if (apiKey == null) {
+                System.err.println("ERROR - Missing -ak <api-key>");
+                return;
+            }
+
+            // creo le sorgenti del The Guardian e del New York Times
+            SourceFactory factory = SourceFactory.getInstance();
+            Source guardianContentApi = factory.createSource("GuardianJSONSource", apiKey, "output/outputJsonTheGuardian");
+            Source nyTimesCSV = null;
+            try { 
+                nyTimesCSV = factory.createSource("NewYorkTimesCSVSource", new FileReader(nytCsvPath)); 
+            } catch (IOException e) { 
+                e.printStackTrace(); 
+            }
+
+            guardianContentApi.download();
+            nyTimesCSV.download();
+
+            // unisco gli articoli delle sorgenti
+            List<Article> allArticles = new ArrayList<>();
+            allArticles.addAll(Arrays.asList(guardianContentApi.getArticles()));
+            allArticles.addAll(Arrays.asList(nyTimesCSV.getArticles()));
+
+            // serializzo gli articoli nei file xml
+            try {
+                serializer.serialize(allArticles);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
         // deserializzo gli articoli partendo dai file xml
-        List<Article> deserializedArticles = new ArrayList<>();
-        try {
-            deserializedArticles.addAll(serializer.deserialize());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        if (cmd.hasOption("e") || cmd.hasOption("de")) {
+            List<Article> deserializedArticles = new ArrayList<>();
+            try {
+                deserializedArticles = serializer.deserialize();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-        // setto la strategia di conteggio delle parole ed effettuo il conteggio
-        WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());
-        List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
-        // stampa le prime 50 parolo più frequenti
-        for (int i = 0; i < 50; i++)
-            System.out.println(result.get(i));
+            // controllo se la desrializzazione è andata a buon fine
+            if (deserializedArticles == null) {
+                System.err.println("ERROR - You need to download before extract");
+                return;
+            }
+
+            // setto la strategia di conteggio delle parole ed effettuo il conteggio
+            WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());
+            List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
+
+            // stampa le prime 50 parolo più frequenti
+            for (int i = 0; i < 50; i++)
+                System.out.println(result.get(i));
+        }
     }
 }
