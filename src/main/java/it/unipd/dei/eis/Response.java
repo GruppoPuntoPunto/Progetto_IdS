@@ -29,20 +29,7 @@ public class Response {
     }
 
     public String getStatus() { return status; }
-
-    public String getUserTier() { return userTier; }
-
     public int getTotal() { return total; }
-
-    public int getCurrentPage() { return currentPage; }
-
     public int getPages() { return pages; }
-
-    public int getPageSize() { return pageSize; }
-
-    public int getStartIndex() { return startIndex; }
-
-    public String getOrderBy() { return orderBy; }
-
     public ArticleJSON[] getResults() { return results; }
 }

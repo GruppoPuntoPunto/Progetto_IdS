@@ -24,6 +24,16 @@ public class GuardianJSONSource implements Source {
         this.apiKey = apiKey;
         this.results = new ArticleJSON[0];
     }
+    public  String getTargetUrl(){ return TARGET_URL;}
+    public File getDirectory() { return directory; }
+    public void setDirectory(File directory) { this.directory = directory;}
+    public String getOS() { return OS; }
+    public String getApiKey() { return apiKey; }
+    public Article[] getArticles() {
+        return results;
+    }
+    public void setArticles(Article[] results) { this.results = results;}
+
 
     private String getDirectoryPath() {
         String p = "";
@@ -71,8 +81,6 @@ public class GuardianJSONSource implements Source {
                     .append("&api-key=" + apiKey + '\"');
             String cmd = buildCmd.toString();
 
-            System.out.println(cmd);
-
             // eseguo il comando
             executeShellCommand(cmd);
         }
@@ -99,7 +107,5 @@ public class GuardianJSONSource implements Source {
         this.results = tmp.toArray(this.results);
     }
 
-    public Article[] getArticles() {
-        return results;
-    }
+
 }

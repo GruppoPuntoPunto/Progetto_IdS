@@ -12,10 +12,17 @@ public class NewYorkTimesCSVSource implements Source {
     private FileReader CSVInput;
     private Article[] results;
 
+
     public NewYorkTimesCSVSource(FileReader CSVInput) { 
         this.CSVInput = CSVInput; 
         this.results = new ArticleCSV[0];
     }
+
+    public FileReader getCSVInput() { return CSVInput; }
+    public void setCSVInput(FileReader input) { this.CSVInput = CSVInput; }
+    public Article[] getArticles() { return results; }
+    public void setArticles(Article[] results) { this.results = results; }
+
 
     public void download() {
         Iterable<CSVRecord> records = null;
@@ -31,9 +38,5 @@ public class NewYorkTimesCSVSource implements Source {
         results = res.toArray(results);
     }
 
-    public FileReader getCSVInput() { return CSVInput; }
 
-    public void setCSVInput(FileReader input) { this.CSVInput = CSVInput; }
-    
-    public Article[] getArticles() { return results; }
 }
