@@ -1,7 +1,6 @@
 package it.unipd.dei.eis;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
 import java.util.List;
 import java.util.ArrayList;
@@ -32,7 +31,7 @@ public class XmlSerializer {
     /**
      * The default directory where the object has to operate
      */
-    private File directory;
+    private final File directory;
 
     /**
      *  Unique number for identifying the xml files produced

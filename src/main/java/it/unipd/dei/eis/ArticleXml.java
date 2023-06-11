@@ -3,8 +3,6 @@ package it.unipd.dei.eis;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
-import java.io.File;
-
 /**
  *  Implementation of {@link Article} representing a xml file object.
  *
