@@ -1,4 +1,5 @@
-# Indice
+# Home page
+## Indice
 
 
 - [Info Progetto](info.html): Pagina contenente informazioni sul progetto.

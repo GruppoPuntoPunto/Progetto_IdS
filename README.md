@@ -4,14 +4,14 @@ Il software verte alla comunicazione con due sorgenti differenti (Api del The Gu
 centinaia di articoli per poi effettuare delle operazioni di conteggio statistico sulle parole
 utilizzate in ciascun estratto.
 
-In risposta alle richieste software abbiamo adottato le seguenti implementazioni: 
+In risposta alle richieste software abbiamo adottato le seguenti implementazioni:
 
 1. Per far si che il sistema possa supportare nuove sorgenti abbiamo ideato un Facotry Pattern denominato __SourceFactory__ che permette l'introduzione di nuovi source file diversidovendo solo aggiungere una classe relativa alla nuova sorgente ma di fatto senza ade andare ad intaccare la struttura portante del proggetto.
    <br></br>
    In particolar modo con il metodo `createSource()` facciamo in modo di settare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_
    <br></br>
 2. In seguito alla fase di Download e quindi alla creazione di oggetti `ArticleJSON` o `ArtcileXML` il sistema apporta la serializzazione in file di estensione `.xml` passando per la classe `XmlSerializer` che offre anche la possibilità di attuare il procedimento inverso, atraverso una deserializzazione in oggetti di tipo `Article` e dunque in un formato _"universale"_. Ecco nel dettaglio i metodi fondamentali per quanto detto scritti grazie all'ausilio della libreria `org.simpleframework.xml`:
-   
+
 ```java
       public void serialize(List<? extends Article> list) {
          try {
@@ -63,21 +63,33 @@ In risposta alle richieste software abbiamo adottato le seguenti implementazioni
       
    }
    ```
-   Ad esempio noi abbiamo implementato `FrequencyPerArticleStrategy` che va a calcolare il peso-frequenza delle parole degli articoli dome da inizziali richieste del progetto. 
+   Ad esempio noi abbiamo implementato `FrequencyPerArticleStrategy` che va a calcolare il peso-frequenza delle parole degli articoli dome da inizziali richieste del progetto.
    <br></br>
- 
-6. Abbiamo ideato attraverso la libreria `org.apache.commons.cli` dei prompt che l'utente può utilizzare per decidere cosa vuole fare e come vuole utilizzare il programma.
-   1. Nel dettaglio l'utente può scegliere se eseguire solo il download con il comando `-d`.
-   2. In sequenza l'utente può anche decidere se effettuare l'estrazione partendo dai file dove sono stati memorizzati gli articoli attraverso il comando `-e`
-   3. Altrimenti l'ulteriore alternativa è quella di scaricare e fare l'estrazione contemporaneamente con il comando `-de`
-   4. Ulteriori comandi possibili sono elencati qua sotto:
-      ```bash 
-      usage: App -{ak} -{d,de} [OPTION]...
-      -ak,--api-key <arg>       Set the guardian API
-      -csv,--csv-input <arg>    Set new york times .csv file input path
-      -d,--download             Dowload all articles form all the resources
-      -de,--download-extract    Download and extract terms
-      -h,--help                 Print this help message
-      -xml,--xml-output <arg>   Set xml files output path
-      ```  
 
+6. Abbiamo ideato attraverso la libreria `org.apache.commons.cli` dei prompt che l'utente può utilizzare per decidere cosa vuole fare e come vuole utilizzare il programma.
+    1. Nel dettaglio l'utente può scegliere se eseguire solo il download con il comando `-d`.
+    2. In sequenza l'utente può anche decidere se effettuare l'estrazione partendo dai file dove sono stati memorizzati gli articoli attraverso il comando `-e`
+    3. Altrimenti l'ulteriore alternativa è quella di scaricare e fare l'estrazione contemporaneamente con il comando `-de`
+    4. Ulteriori comandi possibili sono elencati qua sotto:
+       ```bash 
+       usage: App -{ak} -{d,de} [OPTION]...
+       -ak,--api-key <arg>       Set the guardian API
+       -csv,--csv-input <arg>    Set new york times .csv file input path
+       -d,--download             Dowload all articles form all the resources
+       -de,--download-extract    Download and extract terms
+       -h,--help                 Print this help message
+       -xml,--xml-output <arg>   Set xml files output path
+       ```  
+# Come installare correttamente ed utilizzare il software
+
+### Installazione
+Per compilare il programma digitare :
+```terminal
+mvn package
+```
+
+### Esecuzione
+Per eseguire il programma digitare :
+```terminal
+java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar -ak it.unipd.dei.eis.App 
+```
