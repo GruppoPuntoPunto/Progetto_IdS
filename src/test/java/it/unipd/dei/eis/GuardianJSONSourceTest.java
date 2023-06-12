@@ -5,39 +5,27 @@ import java.io.File;
 
 public class GuardianJSONSourceTest extends TestCase {
 
-    public void testGetTargetUrl() {
-        GuardianJSONSource prova = new GuardianJSONSource("aaa","TestOutput/Json");
-        assertEquals("https://content.guardianapis.com/search?show-fields=all", prova.getTargetUrl());
-    }
+    private final String apiKey = "d882b87f-6009-434f-9076-af23bd12b56f";
+    private final String outputPath = "output/TestOutput/Json";
 
     public void testGetDirectory() {
-        GuardianJSONSource prova = new GuardianJSONSource("aaa","TestOutput/Json");
-        assertEquals(new File("TestOutput/Json"), prova.getDirectory());
+        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
+        assertEquals(new File(outputPath), prova.getDirectory());
     }
 
     public void testSetDirectory() {
-        GuardianJSONSource prova = new GuardianJSONSource("aaa","TestOutput");
-        prova.setDirectory(new File("TestOutput/Json"));
-        assertEquals(new File("TestOutput/Json"), prova.getDirectory());
-    }
-
-    public void testGetOS() {
-        GuardianJSONSource prova = new GuardianJSONSource("aaa","TestOutput/Json");
-        assertEquals(System.getProperty("os.name").toLowerCase(), prova.getOS());
-    }
-
-    public void testGetApiKey() {
-        GuardianJSONSource prova = new GuardianJSONSource("aaa","TestOutput/Json");
-        assertEquals("aaa", prova.getApiKey());
+        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
+        prova.setDirectory(new File(outputPath));
+        assertEquals(new File(outputPath), prova.getDirectory());
     }
 
     public void testGetArticles() {
-        GuardianJSONSource prova = new GuardianJSONSource("aaa","TestOutput/Json");
+        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
         assertNotNull(prova.getArticles());
     }
 
     public void testSetArticles() {
-        GuardianJSONSource prova = new GuardianJSONSource("aaa","TestOutput/Json");
+        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
         Article[] list = { new ArticleXml("Titolo1", "Corpo1"), new ArticleXml("Titolo2", "Corpo2"), new ArticleXml("Titolo3", "Corpo3")};
         prova.setArticles(list);
         assertEquals(list, prova.getArticles());
@@ -50,12 +38,12 @@ public class GuardianJSONSourceTest extends TestCase {
     }*/
 
     public void testCorrectDownload() {
-        GuardianJSONSource prova = new GuardianJSONSource("d882b87f-6009-434f-9076-af23bd12b56f","TestOutput/Json");
+        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
         prova.download();
         assertFalse(prova.getArticles().length == 0);
     }
 
-    public void tearDown() throws Exception { deleteFiles("TestOutput/Json"); }
+    public void tearDown() throws Exception { deleteFiles(outputPath); }
 
     private static void deleteFiles(String directoryPath) {
         File directory = new File(directoryPath);

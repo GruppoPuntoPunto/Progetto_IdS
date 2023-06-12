@@ -15,8 +15,15 @@ public class Response {
     private ArticleJSON[] results;
 
     public Response() { }
-    public Response(final String status, final String userTier, final int total, final int startIndex, final int pageSize,
-                    final int currentPage, final int pages, final String orderBy, final ArticleJSON[] results) {
+    public Response(
+                String status, 
+                String userTier, 
+                int total, int startIndex, 
+                int pageSize, 
+                int currentPage, 
+                int pages, 
+                String orderBy, 
+                ArticleJSON[] results) {
         this.status = status;
         this.userTier = userTier;
         this.total = total;
@@ -29,7 +36,10 @@ public class Response {
     }
 
     public String getStatus() { return status; }
+
     public int getTotal() { return total; }
+
     public int getPages() { return pages; }
+
     public ArticleJSON[] getResults() { return results; }
 }

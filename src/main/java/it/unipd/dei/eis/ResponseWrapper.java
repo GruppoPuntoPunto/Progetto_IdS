@@ -4,10 +4,10 @@ public class ResponseWrapper {
     private Response response;
 
     public ResponseWrapper() { }
-    /*public ResponseWrapper(final Response response) {
-        this.response = response;
-    }*/
-    public Response getResponse() {
-        return response;
-    }
+
+    public ResponseWrapper(Response response) { this.response = response; }
+
+    public Response getResponse() { return response; }
+
+    public void setResponse(Response response) { this.response = response; }
 }

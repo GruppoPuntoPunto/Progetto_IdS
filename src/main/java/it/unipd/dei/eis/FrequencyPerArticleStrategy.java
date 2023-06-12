@@ -10,10 +10,11 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
         Map<String, Integer> map = new HashMap<>();
         for (Article a : articles) {
             // pulizia punteggiatura dal corpo dell'articolo
-            List<String> body = 
-                Arrays.asList(a.getBody().toLowerCase().replaceAll("[^a-z0-9\\s]", "").split(" "));
+            List<String> fullText = new ArrayList<>();
+            fullText.addAll(Arrays.asList(a.getBody().toLowerCase().replaceAll("[^a-z0-9\\s]", "").split(" ")));
+            fullText.addAll(Arrays.asList(a.getTitle().toLowerCase().replaceAll("[^a-z0-9\\s]", "").split(" ")));
             // elimino i doppioni inserendoli in un set
-            Set<String> set = new HashSet<>(body);
+            Set<String> set = new HashSet<>(fullText);
             // inserisco le parole nella mappa
             for (String token : set) {
                 int v = map.getOrDefault(token, 0);
