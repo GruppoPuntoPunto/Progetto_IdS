@@ -12,28 +12,25 @@ import java.io.IOException;
 public class GuardianJSONSource implements Source {
     private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all";
     private File directory; // cartella in cui salvare le risposte json
-    private final String OS; // per decidere quale script lanciare
+    private static final String OS = System.getProperty("os.name").toLowerCase();; // per decidere quale script lanciare
     private final String apiKey;
     private Article[] results;
 
     public GuardianJSONSource(String apiKey, String directory) {
-        this.OS = System.getProperty("os.name").toLowerCase();
         this.directory = new File(directory);
         if (!this.directory.exists())
             this.directory.mkdirs(); // creo la cartella se non esiste
         this.apiKey = apiKey;
         this.results = new ArticleJSON[0];
     }
-    public  String getTargetUrl(){ return TARGET_URL;}
-    public File getDirectory() { return directory; }
-    public void setDirectory(File directory) { this.directory = directory;}
-    public String getOS() { return OS; }
-    public String getApiKey() { return apiKey; }
-    public Article[] getArticles() {
-        return results;
-    }
-    public void setArticles(Article[] results) { this.results = results;}
 
+    public File getDirectory() { return directory; }
+
+    public void setDirectory(File directory) { this.directory = directory;}
+
+    public Article[] getArticles() { return results; }
+
+    public void setArticles(Article[] results) { this.results = results;}
 
     private String getDirectoryPath() {
         String p = "";
@@ -106,6 +103,4 @@ public class GuardianJSONSource implements Source {
 
         this.results = tmp.toArray(this.results);
     }
-
-
 }

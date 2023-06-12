@@ -13,12 +13,15 @@ public class ArticleJSON implements Article {
     public ArticleJSON() { }
 
     public String getBodyText() { return bodyText; }
+
     public String getBody() { return getBodyText(); }
 
     public String getWebTitle() { return webTitle; }
+
     public String getTitle() { return getWebTitle(); }
  
     public void setTitle(String title) { this.webTitle = title; }
+
     public void setBody(String body) { this.bodyText = body; }
 
     @JsonProperty("fields")
