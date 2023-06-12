@@ -31,12 +31,6 @@ public class GuardianJSONSourceTest extends TestCase {
         assertEquals(list, prova.getArticles());
     }
 
-    /*public void testCorrectDownload() {
-        GuardianJSONSource prova = new GuardianJSONSource(<validApiKey>,"TestOutput/Json");
-        prova.download();
-        assertFalse(prova.getArticles().length == 0);
-    }*/
-
     public void testCorrectDownload() {
         GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
         prova.download();

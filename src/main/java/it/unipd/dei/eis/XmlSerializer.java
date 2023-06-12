@@ -186,7 +186,7 @@ public class XmlSerializer {
         if(files != null && files.length != 0) {
             for (File file : files) {
                 // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
-                allArticles.add(serializer.read(ArticleXml.class, file).initializedArticle());
+                allArticles.add(initializedArticle(serializer.read(ArticleXml.class, file)));
             }
             return allArticles;
         }
@@ -218,10 +218,23 @@ public class XmlSerializer {
         if(files != null && files.length != 0) {
             for (File file : files) {
                 // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
-                allArticles.add(serializer.read(ArticleXml.class, file).initializedArticle());
+                allArticles.add(initializedArticle(serializer.read(ArticleXml.class, file)));
             }
             return allArticles;
         }
         else { return null; }
+    }
+
+    /**
+     * Checks all the element of the <code>Article</code>, if an element is null, it's changed to an empty string, in order to get an object full initialized.
+     *
+     * @return The object with all initialized elements
+     *
+     * @since 0.1
+     */
+    private Article initializedArticle(Article article) {
+        if(article.getTitle() == null) article.setTitle("");
+        if(article.getBody() == null) article.setBody("");
+        return article;
     }
 }

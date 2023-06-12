@@ -109,17 +109,4 @@ public class ArticleXml implements  Article{
                 ", body='" + body + '\'' +
                 "}";
     }
-
-    /**
-     * Checks all the element of the object, if an element is null, it's changed to an empty string, in order to get an object full initialized
-     *
-     * @return The object with all initialized elements
-     *
-     * @since 0.1
-     */
-    public Article initializedArticle() {
-        if(this.getTitle() == null) this.setTitle("");
-        if(this.getBody() == null) this.setBody("");
-        return this;
-    }
 }
