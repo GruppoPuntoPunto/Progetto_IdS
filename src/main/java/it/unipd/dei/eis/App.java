@@ -85,8 +85,25 @@ public class App {
                 e.printStackTrace(); 
             }
 
-            guardianContentApi.download();
-            nyTimesCSV.download();
+
+            long startTime = System.currentTimeMillis();
+
+//            guardianContentApi.download();
+//            nyTimesCSV.download();
+            try {
+                Thread thread1 = new Thread(guardianContentApi::download);
+                Thread thread2 = new Thread(nyTimesCSV::download);
+                thread1.start();
+                thread2.start();
+                thread1.join();
+                thread2.join();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
+            long stopTime = System.currentTimeMillis();
+            System.out.println("Download fraction " + (stopTime-startTime) + "ms");
+
 
             // unisco gli articoli delle sorgenti
             List<Article> allArticles = new ArrayList<>();
@@ -116,9 +133,15 @@ public class App {
                 return;
             }
 
+
+            long startTime1 = System.currentTimeMillis();
+
             // setto la strategia di conteggio delle parole ed effettuo il conteggio
             WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());
             List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
+
+            long stopTime1 = System.currentTimeMillis();
+            System.out.println("Count fraction " + (stopTime1-startTime1) + "ms");
 
             // stampa le prime 50 parolo più frequenti
             for (int i = 0; i < 50; i++)

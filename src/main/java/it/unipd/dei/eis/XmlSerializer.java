@@ -89,9 +89,9 @@ public class XmlSerializer {
         try {
             for(Article article : list)
                 // write(Object source, File out) - > throws Exception if the schema(source) for the object is not valid
-                // new File(File parent, String child) -> throws NullPointerException if child is null
+                // new File(File parent, String child) - > throws NullPointerException if child is null
                 serializer.write(new ArticleXml(article.getTitle(), article.getBody()), new File(this.directory, productionCount++ + ".xml"));
-        } catch (Exception e) { // not supposed to be reached -> guaranteed safe operation before
+        } catch (Exception e) { // not supposed to be reached - > guaranteed safe operation before
             System.out.println(e.getMessage());
         }
     }
@@ -114,9 +114,9 @@ public class XmlSerializer {
         try {
             for(Article article : list)
                 // write(Object source, File out) - > throws Exception if the schema(source) for the object is not valid
-                // new File(File parent, String child) -> throws NullPointerException if child is null
+                // new File(File parent, String child) - > throws NullPointerException if child is null
                 serializer.write(new ArticleXml(article.getTitle(), article.getBody()), new File(directory, productionCount++ + ".xml"));
-        } catch (Exception e) { // not supposed to be reached -> guaranteed safe operation before
+        } catch (Exception e) { // not supposed to be reached - > guaranteed safe operation before
             System.out.println(e.getMessage());
         }
     }
@@ -133,9 +133,9 @@ public class XmlSerializer {
         try {
             for(Article article : list)
                 // write(Object source, File out) - > throws Exception if the schema(source) for the object is not valid
-                // new File(File parent, String child) -> throws NullPointerException if child is null
+                // new File(File parent, String child) - > throws NullPointerException if child is null
                 serializer.write(new ArticleXml(article.getTitle(), article.getBody()), new File(this.directory, productionCount++ + ".xml"));
-        } catch (Exception e) { // not supposed to be reached -> guaranteed safe operation before
+        } catch (Exception e) { // not supposed to be reached - > guaranteed safe operation before
            System.out.println(e.getMessage());
         }
     }
@@ -179,13 +179,13 @@ public class XmlSerializer {
      * @since 0.1
      */
     public List<Article> deserialize() throws Exception {
-        // Lambda function: accept(File dir, String name) -> collects all files .xml
+        // Lambda function: accept(File dir, String name) - > collects all files .xml
         File[] files = this.directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml"));
         List<Article> allArticles = new ArrayList<>();
 
         if(files != null && files.length != 0) {
             for (File file : files) {
-                // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
+                // read(Class<? extends T> type, File source) - > throws Exception if the object cannot be fully deserialized
                 allArticles.add(initializedArticle(serializer.read(ArticleXml.class, file)));
             }
             return allArticles;
@@ -208,16 +208,16 @@ public class XmlSerializer {
      * @since 0.1
      */
     public List<Article> deserialize(String fileDirectory) throws Exception {
-        // File(String pathname) -> throws NullPointerException If fileDirectory is null
+        // File(String pathname) - > throws NullPointerException If fileDirectory is null
         File directory= new File(fileDirectory);
 
-        // Lambda function: accept(File dir, String name) -> collects all files .xml
+        // Lambda function: accept(File dir, String name) - > collects all files .xml
         File[] files = directory.listFiles((dir, name) -> name.toLowerCase().endsWith(".xml"));
         List<Article> allArticles = new ArrayList<>();
 
         if(files != null && files.length != 0) {
             for (File file : files) {
-                // read(Class<? extends T> type, File source) -> throws Exception if the object cannot be fully deserialized
+                // read(Class<? extends T> type, File source) - > throws Exception if the object cannot be fully deserialized
                 allArticles.add(initializedArticle(serializer.read(ArticleXml.class, file)));
             }
             return allArticles;
