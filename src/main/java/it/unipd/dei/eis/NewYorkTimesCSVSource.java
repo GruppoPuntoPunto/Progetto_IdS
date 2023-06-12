@@ -19,7 +19,7 @@ public class NewYorkTimesCSVSource implements Source {
     }
 
     public FileReader getCSVInput() { return CSVInput; }
-    public void setCSVInput(FileReader input) { this.CSVInput = CSVInput; }
+    public void setCSVInput(FileReader CSVInput) { this.CSVInput = CSVInput; }
     public Article[] getArticles() { return results; }
     public void setArticles(Article[] results) { this.results = results; }
 

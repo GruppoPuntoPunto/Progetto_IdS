@@ -198,7 +198,7 @@ public class XmlSerializer {
      *
      * @param fileDirectory The directory pathname string to search in
      *
-     * @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found or the directory specified doesn't exist
+     * @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found or the specified directory doesn't exist
      *
      * @throws Exception If an object cannot be fully deserialized
      * @throws NullPointerException If <code>fileDirectory</code> is <code>null</code>
