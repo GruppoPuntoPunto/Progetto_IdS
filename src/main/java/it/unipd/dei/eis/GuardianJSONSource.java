@@ -63,6 +63,8 @@ public class GuardianJSONSource implements Source {
     public void download() {
         String dirPath = getDirectoryPath();
 
+        ThreadGroup threadGroup = new ThreadGroup("parallelizzamelo");
+
         // creazione file json
         for (int i = 1; i <= 5; i++) {
             // path file in cui salvare la risposta
@@ -78,9 +80,20 @@ public class GuardianJSONSource implements Source {
                     .append("&api-key=" + apiKey + '\"');
             String cmd = buildCmd.toString();
 
-            // eseguo il comando
-            executeShellCommand(cmd);
+            Thread thread = new Thread(threadGroup, () -> executeShellCommand(cmd));
+            thread.start();
+//            // eseguo il comando
+//            executeShellCommand(cmd);
         }
+
+        while (threadGroup.activeCount() > 0) {
+            try {
+                Thread.sleep(100); // Puoi regolare l'intervallo di controllo
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
 
         // deserializzo tutti gli articoli scaricati dalle risposte
         ObjectMapper mapper = new ObjectMapper();
