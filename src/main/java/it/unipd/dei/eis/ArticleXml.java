@@ -26,7 +26,7 @@ public class ArticleXml implements  Article{
     /* -- Constructors -- */
 
     /**
-     * Creates a new empty <code>ArticleXml</code> instance
+     * Creates a new empty <code>ArticleXml</code> instance.
      *
      * @since 0.1
      */
@@ -48,7 +48,7 @@ public class ArticleXml implements  Article{
     /* -- Attribute accessors -- */
 
     /**
-     *  Returns the string value of element title
+     *  Returns the string value of element title.
      *
      * @return The title element
      *
@@ -60,7 +60,7 @@ public class ArticleXml implements  Article{
     }
 
     /**
-     * Sets value of the title element with given param
+     * Sets value of the title element with given param.
      *
      * @param title Title element string to set
      *
@@ -71,7 +71,7 @@ public class ArticleXml implements  Article{
     }
 
     /**
-     * Returns the string value of element body
+     * Returns the string value of element body.
      *
      * @return The body element
      *
@@ -83,7 +83,7 @@ public class ArticleXml implements  Article{
     }
 
     /**
-     * Sets value of the body element with given param
+     * Sets value of the body element with given param.
      *
      * @param body Body element string to set
      *
@@ -96,7 +96,7 @@ public class ArticleXml implements  Article{
     /* -- Other methods -- */
 
     /**
-     * Returns a string variable with all the object attributes
+     * Returns a string variable with all the object attributes.
      *
      * @return A string representation of the object
      *

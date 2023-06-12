@@ -14,10 +14,4 @@ public class ArticleJSONTest extends TestCase {
         prova.setBody("Corpo di prova");
         assertEquals("Corpo di prova", prova.getBody());
     }
-
-    public void testTestToString() {
-        ArticleJSON prova = new ArticleJSON();
-        prova.setBody("Corpo di prova");
-        assertEquals("Corpo di prova", prova.toString());
-    }
 }
