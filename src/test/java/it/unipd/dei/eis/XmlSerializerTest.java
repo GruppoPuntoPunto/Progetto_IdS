@@ -104,6 +104,18 @@ public class XmlSerializerTest extends TestCase {
         assertNull(serializer.deserialize(""));
     }
 
+    public void testInitializedArticle() throws Exception {
+        XmlSerializer serializer = new XmlSerializer( outputPath + "11");
+        Article[] list = { new ArticleXml() };
+        serializer.serialize(list);
+        // initializedArticle is used inside deserialize()
+        List<Article> prova = serializer.deserialize();
+        assertNotNull(prova);
+        assertEquals(1, prova.size());
+        assertEquals("", prova.get(0).getTitle());
+        assertEquals("", prova.get(0).getBody());
+    }
+
     public void tearDown() throws Exception { deleteFiles(outputPath); }
 
     private static void deleteFiles(String directoryPath) {

@@ -29,10 +29,4 @@ public class ArticleXmlTest extends TestCase {
         ArticleXml prova = new ArticleXml("Titolo di prova", "Corpo di prova");
         assertEquals("\nArticleXml{title='Titolo di prova', body='Corpo di prova'}", prova.toString());
     }
-
-    public void testInitializedArticle() {
-        ArticleXml prova = new ArticleXml();
-        assertEquals("", prova.initializedArticle().getTitle());
-        assertEquals("", prova.initializedArticle().getBody());
-    }
 }
