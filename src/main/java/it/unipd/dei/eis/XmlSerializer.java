@@ -9,15 +9,17 @@ import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 import org.simpleframework.xml.stream.CamelCaseStyle;
 import org.simpleframework.xml.stream.Format;
+import javax.xml.stream.XMLStreamException;
+
 
 /**
  *  Class used to manage conversion of several files with the {@link org.simpleframework.xml} package xml conversions.
  *
  *  <p> Simplifies the operations of serialization and deserialization of objects which implement {@link Article},
- *  designed to manage conversions of several amounts of xml objects stored in a specific directory.
+ *  designed to manage conversions of several amounts of xml objects stored in a specific directory.</p>
  *
  *  <p> This class serializes types which implement <code>Article</code> into files xml structured as {@link ArticleXml} classes,
- *  in the same way, it deserializes xml files into <code>Article</code> type objects.
+ *  in the same way, it deserializes xml files into <code>Article</code> type objects.</p>
  *
  *  @author unascribed
  *  @since   0.1
@@ -172,7 +174,7 @@ public class XmlSerializer {
      *
      *  @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found
      *
-     *  @throws Exception If an object cannot be fully deserialized
+     *  @throws XMLStreamException If an object cannot be fully deserialized
      *
      * @see File#listFiles(FilenameFilter)
      * @see Persister#read(Object, File)
@@ -201,7 +203,7 @@ public class XmlSerializer {
      * @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found or the specified directory doesn't exist
      *
      * @throws Exception If an object cannot be fully deserialized
-     * @throws NullPointerException If <code>fileDirectory</code> is <code>null</code>
+     * @throws XMLStreamException If <code>fileDirectory</code> is <code>null</code>
      *
      * @see File#listFiles(FilenameFilter)
      * @see Persister#read(Object, File)

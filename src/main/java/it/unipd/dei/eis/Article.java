@@ -1,7 +1,11 @@
 package it.unipd.dei.eis;
 
 /**
- *  Instances of classes that implement this interface are used to be newspaper articles. They are designed to have as attributes a <code>title</code> and a <code>body</code>.
+ *  Instances of classes that implement this interface are used to be newspaper articles.
+ *  <p>These articles are designed to have, at least,a <code>title</code> and a <code>body</code> as attributes.</p>
+ *
+ *  @author unascribed
+ *  @since  0.1
  */
 public interface Article {
     /**
