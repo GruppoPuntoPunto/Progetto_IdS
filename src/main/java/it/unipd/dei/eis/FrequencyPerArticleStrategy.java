@@ -1,6 +1,12 @@
 package it.unipd.dei.eis;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class FrequencyPerArticleStrategy implements WordCountStrategy {
 
@@ -12,14 +18,15 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
 
             // pulizia punteggiatura dal corpo dell'articolo
             List<String> fullText = new ArrayList<>();
-            fullText.addAll(Arrays.asList(a.getBody().toLowerCase().replaceAll("[^a-z0-9\\s]", "").split(" ")));
             fullText.addAll(Arrays.asList(a.getTitle().toLowerCase().replaceAll("[^a-z0-9\\s]", "").split(" ")));
+            fullText.addAll(Arrays.asList(a.getBody().toLowerCase().replaceAll("[^a-z0-9\\s]", "").split(" ")));
 
             // elimino i doppioni inserendoli in un set
             Set<String> set = new HashSet<>(fullText);
 
             // inserisco le parole nella mappa
             for (String token : set) {
+                if (token.length() == 0) continue; // le stringhe non riconosciute vengono scartate
                 int v = map.getOrDefault(token, 0);
                 map.put(token, v + 1);
             }
