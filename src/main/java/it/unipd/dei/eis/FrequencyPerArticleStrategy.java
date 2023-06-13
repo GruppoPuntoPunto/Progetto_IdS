@@ -28,8 +28,47 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
         // creo la lista di parole a partire dalla mappa
         List<Map.Entry<String, Integer>> lst = new ArrayList<>(map.entrySet());
 
-        // riordino la lista: dalla parola più frequente alla meno
-        lst.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        // riordino la lista dalla parola più frequente alla meno
+        mergeSort(lst);
         return lst;
+    }
+
+    private void mergeSort(List<Map.Entry<String, Integer>> lst) {
+        if (lst.size() < 2) return;
+
+        int middle = lst.size() / 2;
+        List<Map.Entry<String, Integer>> left = new ArrayList<>(lst.subList(0, middle));
+        List<Map.Entry<String, Integer>> right = new ArrayList<>(lst.subList(middle, lst.size()));
+
+        mergeSort(left);
+        mergeSort(right);
+
+        merge(lst, left, right);
+    }
+
+    private void merge(List<Map.Entry<String, Integer>> lst,
+                             List<Map.Entry<String, Integer>> left,
+                             List<Map.Entry<String, Integer>> right) {
+        int i = 0, j = 0, k = 0;
+
+        while (i < left.size() && j < right.size()) {
+            // ordino in base alla frequenza associata alla parola
+            if (left.get(i).getValue() > right.get(j).getValue())
+                lst.set(k++, left.get(i++));
+            else if (left.get(i).getValue() < right.get(j).getValue())
+                lst.set(k++, right.get(j++));
+            else {
+                // se hanno stessa frequenza uso l'ordine alfabetico
+                if (left.get(i).getKey().compareTo(right.get(j).getKey()) <= 0)
+                    lst.set(k++, left.get(i++));
+                else
+                    lst.set(k++, right.get(j++));
+            }
+        }
+
+        while (i < left.size())
+            lst.set(k++, left.get(i++));
+        while (j < right.size())
+            lst.set(k++, right.get(j++));
     }
 }

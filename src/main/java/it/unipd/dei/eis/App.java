@@ -77,10 +77,10 @@ public class App {
 
             // creo le sorgenti del The Guardian e del New York Times
             SourceFactory factory = SourceFactory.getInstance();
-            Source guardianContentApi = factory.createSource("GuardianJSONSource", apiKey, "output/outputJsonTheGuardian");
+            Source guardianContentApi = factory.createSource("GuardianJsonSource", apiKey, "output/outputJsonTheGuardian");
             Source nyTimesCSV = null;
             try { 
-                nyTimesCSV = factory.createSource("NewYorkTimesCSVSource", new FileReader(nytCsvPath)); 
+                nyTimesCSV = factory.createSource("NewYorkTimesCsvSource", new FileReader(nytCsvPath));
             } catch (IOException e) { 
                 e.printStackTrace(); 
             }
