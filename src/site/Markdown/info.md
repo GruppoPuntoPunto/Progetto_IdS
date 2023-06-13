@@ -9,21 +9,21 @@ utilizzate in ciascun estratto.
 
 In risposta alle richieste software abbiamo adottato le seguenti implementazioni: 
 
-1. Per far si che il sistema possa supportare nuove sorgenti abbiamo ideato un __Facotry Pattern__ denominato `SourceFactory` che permette l'introduzione di nuovi source file diversi dovendo solo aggiungere una classe relativa alla nuova sorgente ma di fatto senza andare ad intaccare la struttura portante del proggetto.
-   <br></br>
-   In particolar modo con il metodo `createSource()` facciamo in modo di creare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_
+1. Per far si che il sistema possa supportare nuove sorgenti abbiamo sfruttato un __Facotry Pattern__ (chiamando la nostra classe `SourceFactory`) che permette l'introduzione di nuovi source file diversi dovendo solo aggiungere una classe relativa alla nuova sorgente ma di fatto senza andare ad intaccare la struttura portante del proggetto. Inoltre nell'implementare la `SourceFactory` abbiamo utilizzato uno __Singleton Pattern__ come di consueta prassi.    
+   
+   In particolar modo con il metodo `createSource()` facciamo in modo di creare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_:
    ```java
    public Source createSource(String sourceType, Object... args) {
-        if (sourceType.equals("GuardianJSONSource") && args[0] instanceof String && args[1] instanceof String)
-            return new GuardianJSONSource((String) args[0], (String) args[1]);
-        else if (sourceType.equals("NewYorkTimesCSVSource") && args[0] instanceof FileReader)
-            return new NewYorkTimesCSVSource((FileReader) args[0]);
+        if (sourceType.equals("GuardianJsonSource") && args[0] instanceof String && args[1] instanceof String)
+            return new GuardianJsonSource((String) args[0], (String) args[1]);
+        else if (sourceType.equals("NewYorkTimesCsvSource") && args[0] instanceof FileReader)
+            return new NewYorkTimesCsvSource((FileReader) args[0]);
         return null;
     }
    ```
-2. In seguito alla fase di Download e quindi alla creazione di oggetti `ArticleJSON` o `ArtcileCSV` il sistema apporta la serializzazione in file di estensione `.xml` passando per la classe `XmlSerializer` che offre anche la possibilità di attuare il procedimento inverso, atraverso una deserializzazione in oggetti di tipo `Article` e dunque in un formato _"universale"_. Il nostro `XmlSerializer` può essere di fatto interpretato come un __Adapter Pattern__ in quanto di fatto adatta alle nostre necessità l'interfaccia presa dalla libreria che abbiamo importato. ------
+2. In seguito alla fase di Download e quindi alla creazione di oggetti `ArticleJsonGuardian` o `ArtcileCsvNYTimes` il sistema apporta la serializzazione in file di estensione `.xml` passando per la classe `XmlSerializer` che offre anche la possibilità di attuare il procedimento inverso, attraverso una deserializzazione in oggetti di tipo `Article` e dunque in un formato _"universale"_. Il nostro `XmlSerializer` può essere  interpretato come un __Adapter Pattern__ in quanto di fatto abbiamo convertito l'interfaccia del serializzatore fornito dalla libreria che abbiamo utilizzato (`org.simpleframework.xml`).
    <br></br>
-   Ecco nel dettaglio i metodi fondamentali per quanto detto scritti grazie all'ausilio della libreria `org.simpleframework.xml`:
+   Ecco nel dettaglio i metodi fondamentali per quanto detto scritti grazie all'ausilio della libreria:
    
    ```java
     public void serialize(List<? extends Article> list) {
@@ -91,4 +91,6 @@ In risposta alle richieste software abbiamo adottato le seguenti implementazioni
       -h,--help                 Print this help message
       -xml,--xml-output <arg>   Set xml files output path
    ```  
+
+```html
 
