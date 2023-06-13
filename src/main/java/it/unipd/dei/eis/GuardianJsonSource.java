@@ -9,6 +9,10 @@ import java.util.Arrays;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author unascribed
+ * @since  0.1
+ */
 public class GuardianJsonSource implements Source {
     private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all";
     private File directory; // cartella in cui salvare le risposte json

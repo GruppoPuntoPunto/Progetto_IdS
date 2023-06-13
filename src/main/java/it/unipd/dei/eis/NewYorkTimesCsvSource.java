@@ -8,6 +8,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * @author unascribed
+ * @since  0.1
+ */
 public class NewYorkTimesCsvSource implements Source {
     private FileReader CSVInput;
     private Article[] results;

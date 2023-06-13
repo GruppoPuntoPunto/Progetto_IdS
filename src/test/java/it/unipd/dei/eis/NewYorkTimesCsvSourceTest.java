@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import java.io.*;
 
 public class NewYorkTimesCsvSourceTest extends TestCase {
-    private final String outputPath = "output/TestOutput/NewYorkTimesCsvSource/";
+    private final String outputPath = "output/testOutput/NewYorkTimesCsvSource/";
 
     public void setUp() throws IOException {
         File directory = new File(outputPath);

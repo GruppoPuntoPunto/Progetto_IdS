@@ -3,7 +3,16 @@ package it.unipd.dei.eis;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ *
+ * @author unascribed
+ * @since  0.1
+ */
 public class WordCounter {
+    /**
+     *  Internal {@link WordCountStrategy} instance.
+     */
     private WordCountStrategy strategy; //Creazione strategia
 
     public WordCounter(WordCountStrategy strategy) {
