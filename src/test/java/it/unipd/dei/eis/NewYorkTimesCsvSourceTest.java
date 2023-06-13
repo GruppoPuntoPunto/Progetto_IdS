@@ -4,8 +4,8 @@ import junit.framework.TestCase;
 
 import java.io.*;
 
-public class NewYorkTimesCSVSourceTest extends TestCase {
-    private final String outputPath = "output/TestOutput/NewYorkTimesCSVSource/";
+public class NewYorkTimesCsvSourceTest extends TestCase {
+    private final String outputPath = "output/TestOutput/NewYorkTimesCsvSource/";
 
     public void setUp() throws IOException {
         File directory = new File(outputPath);
@@ -22,31 +22,31 @@ public class NewYorkTimesCSVSourceTest extends TestCase {
 
     public void testGetCSVInput() throws FileNotFoundException {
         FileReader b = new FileReader(outputPath + "CSVexample.csv");
-        NewYorkTimesCSVSource prova = new NewYorkTimesCSVSource(b);
+        NewYorkTimesCsvSource prova = new NewYorkTimesCsvSource(b);
         assertEquals(b, prova.getCSVInput());
     }
 
     public void testSetCSVInput() throws FileNotFoundException {
         FileReader a = new FileReader(outputPath + "CSVexample.csv");
-        NewYorkTimesCSVSource prova = new NewYorkTimesCSVSource(new FileReader(outputPath + "CSVexample.csv"));
+        NewYorkTimesCsvSource prova = new NewYorkTimesCsvSource(new FileReader(outputPath + "CSVexample.csv"));
         prova.setCSVInput(a);
         assertEquals(a, prova.getCSVInput());
     }
 
     public void testGetArticles() throws FileNotFoundException {
-        NewYorkTimesCSVSource prova = new NewYorkTimesCSVSource(new FileReader(outputPath + "CSVexample.csv"));
+        NewYorkTimesCsvSource prova = new NewYorkTimesCsvSource(new FileReader(outputPath + "CSVexample.csv"));
         assertNotNull(prova.getArticles());
     }
 
     public void testSetArticles() throws FileNotFoundException {
-        NewYorkTimesCSVSource prova = new NewYorkTimesCSVSource(new FileReader(outputPath + "CSVexample.csv"));
+        NewYorkTimesCsvSource prova = new NewYorkTimesCsvSource(new FileReader(outputPath + "CSVexample.csv"));
         Article[] list = { new ArticleXml("Titolo1", "Corpo1"), new ArticleXml("Titolo2", "Corpo2"), new ArticleXml("Titolo3", "Corpo3")};
         prova.setArticles(list);
         assertEquals(list, prova.getArticles());
     }
 
     public void testDownloadCorrectCSV() throws FileNotFoundException {
-        NewYorkTimesCSVSource prova = new NewYorkTimesCSVSource(new FileReader(outputPath + "CSVexample.csv"));
+        NewYorkTimesCsvSource prova = new NewYorkTimesCsvSource(new FileReader(outputPath + "CSVexample.csv"));
         prova.download();
         assertNotNull(prova.getArticles());
         assertEquals(1, prova.getArticles().length);
@@ -55,7 +55,7 @@ public class NewYorkTimesCSVSourceTest extends TestCase {
     }
 
     public void testDownloadWrongCSV() throws FileNotFoundException {
-        NewYorkTimesCSVSource prova = new NewYorkTimesCSVSource(new FileReader(outputPath + "CSVexample2.csv"));
+        NewYorkTimesCsvSource prova = new NewYorkTimesCsvSource(new FileReader(outputPath + "CSVexample2.csv"));
         prova.download();
         assertEquals(0, prova.getArticles().length);
     }

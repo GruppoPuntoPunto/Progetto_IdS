@@ -9,19 +9,19 @@ import java.util.Arrays;
 import java.io.File;
 import java.io.IOException;
 
-public class GuardianJSONSource implements Source {
+public class GuardianJsonSource implements Source {
     private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all";
     private File directory; // cartella in cui salvare le risposte json
     private static final String OS = System.getProperty("os.name").toLowerCase();; // per decidere quale script lanciare
     private final String apiKey;
     private Article[] results;
 
-    public GuardianJSONSource(String apiKey, String directory) {
+    public GuardianJsonSource(String apiKey, String directory) {
         this.directory = new File(directory);
         if (!this.directory.exists())
             this.directory.mkdirs(); // creo la cartella se non esiste
         this.apiKey = apiKey;
-        this.results = new ArticleJSON[0];
+        this.results = new ArticleJsonGuardian[0];
     }
 
     public File getDirectory() { return directory; }

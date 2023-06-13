@@ -33,16 +33,9 @@ public class FrequencyPerArticleStrategyTest extends TestCase {
 
         FrequencyPerArticleStrategy strategy = new FrequencyPerArticleStrategy();
         List<Map.Entry<String, Integer>> entryList = strategy.execute(list);
-        int valueEntry1 = entryList.get(0).getValue();
-        int valueEntry2 = entryList.get(1).getValue();
-        int valueEntry3 = entryList.get(2).getValue();
-        int valueEntry4 = entryList.get(3).getValue();
-        int valueEntry5 = entryList.get(4).getValue();
+        String[] ranking = {"in", "of", "the", "and", "to"};
 
-        assertEquals(5, valueEntry1);
-        assertEquals(5, valueEntry2);
-        assertEquals(5, valueEntry3);
-        assertEquals(5, valueEntry4);
-        assertEquals(5, valueEntry5);
+        for (int i = 0; i < ranking.length; i++)
+            assertEquals(ranking[i], entryList.get(i).getKey());
     }
 }

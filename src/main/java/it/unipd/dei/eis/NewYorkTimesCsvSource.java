@@ -8,14 +8,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class NewYorkTimesCSVSource implements Source {
+public class NewYorkTimesCsvSource implements Source {
     private FileReader CSVInput;
     private Article[] results;
 
 
-    public NewYorkTimesCSVSource(FileReader CSVInput) { 
+    public NewYorkTimesCsvSource(FileReader CSVInput) {
         this.CSVInput = CSVInput; 
-        this.results = new ArticleCSV[0];
+        this.results = new ArticleCsvNYTimes[0];
     }
 
     public FileReader getCSVInput() { return CSVInput; }
@@ -34,7 +34,7 @@ public class NewYorkTimesCSVSource implements Source {
 
         ArrayList<Article> res = new ArrayList<>();
         for (CSVRecord record : records)
-            res.add(new ArticleCSV(record.get("Title"), record.get("Body")));
+            res.add(new ArticleCsvNYTimes(record.get("Title"), record.get("Body")));
         results = res.toArray(results);
     }
 

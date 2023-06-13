@@ -6,7 +6,7 @@ package it.unipd.dei.eis;
  * @author unascribed
  * @since  0.1
  */
-public class ArticleCSV implements Article {
+public class ArticleCsvNYTimes implements Article {
     /**
      * Title element of the csv file.
      */
@@ -17,21 +17,21 @@ public class ArticleCSV implements Article {
     private String body;
 
     /**
-     * Creates a new empty <code>ArticleCSV</code> instance.
+     * Creates a new empty <code>ArticleCsvNYTimes</code> instance.
      *
      * @since 0.1
      */
-    public ArticleCSV() {}
+    public ArticleCsvNYTimes() {}
 
     /**
-     * Creates a new <code>ArticleCSV</code> instance with given params.
+     * Creates a new <code>ArticleCsvNYTimes</code> instance with given params.
      *
      * @param title Title element string
      * @param body Body element string
      *
      * @since 0.1
      */
-    public ArticleCSV(String title, String body) { 
+    public ArticleCsvNYTimes(String title, String body) {
         this.body = body;
         this.title = title;
     }

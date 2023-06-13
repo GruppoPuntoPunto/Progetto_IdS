@@ -26,13 +26,13 @@ public class SourceFactoryTest extends TestCase {
     public void testCreateSourceGuardianJSONSource() {
         SourceFactory factory = SourceFactory.getInstance();
         String[] args = {"aaa", outputPath};
-        Source prova = factory.createSource("GuardianJSONSource", args);
+        Source prova = factory.createSource("GuardianJsonSource", args);
         assertNotNull(prova);
     }
 
     public void testCreateSourceNewYorkTimesCSVSource() throws FileNotFoundException {
         SourceFactory factory = SourceFactory.getInstance();
-        Source prova = factory.createSource("NewYorkTimesCSVSource", new FileReader(outputPath + "CSVexample.csv"));
+        Source prova = factory.createSource("NewYorkTimesCsvSource", new FileReader(outputPath + "CSVexample.csv"));
         assertNotNull(prova);
     }
 

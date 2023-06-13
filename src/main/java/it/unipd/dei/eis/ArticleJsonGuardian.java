@@ -12,7 +12,7 @@ import java.util.Map;
  * @since  0.1
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ArticleJSON implements Article {
+public class ArticleJsonGuardian implements Article {
     /**
      * WebTitle element of the json file.
      */
@@ -23,11 +23,11 @@ public class ArticleJSON implements Article {
     private String bodyText;
 
     /**
-     * Creates a new empty <code>ArticleJSON</code> instance.
+     * Creates a new empty <code>ArticleJsonGuardian</code> instance.
      *
      * @since 0.1
      */
-    public ArticleJSON() { }
+    public ArticleJsonGuardian() { }
 
     /**
      * Returns the string value of element bodyText.

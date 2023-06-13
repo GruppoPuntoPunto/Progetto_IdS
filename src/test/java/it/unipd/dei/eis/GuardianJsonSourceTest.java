@@ -3,36 +3,36 @@ package it.unipd.dei.eis;
 import junit.framework.TestCase;
 import java.io.File;
 
-public class GuardianJSONSourceTest extends TestCase {
+public class GuardianJsonSourceTest extends TestCase {
 
     private final String apiKey = "d882b87f-6009-434f-9076-af23bd12b56f";
     private final String outputPath = "output/TestOutput/Json";
 
     public void testGetDirectory() {
-        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
+        GuardianJsonSource prova = new GuardianJsonSource(apiKey, outputPath);
         assertEquals(new File(outputPath), prova.getDirectory());
     }
 
     public void testSetDirectory() {
-        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
+        GuardianJsonSource prova = new GuardianJsonSource(apiKey, outputPath);
         prova.setDirectory(new File(outputPath));
         assertEquals(new File(outputPath), prova.getDirectory());
     }
 
     public void testGetArticles() {
-        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
+        GuardianJsonSource prova = new GuardianJsonSource(apiKey, outputPath);
         assertNotNull(prova.getArticles());
     }
 
     public void testSetArticles() {
-        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
+        GuardianJsonSource prova = new GuardianJsonSource(apiKey, outputPath);
         Article[] list = { new ArticleXml("Titolo1", "Corpo1"), new ArticleXml("Titolo2", "Corpo2"), new ArticleXml("Titolo3", "Corpo3")};
         prova.setArticles(list);
         assertEquals(list, prova.getArticles());
     }
 
     public void testCorrectDownload() {
-        GuardianJSONSource prova = new GuardianJSONSource(apiKey, outputPath);
+        GuardianJsonSource prova = new GuardianJsonSource(apiKey, outputPath);
         prova.download();
         assertFalse(prova.getArticles().length == 0);
     }

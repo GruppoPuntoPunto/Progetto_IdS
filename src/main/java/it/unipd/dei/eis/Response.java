@@ -7,7 +7,7 @@ public class Response {
     private String status;
     private int total;
     private int pages;
-    private ArticleJSON[] results;
+    private ArticleJsonGuardian[] results;
 
     public Response() { }
     public Response(
@@ -18,7 +18,7 @@ public class Response {
                 int currentPage, 
                 int pages, 
                 String orderBy, 
-                ArticleJSON[] results) {
+                ArticleJsonGuardian[] results) {
         this.status = status;
         this.total = total;
         this.pages = pages;
@@ -31,5 +31,5 @@ public class Response {
 
     public int getPages() { return pages; }
 
-    public ArticleJSON[] getResults() { return results; }
+    public ArticleJsonGuardian[] getResults() { return results; }
 }
