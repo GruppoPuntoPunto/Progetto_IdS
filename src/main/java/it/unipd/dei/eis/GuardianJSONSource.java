@@ -63,12 +63,13 @@ public class GuardianJSONSource implements Source {
     public void download() {
         String dirPath = getDirectoryPath();
 
-        ThreadGroup threadGroup = new ThreadGroup("parallelizzamelo");
+        // parallelizzo l'esecuzione dei comandi shell
+        Thread[] threads = new Thread[5];
 
         // creazione file json
-        for (int i = 1; i <= 5; i++) {
+        for (int i = 0; i < 5; i++) {
             // path file in cui salvare la risposta
-            String filePath = dirPath + "/" + i + ".json";
+            String filePath = dirPath + "/" + (i+1) + ".json";
 
             // comando da eseguire da shell
             StringBuilder buildCmd = new StringBuilder();
@@ -76,24 +77,24 @@ public class GuardianJSONSource implements Source {
                     .append(" && curl -o " + '\"' + filePath + '\"' +" ")
                     .append('\"' + TARGET_URL)
                     .append("&page-size=" + 200)
-                    .append("&page=" + i)
+                    .append("&page=" + i+1)
                     .append("&api-key=" + apiKey + '\"');
             String cmd = buildCmd.toString();
 
-            Thread thread = new Thread(threadGroup, () -> executeShellCommand(cmd));
-            thread.start();
+            threads[i] = new Thread(() -> executeShellCommand(cmd));
+            threads[i].start();
 //            // eseguo il comando
 //            executeShellCommand(cmd);
         }
 
-        while (threadGroup.activeCount() > 0) {
+        // aspetto che tutti i thread terminino l'esecuzione del comando
+        for (Thread t : threads) {
             try {
-                Thread.sleep(100); // Puoi regolare l'intervallo di controllo
+                t.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
 
         // deserializzo tutti gli articoli scaricati dalle risposte
         ObjectMapper mapper = new ObjectMapper();
