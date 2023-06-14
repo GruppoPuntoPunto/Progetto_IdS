@@ -111,7 +111,7 @@ public class GuardianJsonSource implements Source {
             p = directory.getCanonicalPath();
         }
         catch (IOException e) { 
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return p;
     }
@@ -154,6 +154,8 @@ public class GuardianJsonSource implements Source {
      */
     @Override
     public void download() {
+        if (directory == null) return;
+
         String dirPath = getDirectoryPath();
 
         // parallelizzo l'esecuzione dei comandi shell

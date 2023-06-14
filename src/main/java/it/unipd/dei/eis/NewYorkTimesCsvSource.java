@@ -84,11 +84,14 @@ public class NewYorkTimesCsvSource implements Source {
      */
     @Override
     public void download() {
+        if (CSVInput == null) return;
+
         Iterable<CSVRecord> records = null;
         try { 
             records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(CSVInput); 
         } catch(IOException e) { 
-            e.printStackTrace(); 
+            e.printStackTrace();
+            return;
         }
 
         ArrayList<Article> res = new ArrayList<>();

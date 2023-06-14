@@ -36,6 +36,8 @@ public class SourceFactory {
      * @since 0.1
      */
     public Source createSource(String sourceType, Object... args) {
+        if (sourceType == null) return null;
+
         if (sourceType.equals("GuardianJsonSource") && args[0] instanceof String && args[1] instanceof String)
             return new GuardianJsonSource((String) args[0], (String) args[1]);
         else if (sourceType.equals("NewYorkTimesCsvSource") && args[0] instanceof FileReader)
