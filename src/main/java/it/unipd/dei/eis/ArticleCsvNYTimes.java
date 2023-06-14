@@ -26,8 +26,8 @@ public class ArticleCsvNYTimes implements Article {
     /**
      * Creates a new <code>ArticleCsvNYTimes</code> instance with given params.
      *
-     * @param title Title element string
-     * @param body Body element string
+     * @param title Title <code>String</code> element
+     * @param body Body <code>String</code> element
      *
      * @since 0.1
      */
@@ -37,39 +37,43 @@ public class ArticleCsvNYTimes implements Article {
     }
 
     /**
-     *  Returns the string value of element title.
+     *  Returns the <code>String</code> value of element title.
      *
      * @return The title element
      *
      * @since 0.1
      */
+    @Override
     public String getTitle() { return title; }
 
     /**
-     * Returns the string value of element body.
+     * Returns the <code>String</code> value of element body.
      *
      * @return The body element
      *
      * @since 0.1
      */
+    @Override
     public String getBody() { return body; }
 
     /**
      * Sets value of the title element with given param.
      *
-     * @param title Title element string to set
+     * @param title The new title <code>String</code> element
      *
      * @since 0.1
      */
+    @Override
     public void setTitle(String title) { this.title = title; }
 
     /**
      * Sets value of the body element with given param.
      *
-     * @param body Body element string to set
+     * @param body The new body <code>String</code> element
      *
      * @since 0.1
      */
+    @Override
     public void setBody(String body) { this.body= body; }
 }
 

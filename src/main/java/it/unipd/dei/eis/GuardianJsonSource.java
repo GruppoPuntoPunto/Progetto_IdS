@@ -10,16 +10,49 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * Implementation of {@link Source} that fits with the 'The Guardian' newspaper .json response files.
+ * <p> An instance of this class can send a complete api request to content.guardianapis.com, download articles .json files and shapes that into {@link Article} objects. </p>
+ *
  * @author unascribed
  * @since  0.1
  */
 public class GuardianJsonSource implements Source {
+    /**
+     * Specific Url <code>String</code> for the Api request.
+     */
     private static final String TARGET_URL = "https://content.guardianapis.com/search?show-fields=all";
-    private File directory; // cartella in cui salvare le risposte json
-    private static final String OS = System.getProperty("os.name").toLowerCase();; // per decidere quale script lanciare
+
+    /**
+     * The directory {@link File} in which save the .json files response.
+     */
+    private File directory;
+
+    /**
+     * Automatically generated identifier <code>String</code> of the operating system launching the request.
+     *
+     * @see System#getProperty(String)
+     */
+    private static final String OS = System.getProperty("os.name").toLowerCase();
+
+    /**
+     * Api key <code>String</code> to launch the request with.
+     */
     private final String apiKey;
+
+    /**
+     *  Array containing all the downloaded {@link Article} files.
+     */
     private Article[] results;
 
+    /**
+     *  Creates a new <code>GuardianJsonSource</code> instance with given params.
+     *  If the given directory doesn't exist, then it's created.
+     *
+     * @param apiKey The apiKey <code>String</code> element
+     * @param directory The directory pathname <code>String</code>
+     *
+     *  @since  0.1
+     */
     public GuardianJsonSource(String apiKey, String directory) {
         this.directory = new File(directory);
         if (!this.directory.exists())
@@ -28,14 +61,50 @@ public class GuardianJsonSource implements Source {
         this.results = new ArticleJsonGuardian[0];
     }
 
+    /**
+     *  Returns the directory {@link Article} object.
+     *
+     * @return The directory element
+     *
+     * @since 0.1
+     */
     public File getDirectory() { return directory; }
 
-    public void setDirectory(File directory) { this.directory = directory; }
+    /**
+     * Sets value of the directory element with given param.
+     *
+     * @param directory The new directory {@link Article} element
+     *
+     * @since 0.1
+     */
+    public void setDirectory(File directory) { this.directory = directory;}
 
+    /**
+     * Returns all the downloaded {@link Article} files.
+     *
+     * @return The results element
+     *
+     * @since 0.1
+     */
+    @Override
     public Article[] getArticles() { return results; }
 
-    public void setArticles(Article[] results) { this.results = results; }
+    /**
+     * Sets value of the results element with given param.
+     *
+     * @param results Array of {@link Article} to set
+     *
+     * @since 0.1
+     */
+    public void setArticles(Article[] results) { this.results = results;}
 
+    /**
+     *  Returns the directory element <code>String</code> path.
+     *
+     * @return The directory element pathname
+     *
+     * @since 0.1
+     */
     private String getDirectoryPath() {
         String p = "";
         try { 
@@ -47,6 +116,16 @@ public class GuardianJsonSource implements Source {
         return p;
     }
 
+    /**
+     * This method executes the given shell command as param.
+     *
+     * @param command The shell command code <code>String</code>
+     *
+     * @see ProcessBuilder
+     * @see Process
+     *
+     * @since 0.1
+     */
     private void executeShellCommand(String command) {
         try {
             // creo il processo
@@ -64,6 +143,16 @@ public class GuardianJsonSource implements Source {
         }
     }
 
+    /**
+     *  Downloads with the built request, and stores, the response files.
+     *
+     * @see StringBuilder
+     * @see ObjectMapper
+     * @see ResponseWrapper
+     *
+     * @since 0.1
+     */
+    @Override
     public void download() {
         if (directory == null) return;
 
