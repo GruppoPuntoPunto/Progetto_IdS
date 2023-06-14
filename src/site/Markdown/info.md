@@ -82,15 +82,16 @@ In risposta alle richieste software abbiamo adottato le seguenti implementazioni
    3. Altrimenti un'ulteriore alternativa è quella di scaricare e fare l'estrazione contemporaneamente con il comando `-de`
    4. Ulteriori comandi possibili sono elencati qua sotto:
 
-   ```bash 
+   ```terminal 
       usage: App -{ak} -{d,de} [OPTION]...
       -ak,--api-key <arg>       Set the guardian API
       -csv,--csv-input <arg>    Set new york times .csv file input path
       -d,--download             Dowload all articles form all the resources
       -de,--download-extract    Download and extract terms
       -h,--help                 Print this help message
-      -xml,--xml-output <arg>   Set xml files output path
+      -o,--output <arg>         Set results output file path          
+      -xml,--xml-output <arg>   Set xml files input path (deserialize from) or output path (serialize in)
    ```  
-
-```html
+   
+- [Back to home](index.html)
 
