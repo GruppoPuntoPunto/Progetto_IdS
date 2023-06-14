@@ -31,6 +31,8 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
      * @since 0.1
      */
     public List<Map.Entry<String, Integer>> execute(List<Article> articles) {
+        if (articles == null) return new ArrayList<Map.Entry<String, Integer>>() {};
+
         Map<String, Integer> map = new HashMap<>();
         for (Article a : articles) {
 

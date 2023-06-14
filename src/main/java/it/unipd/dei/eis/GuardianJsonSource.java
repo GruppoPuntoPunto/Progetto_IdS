@@ -30,11 +30,11 @@ public class GuardianJsonSource implements Source {
 
     public File getDirectory() { return directory; }
 
-    public void setDirectory(File directory) { this.directory = directory;}
+    public void setDirectory(File directory) { this.directory = directory; }
 
     public Article[] getArticles() { return results; }
 
-    public void setArticles(Article[] results) { this.results = results;}
+    public void setArticles(Article[] results) { this.results = results; }
 
     private String getDirectoryPath() {
         String p = "";
@@ -42,7 +42,7 @@ public class GuardianJsonSource implements Source {
             p = directory.getCanonicalPath();
         }
         catch (IOException e) { 
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
         return p;
     }
@@ -65,6 +65,8 @@ public class GuardianJsonSource implements Source {
     }
 
     public void download() {
+        if (directory == null) return;
+
         String dirPath = getDirectoryPath();
 
         // parallelizzo l'esecuzione dei comandi shell

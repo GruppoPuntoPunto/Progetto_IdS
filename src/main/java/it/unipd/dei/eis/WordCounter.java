@@ -1,6 +1,7 @@
 package it.unipd.dei.eis;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -24,6 +25,7 @@ public class WordCounter {
     }
 
     public  List<Map.Entry<String, Integer>> count(List<Article> articles) {
+        if (strategy == null) return new ArrayList<Map.Entry<String, Integer>>() {};
         return strategy.execute(articles);
     }
 }
