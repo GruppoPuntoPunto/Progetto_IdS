@@ -46,7 +46,7 @@ public class XmlSerializer {
      *  Creates a new <code>XmlSerializer</code> instance by setting the default directory.
      *  If the given directory doesn't exist, then it's created.
      *
-     *  @param directory The default directory pathname string
+     *  @param directory The default directory pathname <code>String</code>
      *
      *  @see Persister
      *  @see Format
@@ -63,7 +63,7 @@ public class XmlSerializer {
      *  Creates a new <code>XmlSerializer</code> instance by setting the default directory and format.
      *  If the given directory doesn't exist, then it's created.
      *
-     * @param directory The default directory pathname string
+     * @param directory The default directory pathname <code>String</code>
      * @param format Specifies the <code>Format</code> to build the <code>Serializer</code> with
      *
      *  @see Persister
@@ -103,7 +103,7 @@ public class XmlSerializer {
      *  in a safeguarded way. If the given directory doesn't exist, then it's created.
      *
      * @param list Array of <code>Article</code> to serialize
-     * @param fileDirectory The directory pathname string to use
+     * @param fileDirectory The directory pathname <code>String</code> to use
      *
      * @see Persister#write(Object, File)
      * @since 0.1
@@ -124,9 +124,9 @@ public class XmlSerializer {
     }
 
     /**
-     *  Serialize a list of <code>Article</code> into xml files in a safeguarded way.
+     *  Serialize a <code>Article</code> <code>List</code> into xml files in a safeguarded way.
      *
-     * @param list List of <code>Article</code> to serialize
+     * @param list <code>Article</code> <code>List</code> to be serialized
      *
      * @see Persister#write(Object, File)
      * @since 0.1
@@ -143,11 +143,11 @@ public class XmlSerializer {
     }
 
     /**
-     *  Serialize a list of <code>Article</code> into xml files, in a specified directory,
+     *  Serialize a <code>Article</code> <code>List</code> into xml files, in a specified directory,
      *  in a safeguarded way. If the given directory doesn't exist, then it's created.
      *
-     * @param list List of <code>Article</code> to serialize
-     * @param fileDirectory The directory pathname string to use
+     * @param list <code>Article</code> <code>List</code> to be serialized
+     * @param fileDirectory The directory pathname <code>String</code> to use
      *
      * @see Persister#write(Object, File)
      * @since 0.1
@@ -170,9 +170,9 @@ public class XmlSerializer {
     /* -- Deserialize operations -- */
 
     /**
-     *  Deserialize all the array files stored in the default directory into an <code>Article</code> typed list.
+     *  Deserialize all the array files stored in the default directory into an <code>Article</code> <code>List</code>.
      *
-     *  @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found
+     *  @return An <code>Article</code> <code>List</code> or <code>null</code> if no .xml files are found
      *
      *  @throws XMLStreamException If an object cannot be fully deserialized
      *
@@ -196,11 +196,11 @@ public class XmlSerializer {
     }
 
     /**
-     *  Deserialize all the array files stored in the specified directory into an <code>Article</code> typed list.
+     *  Deserialize all the array files stored in the specified directory into an <code>Article</code> <code>List</code>.
      *
-     * @param fileDirectory The directory pathname string to search in
+     * @param fileDirectory The directory pathname <code>String</code> to search in
      *
-     * @return An <code>Article</code> typed list or <code>null</code> if no .xml files are found or the specified directory doesn't exist
+     * @return An <code>Article</code> <code>List</code> or <code>null</code> if no .xml files are found or the specified directory doesn't exist
      *
      * @throws Exception If an object cannot be fully deserialized
      * @throws XMLStreamException If <code>fileDirectory</code> is <code>null</code>

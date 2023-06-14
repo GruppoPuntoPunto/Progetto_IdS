@@ -30,7 +30,7 @@ public class ArticleJsonGuardian implements Article {
     public ArticleJsonGuardian() { }
 
     /**
-     * Returns the string value of element bodyText.
+     * Returns the <code>String</code> value of element bodyText.
      *
      * @return The bodyText element
      *
@@ -39,16 +39,17 @@ public class ArticleJsonGuardian implements Article {
     public String getBodyText() { return bodyText; }
 
     /**
-     * Returns the string value of element bodyText.
+     * Returns the <code>String</code> value of element bodyText.
      *
      * @return The bodyText element
      *
      * @since 0.1
      */
+    @Override
     public String getBody() { return getBodyText(); }
 
     /**
-     *  Returns the string value of element webTitle.
+     *  Returns the <code>String</code> value of element webTitle.
      *
      * @return The webTitle element
      *
@@ -57,36 +58,39 @@ public class ArticleJsonGuardian implements Article {
     public String getWebTitle() { return webTitle; }
 
     /**
-     *  Returns the string value of element webTitle.
+     *  Returns the <code>String</code> value of element webTitle.
      *
      * @return The webTitle element
      *
      * @since 0.1
      */
+    @Override
     public String getTitle() { return getWebTitle(); }
 
     /**
      * Sets value of the webTitle element with given param.
      *
-     * @param title WebTitle element string to set
+     * @param title The new webTitle <code>String</code> element
      *
      * @since 0.1
      */
+    @Override
     public void setTitle(String title) { this.webTitle = title; }
 
     /**
      * Sets value of the bodyText element with given param.
      *
-     * @param body BodyText element string to set
+     * @param body The new bodyText <code>String</code> element
      *
      * @since 0.1
      */
+    @Override
     public void setBody(String body) { this.bodyText = body; }
 
     /**
      * Sets value of the bodyText element with given param instead of managing it as a {@code Map<String, Object>} object.
      *
-     * @param fields {@code Map<String, Object>} with <code>Object</code> element to set
+     * @param fields The new {@code Map<String, Object>} element
      *
      * @since 0.1
      */
