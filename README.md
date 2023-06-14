@@ -9,21 +9,21 @@ utilizzate in ciascun estratto.
 
 In risposta alle richieste software abbiamo adottato le seguenti implementazioni:
 
-1. Per far si che il sistema possa supportare nuove sorgenti abbiamo ideato un __Facotry Pattern__ denominato `SourceFactory` che permette l'introduzione di nuovi source file diversi dovendo solo aggiungere una classe relativa alla nuova sorgente ma di fatto senza andare ad intaccare la struttura portante del proggetto.
-   <br></br>
-   In particolar modo con il metodo `createSource()` facciamo in modo di creare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_
+1. Per far si che il sistema possa supportare nuove sorgenti abbiamo sfruttato un __Facotry Pattern__ (chiamando la nostra classe `SourceFactory`) che permette l'introduzione di nuovi source file diversi dovendo solo aggiungere una classe relativa alla nuova sorgente ma di fatto senza andare ad intaccare la struttura portante del proggetto. Inoltre nell'implementare la `SourceFactory` abbiamo utilizzato uno __Singleton Pattern__ come di consueta prassi.
+
+   In particolar modo con il metodo `createSource()` facciamo in modo di creare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_:
    ```java
    public Source createSource(String sourceType, Object... args) {
-        if (sourceType.equals("GuardianJSONSource") && args[0] instanceof String && args[1] instanceof String)
-            return new GuardianJSONSource((String) args[0], (String) args[1]);
-        else if (sourceType.equals("NewYorkTimesCSVSource") && args[0] instanceof FileReader)
-            return new NewYorkTimesCSVSource((FileReader) args[0]);
+        if (sourceType.equals("GuardianJsonSource") && args[0] instanceof String && args[1] instanceof String)
+            return new GuardianJsonSource((String) args[0], (String) args[1]);
+        else if (sourceType.equals("NewYorkTimesCsvSource") && args[0] instanceof FileReader)
+            return new NewYorkTimesCsvSource((FileReader) args[0]);
         return null;
     }
    ```
-2. In seguito alla fase di Download e quindi alla creazione di oggetti `ArticleJSON` o `ArtcileCSV` il sistema apporta la serializzazione in file di estensione `.xml` passando per la classe `XmlSerializer` che offre anche la possibilità di attuare il procedimento inverso, atraverso una deserializzazione in oggetti di tipo `Article` e dunque in un formato _"universale"_. Il nostro `XmlSerializer` può essere di fatto interpretato come un __Adapter Pattern__ in quanto di fatto adatta alle nostre necessità l'interfaccia presa dalla libreria che abbiamo importato. ------
+2. In seguito alla fase di Download e quindi alla creazione di oggetti `ArticleJsonGuardian` o `ArtcileCsvNYTimes` il sistema apporta la serializzazione in file di estensione `.xml` passando per la classe `XmlSerializer` che offre anche la possibilità di attuare il procedimento inverso, attraverso una deserializzazione in oggetti di tipo `Article` e dunque in un formato _"universale"_. Il nostro `XmlSerializer` può essere  interpretato come un __Adapter Pattern__ in quanto di fatto abbiamo convertito l'interfaccia del serializzatore fornito dalla libreria che abbiamo utilizzato (`org.simpleframework.xml`).
    <br></br>
-   Ecco nel dettaglio i metodi fondamentali per quanto detto scritti grazie all'ausilio della libreria `org.simpleframework.xml`:
+   Ecco nel dettaglio i metodi fondamentali per quanto detto scritti grazie all'ausilio della libreria:
 
    ```java
     public void serialize(List<? extends Article> list) {
@@ -82,65 +82,83 @@ In risposta alle richieste software abbiamo adottato le seguenti implementazioni
    3. Altrimenti un'ulteriore alternativa è quella di scaricare e fare l'estrazione contemporaneamente con il comando `-de`
    4. Ulteriori comandi possibili sono elencati qua sotto:
 
-   ```bash 
+   ```terminal 
       usage: App -{ak} -{d,de} [OPTION]...
       -ak,--api-key <arg>       Set the guardian API
       -csv,--csv-input <arg>    Set new york times .csv file input path
       -d,--download             Dowload all articles form all the resources
       -de,--download-extract    Download and extract terms
       -h,--help                 Print this help message
-      -xml,--xml-output <arg>   Set xml files output path
+      -o,--output <arg>         Set results output file path          
+      -xml,--xml-output <arg>   Set xml files input path (deserialize from) or output path (serialize in)
    ```  
 # Come installare correttamente ed utilizzare il software
 
 ### Installazione e compilazione del progetto Maven
-Dopo essere entrati nella directory relativa al proggetto (`> Progetto_Ids`), per creare il file jar e compilare il codice è necessario digitare nel terminale il seguente comando
+Dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice è necessario digitare nel terminale il seguente comando:
 ```terminal
 mvn package
 ```
-__NOTA__: I file jar verranno creati in automatico da Maven nella directory `Progetto_Ids > target`.
+__NOTA__: I file jar verranno creati in automatico da Maven nella directory `Progetto_Ids/target`.
 In particolare verranno create
 - `progetto-1.0-SNAPSHOT.jar`
 - `progetto-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
-Inoltre verrà generata la cartella `output` che inizzialmente dopo la compilazione conterrà solo quelli relativi ai test del proegetto.
+Inoltre verrà generata la cartella `output` che inizialmente dopo la compilazione conterrà solo quelli relativi ai test del proegetto.
 ### javadocs
 Per generare i javadocs
 
     mvn javadoc:javadoc
 ### Mavensite
-Abbiamo creato la cartella site che contiene i file sorgenti per creare il sito.
+Abbiamo creato la cartella `Progetto_Ids/src/site` che contiene i file sorgenti per creare il sito.
 Le istruzioni necessarie per creare e rendere disponibile il sito sono:
 
     mvn site
     mvn site:run
 
 Il sito sarà quindi disponibile al seguente indirizzo: [http://localhost:8080/](http://localhost:8080/)
+
+Inoltre per generare l'output relativo ai test tramite il plug-in `surefire-report` nella cartella `Proggetto_Ids/target/site` dopo aver compilato i test, è necessario la digitazione del seguente comando:
+```terminal
+mvn test
+mvn surefire-report:report
+```
 ### Esecuzione del programma
 Per eseguire il programma sono possibili diversi prompt tra quelli qua sotto elencati :
-```bash
-usage: App -{ak} -{d,de} [OPTION]...
--ak,--api-key <arg>       Set the guardian API
--csv,--csv-input <arg>    Set new york times .csv file input path
--d,--download             Dowload all articles form all the resources
--de,--download-extract    Download and extract terms
--h,--help                 Print this help message
--xml,--xml-output <arg>   Set xml files output path
-```
-In particolar modo come già anticipato nel file delle info sul progetto l'utente può richiedere solo di effettuare il download con il comando:
+```terminal 
+ usage: App -{ak} -{d,de} [OPTION]...
+ -ak,--api-key <arg>       Set the guardian API
+ -csv,--csv-input <arg>    Set new york times .csv file input path
+ -d,--download             Dowload all articles form all the resources
+ -de,--download-extract    Download and extract terms
+ -h,--help                 Print this help message
+ -o,--output <arg>         Set results output file path          
+ -xml,--xml-output <arg>   Set xml files input path (deserialize from) or output path (serialize in)
+   ```  
+In particolar modo come già anticipato nel file delle info sul progetto, l'utente può richiedere solo di effettuare il download con il comando:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -d
 ```
-In seguito può richiedere di effettuare l'estrazione e dunque procedere con la fase di serializzazione, deserializzazione e avviare l'algoritmo di conteggio specifico delle parole con il comando:
+In seguito può richiedere di effettuare l'estrazione e dunque procedere con la fase di deserializzazione e avviare l'algoritmo di conteggio specifico delle parole con il comando:
 ```terminal
-java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -e
+java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -e
 ```
-In alternativa a questi due comandi può direttamente farli insieme con il comando:
+In alternativa a questi due comandi si può direttamente lanciarli insieme tramite:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -de
 ```
 Dopo aver eseguito il programma in base al comando digitato verranno inseriti nella cartella `output` che conterrà le sotto cartelle
 `outputJsonTheGuardian` e `outputXml`. La prima si occuperà della memorizzazione dei file provenienti dall' API del _The Guardian_, mentre la seconda cartella conterrà tutti i file __JSON__ e __CSV__ nel formato "universale" `.xml`.
+
+Il parametro `-xml` può essere utilizzato in fase di download per specificare la cartella in cui vengono salavati gli articoli serializzati. Opurre può essere utilizzato in fase di estrazione per estrarre gli articoli dala cartella specificata :
+```terminal
+java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -xml <Path> -d
+```
+Infine con il parametro `-csv` si può settare un ulteriore file esterno, ovviamente compatibile con gli header prefissati :
+```terminal
+java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -csv <Path> -d
+```
+
 # Librerie e versioni
 
 1. `junit` version : 4.12
@@ -148,3 +166,6 @@ Dopo aver eseguito il programma in base al comando digitato verranno inseriti ne
 3. `org.apache.commons` version : 1.10.0 (_Libreria per leggere e scrivere da/in file CSV_)
 4. `org.simpleframework` version : 2.7.1 (_Libreria per leggere e scrivere da/in file xml_)
 5. `commons-cli` version : 1.5.0 (_Libreria per gestire le opzioni specificate da linea di comando_)
+
+### Dipendenze
+1. `curl` version : _qualsiasi_
