@@ -1,6 +1,6 @@
 package it.unipd.dei.eis;
 
-import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
@@ -35,7 +35,8 @@ public class App {
         // opzioni possibili 
         opt.addOption(new Option("ak", "api-key", true, "Set the guardian API"));
         opt.addOption(new Option("csv", "csv-input", true, "Set new york times .csv file input path"));
-        opt.addOption(new Option("xml", "xml-output", true, "Set xml files output path"));
+        opt.addOption(new Option("xml", "xml-output", true, "Set xml articles files input path (deserialize from) or output path (serialize in)"));
+        opt.addOption(new Option("o", "output", true, "Set results output file path"));
 
         // parse
         HelpFormatter formatter = new HelpFormatter();
@@ -63,6 +64,9 @@ public class App {
         // controllo passaggio path files xml
         String xmlOutputPath = getOptionValueOrDefault(cmd, "xml", "output/outputXml/");
 
+        // controllo passaggio file path output risultati
+        String resultsOutputPath = getOptionValueOrDefault(cmd, "o", "output/results.txt");
+
         // definisco il serializzatore
         XmlSerializer serializer = new XmlSerializer(xmlOutputPath);
 
@@ -83,17 +87,11 @@ public class App {
                 nyTimesCSV = factory.createSource("NewYorkTimesCsvSource", new FileReader(nytCsvPath));
             } catch (IOException e) { 
                 e.printStackTrace(); 
+                return;
             }
-
-
-            long startTime = System.currentTimeMillis();
 
             guardianContentApi.download();
             nyTimesCSV.download();
-
-            long stopTime = System.currentTimeMillis();
-            System.out.println("Download fraction " + (stopTime-startTime) + "ms");
-
 
             // unisco gli articoli delle sorgenti
             List<Article> allArticles = new ArrayList<>();
@@ -105,6 +103,7 @@ public class App {
                 serializer.serialize(allArticles);
             } catch (Exception e) {
                 e.printStackTrace();
+                return;
             }
         }
 
@@ -115,6 +114,7 @@ public class App {
                 deserializedArticles = serializer.deserialize();
             } catch (Exception e) {
                 e.printStackTrace();
+                return;
             }
 
             // controllo se la desrializzazione è andata a buon fine
@@ -127,9 +127,16 @@ public class App {
             WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());
             List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
 
-            // stampa le prime 50 parolo più frequenti
-            for (int i = 0; i < 50; i++)
-                System.out.println(result.get(i));
+            // stampa le prime 50 parole
+            FileWriter writer = null;
+            try {
+                writer = new FileWriter(resultsOutputPath);
+                for (int i = 0; i < 50; i++)
+                    writer.write(result.get(i).getKey() + " " + result.get(i).getValue() + '\n');
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -85,10 +85,9 @@ public class GuardianJsonSource implements Source {
                     .append("&api-key=" + apiKey + '\"');
             String cmd = buildCmd.toString();
 
+            // eseguo il comando
             threads[i] = new Thread(() -> executeShellCommand(cmd));
             threads[i].start();
-//            // eseguo il comando
-//            executeShellCommand(cmd);
         }
 
         // aspetto che tutti i thread terminino l'esecuzione del comando
