@@ -8,10 +8,28 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.HashSet;
 
+/**
+ *
+ *
+ * @author unascribed
+ * @since  0.1
+ */
 public class FrequencyPerArticleStrategy implements WordCountStrategy {
-
+    /**
+     * Creates a new empty <code>FrequencyPerArticleStrategy</code> instance.
+     *
+     * @since 0.1
+     */
     public FrequencyPerArticleStrategy() {}
 
+    /**
+     *
+     * @param articles
+     *
+     * @return
+     *
+     * @since 0.1
+     */
     public List<Map.Entry<String, Integer>> execute(List<Article> articles) {
         Map<String, Integer> map = new HashMap<>();
         for (Article a : articles) {
@@ -40,6 +58,12 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
         return lst;
     }
 
+    /**
+     *
+     * @param lst
+     *
+     * @since 0.1
+     */
     private void mergeSort(List<Map.Entry<String, Integer>> lst) {
         if (lst.size() < 2) return;
 

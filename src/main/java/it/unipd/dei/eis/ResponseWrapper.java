@@ -1,5 +1,9 @@
 package it.unipd.dei.eis;
 
+/**
+ * @author unascribed
+ * @since  0.1
+ */
 public class ResponseWrapper {
     private Response response;
 

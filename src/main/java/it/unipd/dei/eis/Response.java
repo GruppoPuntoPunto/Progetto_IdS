@@ -2,6 +2,10 @@ package it.unipd.dei.eis;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * @author unascribed
+ * @since  0.1
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Response {
     private String status;

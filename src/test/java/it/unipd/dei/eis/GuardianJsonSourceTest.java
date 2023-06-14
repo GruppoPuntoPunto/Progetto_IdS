@@ -6,7 +6,7 @@ import java.io.File;
 public class GuardianJsonSourceTest extends TestCase {
 
     private final String apiKey = "d882b87f-6009-434f-9076-af23bd12b56f";
-    private final String outputPath = "output/TestOutput/Json";
+    private final String outputPath = "output/testOutput/Json";
 
     public void testGetDirectory() {
         GuardianJsonSource prova = new GuardianJsonSource(apiKey, outputPath);

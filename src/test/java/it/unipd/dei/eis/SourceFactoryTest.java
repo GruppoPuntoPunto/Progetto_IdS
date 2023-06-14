@@ -6,7 +6,7 @@ import java.io.*;
 
 public class SourceFactoryTest extends TestCase {
 
-    private final String outputPath = "output/TestOutput/Source/";
+    private final String outputPath = "output/testOutput/Source/";
 
     public void setUp() throws IOException {
         File directory = new File(outputPath);

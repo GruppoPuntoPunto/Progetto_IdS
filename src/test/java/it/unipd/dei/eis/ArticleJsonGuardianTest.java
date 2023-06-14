@@ -2,7 +2,7 @@ package it.unipd.dei.eis;
 
 import junit.framework.TestCase;
 
-public class ArticleJsonTest extends TestCase {
+public class ArticleJsonGuardianTest extends TestCase {
     public void testTitleRelatedMethods() {
         ArticleJsonGuardian prova = new ArticleJsonGuardian();
         prova.setTitle("Titolo di prova");

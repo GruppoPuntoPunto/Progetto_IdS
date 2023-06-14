@@ -1,16 +1,20 @@
 package it.unipd.dei.eis;
 
+
 import junit.framework.TestCase;
 import org.simpleframework.xml.stream.CamelCaseStyle;
 import org.simpleframework.xml.stream.Format;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class XmlSerializerTest extends TestCase {
 
-    private final String outputPath = "output/TestOutput/Xml/";
+    private final String outputPath = "output/testOutput/Xml/";
 
     public void testSerializeWithArray() {
         XmlSerializer serializer = new XmlSerializer(outputPath + "1");
@@ -79,33 +83,54 @@ public class XmlSerializerTest extends TestCase {
         assertNull(serializer.deserialize());
     }
 
+    public void testDeserializeAsThrowedException() throws IOException {
+        XmlSerializer serializer = new XmlSerializer(outputPath + "7");
+        FileWriter writer = new FileWriter(outputPath + "7/" + "WrongXml.xml");
+        writer.write("");
+        writer.close();
+        assertTrue(assertThrow(XMLStreamException.class, serializer::deserialize));
+    }
+
     public void testDeserializeWithDirectory() throws Exception {
-        XmlSerializer serializer = new XmlSerializer( outputPath + "7");
+        XmlSerializer serializer = new XmlSerializer( outputPath + "8");
         List<Article> list = new ArrayList<>();
         list.add(new ArticleXml("Titolo", "Corpo"));
         list.add(new ArticleXml("Titolo", "Corpo"));
         list.add(new ArticleXml("Titolo", "Corpo"));
         serializer.serialize(list);
-        assertEquals(list.toString(), serializer.deserialize(outputPath + "7").toString());
+        assertEquals(list.toString(), serializer.deserialize(outputPath + "8").toString());
     }
 
     public void testDeserializeWithDirectoryAsNull1() throws Exception {
-        XmlSerializer serializer = new XmlSerializer(outputPath + "8");
-        assertNull(serializer.deserialize(outputPath + "8"));
+        XmlSerializer serializer = new XmlSerializer(outputPath + "9");
+        assertNull(serializer.deserialize(outputPath + "9"));
     }
 
     public void testDeserializeWithDirectoryAsNull2() throws Exception {
-        XmlSerializer serializer = new XmlSerializer(outputPath + "9");
-        assertNull(serializer.deserialize(outputPath + "900"));
+        XmlSerializer serializer = new XmlSerializer(outputPath + "10");
+        assertNull(serializer.deserialize(outputPath + "1000"));
     }
 
     public void testDeserializeWithDirectoryAsNull3() throws Exception {
-        XmlSerializer serializer = new XmlSerializer(outputPath + "10");
+        XmlSerializer serializer = new XmlSerializer(outputPath + "11");
         assertNull(serializer.deserialize(""));
     }
 
+    public void testDeserializeWithDirectoryAsThrowedException1() throws IOException {
+        XmlSerializer serializer = new XmlSerializer(outputPath + "12");
+        FileWriter writer = new FileWriter(outputPath + "12/" + "WrongXml.xml");
+        writer.write("");
+        writer.close();
+        assertTrue(assertThrow(XMLStreamException.class, () -> serializer.deserialize(outputPath + "12")));
+    }
+
+    public void testDeserializeWithDirectoryAsThrowedException2() {
+        XmlSerializer serializer = new XmlSerializer(outputPath + "13");
+        assertTrue(assertThrow(NullPointerException.class, () -> serializer.deserialize(null)));
+    }
+
     public void testInitializedArticle() throws Exception {
-        XmlSerializer serializer = new XmlSerializer( outputPath + "11");
+        XmlSerializer serializer = new XmlSerializer( outputPath + "14");
         Article[] list = { new ArticleXml() };
         serializer.serialize(list);
         // initializedArticle is used inside deserialize()
@@ -132,5 +157,21 @@ public class XmlSerializerTest extends TestCase {
                 }
             }
         }
+    }
+
+    /* Exception testing elements */
+
+    @FunctionalInterface
+    private interface FunctionTester {
+        void instruction() throws Exception;
+    }
+
+    private boolean assertThrow(Class<? extends Exception> exception, FunctionTester functionTester) {
+        try {
+            functionTester.instruction();
+        } catch (Exception e) {
+            return exception == e.getClass();
+        }
+        return false;
     }
 }

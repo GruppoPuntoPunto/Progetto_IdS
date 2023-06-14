@@ -2,7 +2,7 @@ package it.unipd.dei.eis;
 
 import junit.framework.TestCase;
 
-public class ArticleCsvTest extends TestCase {
+public class ArticleCsvNYTimesTest extends TestCase {
 
     public void testGetTitle() {
         ArticleCsvNYTimes prova = new ArticleCsvNYTimes("Titolo di prova", "Corpo di prova");
