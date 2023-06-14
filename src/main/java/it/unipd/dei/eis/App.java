@@ -85,15 +85,8 @@ public class App {
                 e.printStackTrace(); 
             }
 
-
-            long startTime = System.currentTimeMillis();
-
             guardianContentApi.download();
             nyTimesCSV.download();
-
-            long stopTime = System.currentTimeMillis();
-            System.out.println("Download fraction " + (stopTime-startTime) + "ms");
-
 
             // unisco gli articoli delle sorgenti
             List<Article> allArticles = new ArrayList<>();
