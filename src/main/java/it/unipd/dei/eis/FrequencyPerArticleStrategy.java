@@ -9,7 +9,9 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- *
+ *  Implementation of {@link WordCountStrategy} that defines the counting operations of a {@link WordCounter}.
+ *  <p> An instance of this class can count the frequency of the words from an {@link Article} <code>List</code> and store them in an ordered {@code List<Map.Entry<String, Integer>>},
+ *  and it's meant to used by way of a <code>WordCounter</code> instance. </p>
  *
  * @author unascribed
  * @since  0.1
@@ -23,13 +25,15 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
     public FrequencyPerArticleStrategy() {}
 
     /**
+     * Method that performs all the counting operations of words of an {@link Article} <code>List</code> in an ordered {@code List<Map.Entry<String, Integer>>}.
      *
-     * @param articles
+     * @param articles {@link Article} <code>List</code> to be processed
      *
-     * @return
+     * @return An ordered {@code List<Map.Entry<String, Integer>>} of counted words
      *
      * @since 0.1
      */
+    @Override
     public List<Map.Entry<String, Integer>> execute(List<Article> articles) {
         Map<String, Integer> map = new HashMap<>();
         for (Article a : articles) {
@@ -59,8 +63,9 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
     }
 
     /**
+     * Sorts the given {@code List<Map.Entry<String, Integer>>} using the Merge Sort algorithm.
      *
-     * @param lst
+     * @param lst {@code List<Map.Entry<String, Integer>>} to be sorted
      *
      * @since 0.1
      */
@@ -77,6 +82,15 @@ public class FrequencyPerArticleStrategy implements WordCountStrategy {
         merge(lst, left, right);
     }
 
+    /**
+     * Merges two sorted {@code List<Map.Entry<String, Integer>>} into one sorted {@code List<Map.Entry<String, Integer>>}.
+     *
+     * @param lst The {@code List<Map.Entry<String, Integer>>} to store the merged result
+     * @param left The left sorted {@code List<Map.Entry<String, Integer>>}
+     * @param right The right sorted {@code List<Map.Entry<String, Integer>>}
+     *
+     * @since 0.1
+     */
     private void merge(List<Map.Entry<String, Integer>> lst,
                              List<Map.Entry<String, Integer>> left,
                              List<Map.Entry<String, Integer>> right) {

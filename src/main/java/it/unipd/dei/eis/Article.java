@@ -9,7 +9,7 @@ package it.unipd.dei.eis;
  */
 public interface Article {
     /**
-     *  Returns the string value of element title.
+     *  Returns the <code>String</code> value of element title.
      *
      * @return The title element
      *
@@ -18,7 +18,7 @@ public interface Article {
     String getTitle();
 
     /**
-     * Returns the string value of element body.
+     * Returns the <code>String</code> value of element body.
      *
      * @return The body element
      *
@@ -29,7 +29,7 @@ public interface Article {
     /**
      * Sets value of the body element with given param.
      *
-     * @param body Body element string to set
+     * @param body The new body <code>String</code> element
      *
      * @since 0.1
      */
@@ -38,7 +38,7 @@ public interface Article {
     /**
      * Sets value of the title element with given param.
      *
-     * @param title Title element string to set
+     * @param title The new title <code>String</code> element
      *
      * @since 0.1
      */

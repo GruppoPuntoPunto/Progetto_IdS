@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *   Instances of classes that implement this interface are used to be counters of <code>String</code> words.
- *   <p>This strategy collects all the methods that must be implemented in a real word counter.</p>
+ *   Instances of classes that implement this interface are used to be definers of the behavior of a {@link WordCounter}.
+ *   <p> This strategy is meant to specified the operating process of a real <code>WordCounter</code>.</p>
  *
  * @author unascribed
  * @since  0.1
  */
 public interface WordCountStrategy {
     /**
-     * Method that performs all the counting operations of words of an <code>Article</code> array in a {@code Map.Entry<String, Integer>} typed list.
+     * Method that performs all the counting operations of words of an {@link Article} <code>List</code> storing them in a {@code List<Map.Entry<String, Integer>>}.
      *
-     * @param articles Material to be processed in {@code List<Article>}
+     * @param articles The {@link Article} <code>List</code> to be processed
      *
      * @return A {@code List<Map.Entry<String, Integer>>} of counted words
      *

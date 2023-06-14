@@ -25,10 +25,13 @@ public class SourceFactory {
     /**
      * Factory method for the creation of a <code>Source</code> instance.
      *
-     * @param sourceType Type of source element string
-     * @param args Source attributes object typed array
+     * @param sourceType Type of source element <code>String</code>
+     * @param args Source attributes <code>Object</code> typed array
      *
      * @return An initialized {@link Source} instance or <code>null</code> if the params can not match a valid source type
+     *
+     * @see GuardianJsonSource
+     * @see NewYorkTimesCsvSource
      *
      * @since 0.1
      */
