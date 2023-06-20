@@ -1,4 +1,4 @@
-package it.unipd.dei.eis;
+package it.unipd.dei.eis.service;
 
 /**
  * Instances of classes that implement this interface are used to be web sources from where downloading an array of {@link Article}.

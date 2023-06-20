@@ -1,4 +1,4 @@
-package it.unipd.dei.eis;
+package it.unipd.dei.eis.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -204,6 +204,7 @@ public class GuardianJsonSource implements Source {
                     response = mapper.readValue(f, ResponseWrapper.class); 
                 } catch (IOException e) { 
                     e.printStackTrace(); 
+                    continue;
                 }
                 tmp.addAll(Arrays.asList(response.getResponse().getResults()));
             }

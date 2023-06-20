@@ -1,4 +1,4 @@
-package it.unipd.dei.eis;
+package it.unipd.dei.eis.service;
 
 /**
  *  This class extends the behavior of a {@link Response} object.

@@ -1,4 +1,4 @@
-package it.unipd.dei.eis;
+package it.unipd.dei.eis.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
