@@ -1,5 +1,12 @@
 package it.unipd.dei.eis;
 
+import it.unipd.dei.eis.service.Source;
+import it.unipd.dei.eis.service.Article;
+import it.unipd.dei.eis.service.SourceFactory;
+import it.unipd.dei.eis.service.WordCounter;
+import it.unipd.dei.eis.service.FrequencyPerArticleStrategy;
+import it.unipd.dei.eis.service.XmlSerializer;
+
 import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +25,7 @@ import org.apache.commons.cli.HelpFormatter;
 
 public class App {
     // torna l'argomento dell'opzione se presente, altrimenti torna default
-    public static String getOptionValueOrDefault(CommandLine cmd, String opt, String def) {
+    private static String getOptionValueOrDefault(CommandLine cmd, String opt, String def) {
         if (cmd.hasOption(opt))
             return cmd.getOptionValue(opt);
         return def;
@@ -88,8 +95,8 @@ public class App {
             // creo le sorgenti del The Guardian e del New York Times
             SourceFactory factory = SourceFactory.getInstance();
             Source guardianContentApi = factory.createSource("GuardianJsonSource", apiKey, "output/outputJsonTheGuardian");
-            Source nyTimesCSV = null;
-            try { 
+            Source nyTimesCSV;
+            try {
                 nyTimesCSV = factory.createSource("NewYorkTimesCsvSource", new FileReader(nytCsvPath));
             } catch (IOException e) { 
                 e.printStackTrace(); 
@@ -115,7 +122,7 @@ public class App {
 
         // deserializzo gli articoli partendo dai file xml
         if (cmd.hasOption("e") || cmd.hasOption("de")) {
-            List<Article> deserializedArticles = new ArrayList<>();
+            List<Article> deserializedArticles;
             try {
                 deserializedArticles = serializer.deserialize();
             } catch (Exception e) {
@@ -134,7 +141,7 @@ public class App {
             List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
 
             // stampa le prime 50 parole
-            FileWriter writer = null;
+            FileWriter writer;
             try {
                 writer = new FileWriter(resultsOutputPath);
                 for (int i = 0; i < 50; i++)
