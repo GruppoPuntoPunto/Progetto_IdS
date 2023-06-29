@@ -2,7 +2,7 @@ package it.unipd.dei.eis.service;
 
 /**
  *  This class extends the behavior of a {@link Response} object.
- *  <p> Every instance of this class is a wrapper that covers an internal <code>Response</code>> instance. </p>
+ *  <p> Every instance of this class is a wrapper that covers an internal <code>Response</code> instance. </p>
  *
  * @author unascribed
  * @since  0.1
