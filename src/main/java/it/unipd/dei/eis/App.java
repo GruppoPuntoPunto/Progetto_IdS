@@ -35,8 +35,8 @@ public class App {
         // getione argomenti linea di comando
         Options opt = new Options();
 
-        // definisco i gruppi di opzioni
-        OptionGroup grp = new OptionGroup(); // gruppo per download e download+estrazione
+        // definisco il gruppo di opzioni
+        OptionGroup grp = new OptionGroup();
         grp.addOption(new Option("d", "download", false, "Dowload articles form all the sources"));
         grp.addOption(new Option("e", "extract", false, "Extracts terms from all the downloaded files"));
         grp.addOption(new Option("de", "download-extract", false, "Download articles and extracts terms"));

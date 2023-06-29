@@ -22,8 +22,8 @@ public class FrequencyPerArticleStrategyTest extends TestCase {
         if (files != null) {
             for (File f : files) {
                 try (BufferedReader reader = new BufferedReader(new FileReader(f))) {
-                    String title = reader.readLine(); // titolo inserito sulla prima riga del file
-                    String body = reader.readLine(); // corpo inserito tutto sulla seconda riga del file
+                    String title = reader.readLine(); // titolo inserito alla prima riga del file
+                    String body = reader.readLine(); // corpo inserito tutto alla seconda riga del file
                     list.add(new ArticleXml(title, body));
                 } catch (IOException e) {
                     e.printStackTrace();
