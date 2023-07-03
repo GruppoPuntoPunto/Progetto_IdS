@@ -18,10 +18,10 @@ Per generare i javadocs
 ### Mavensite
 Abbiamo creato la cartella `Progetto_Ids/src/site` che contiene i file sorgenti per creare il sito.
 Le istruzioni necessarie per creare e rendere disponibile il sito sono:
-
-    mvn site
-    mvn site:run
-
+```
+mvn site
+mvn site:run
+```
 Il sito sarà quindi disponibile al seguente indirizzo: [http://localhost:8080/](http://localhost:8080/)
 
 Inoltre per generare l'output relativo ai test tramite il plug-in `surefire-report` nella cartella `Proggetto_Ids/target/site` dopo aver compilato i test, è necessario la digitazione del seguente comando:
@@ -32,15 +32,17 @@ mvn surefire-report:report
 ### Esecuzione del programma 
 Per eseguire il programma sono possibili diversi prompt tra quelli qua sotto elencati :
 ```terminal 
- usage: App -{ak} -{d,de} [OPTION]...
+usage: App -{d,e,de,h} [OPTION]...
  -ak,--api-key <arg>       Set the guardian API
  -csv,--csv-input <arg>    Set new york times .csv file input path
- -d,--download             Dowload all articles form all the resources
- -de,--download-extract    Download and extract terms
+ -d,--download             Dowload articles form all the sources
+ -de,--download-extract    Download articles and extract terms
+ -e,--extract              Extract terms from all the downloaded files
  -h,--help                 Print this help message
- -o,--output <arg>         Set results output file path          
- -xml,--xml-output <arg>   Set xml files input path (deserialize from) or output path (serialize in)
-   ```  
+ -o,--output <arg>         Set results output file path
+ -xml,--xml-output <arg>   Set xml articles files input path (deserialize
+                           from) or output path (serialize in)
+```
 In particolar modo come già anticipato nel file delle info sul progetto, l'utente può richiedere solo di effettuare il download con il comando:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -d
