@@ -129,7 +129,7 @@ public class GuardianJsonSource implements Source {
     private void executeShellCommand(String command) {
         try {
             // creo il processo
-            ProcessBuilder builder = null;
+            ProcessBuilder builder;
             if (OS.contains("windows"))
                 builder = new ProcessBuilder("cmd.exe", "/c", command);
             else
@@ -195,7 +195,7 @@ public class GuardianJsonSource implements Source {
         ResponseWrapper response = new ResponseWrapper();
 
         // lista in cui salvo tutti gli articoli
-        List<Article> tmp = new ArrayList<>(); 
+        List<Article> tmp = new ArrayList<>(1000);
 
         File[] jsonFiles = directory.listFiles();
         if (jsonFiles != null) {

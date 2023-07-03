@@ -38,8 +38,8 @@ public class App {
         // definisco il gruppo di opzioni
         OptionGroup grp = new OptionGroup();
         grp.addOption(new Option("d", "download", false, "Dowload articles form all the sources"));
-        grp.addOption(new Option("e", "extract", false, "Extracts terms from all the downloaded files"));
-        grp.addOption(new Option("de", "download-extract", false, "Download articles and extracts terms"));
+        grp.addOption(new Option("e", "extract", false, "Extract terms from all the downloaded files"));
+        grp.addOption(new Option("de", "download-extract", false, "Download articles and extract terms"));
         grp.addOption(new Option("h", "help", false, "Print this help message"));
 
         grp.setRequired(true);
@@ -103,6 +103,7 @@ public class App {
                 return;
             }
 
+            System.out.println("INFO - Dowloading articles");
             guardianContentApi.download();
             nyTimesCSV.download();
 
@@ -112,6 +113,7 @@ public class App {
             allArticles.addAll(Arrays.asList(nyTimesCSV.getArticles()));
 
             // serializzo gli articoli nei file xml
+            System.out.println("INFO - Serializing articles");
             try {
                 serializer.serialize(allArticles);
             } catch (Exception e) {
@@ -122,6 +124,7 @@ public class App {
 
         // deserializzo gli articoli partendo dai file xml
         if (cmd.hasOption("e") || cmd.hasOption("de")) {
+            System.out.println("INFO - Deserializing articles");
             List<Article> deserializedArticles;
             try {
                 deserializedArticles = serializer.deserialize();
@@ -141,6 +144,7 @@ public class App {
             List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
 
             // stampa le prime 50 parole
+            System.out.println("INFO - Extracting terms");
             FileWriter writer;
             try {
                 writer = new FileWriter(resultsOutputPath);
@@ -149,7 +153,9 @@ public class App {
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             }
+            System.out.println("INFO - You can find the results in \'" + resultsOutputPath + "\'");
         }
     }
 }
