@@ -1,17 +1,17 @@
 # Info Progetto
 ### Use case, Domain model, Desing Model
-La parte dedicata agli use case, al domain model e al desing model è stata separata dal manuale per motivi pratici di formattazione essendo che generalmente i grafici __UML__ occupano uno spazio di rilveante importanza.
+La parte dedicata agli use case, al domain model e al desing model è stata separata dal manuale per motivi di formattazione dato che generalmente i grafici __UML__ occupano spazio di rilevante importanza.
 
 ### Sistema Software
 Il software verte sulla comunicazione con due sorgenti differenti (Api del The Guardian e un file CSV) per poter interfacciarsi e quindi scaricare
 centinaia di articoli per poi effettuare delle operazioni di conteggio statistico sulle parole
 utilizzate in ciascun estratto.
 
-In risposta alle richieste software abbiamo adottato le seguenti implementazioni: 
+In risposta alle richieste software abbiamo adottato le seguenti scelte:
 
-1. Per far si che il sistema possa supportare nuove sorgenti abbiamo sfruttato un __Facotry Pattern__ (chiamando la nostra classe `SourceFactory`) che permette l'introduzione di nuovi source file diversi dovendo solo aggiungere una classe relativa alla nuova sorgente ma di fatto senza andare ad intaccare la struttura portante del proggetto. Inoltre nell'implementare la `SourceFactory` abbiamo utilizzato uno __Singleton Pattern__ come di consueta prassi.    
-   
-   In particolar modo con il metodo `createSource()` facciamo in modo di creare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_:
+1. Per far si che il sistema possa supportare nuove sorgenti abbiamo sfruttato un __Facotry Pattern__ (chiamando la nostra classe `SourceFactory`) che permette l'introduzione di nuovi source file diversi dovendo solo aggiungere una classe relativa alla nuova sorgente ma di fatto senza andare ad intaccare la struttura portante del progetto. Inoltre nell'implementare la `SourceFactory` abbiamo utilizzato un __Singleton Pattern__ come di consueta prassi.
+
+   In particolar modo con il metodo `createSource()` facciamo in modo di generare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_:
    ```java
    public Source createSource(String sourceType, Object... args) {
         if (sourceType.equals("GuardianJsonSource") && args[0] instanceof String && args[1] instanceof String)
@@ -21,10 +21,10 @@ In risposta alle richieste software abbiamo adottato le seguenti implementazioni
         return null;
     }
    ```
-2. In seguito alla fase di Download e quindi alla creazione di oggetti `ArticleJsonGuardian` o `ArtcileCsvNYTimes` il sistema apporta la serializzazione in file di estensione `.xml` passando per la classe `XmlSerializer` che offre anche la possibilità di attuare il procedimento inverso, attraverso una deserializzazione in oggetti di tipo `Article` e dunque in un formato _"universale"_. Il nostro `XmlSerializer` può essere  interpretato come un __Adapter Pattern__ in quanto di fatto abbiamo convertito l'interfaccia del serializzatore fornito dalla libreria che abbiamo utilizzato (`org.simpleframework.xml`).
+2. In seguito alla fase di Download e quindi alla creazione di oggetti `ArticleJsonGuardian` o `ArtcileCsvNYTimes` il sistema apporta la serializzazione in file di estensione `.xml` passando per la classe `XmlSerializer` che offre anche la possibilità di attuare il procedimento inverso, attraverso una deserializzazione in oggetti di tipo `Article` e dunque in un formato _"universale"_. Il nostro `XmlSerializer` può essere  interpretato come un __Adapter Pattern__ in quanto di fatto abbiamo convertito l'interfaccia del serializzatore fornita dalla libreria utilizzata (`org.simpleframework.xml`).
    <br></br>
-   Ecco nel dettaglio i metodi fondamentali per quanto detto scritti grazie all'ausilio della libreria:
-   
+   Ecco nel dettaglio i metodi fondamentali scritti grazie all'ausilio della libreria:
+
    ```java
     public void serialize(List<? extends Article> list) {
         try {
@@ -49,11 +49,11 @@ In risposta alle richieste software abbiamo adottato le seguenti implementazioni
         }
     }  
    ```
-3.  Come già definito nel punto precedente nel nostro caso specifico otteniamo un processo di serializzazione in articoli in `ArticleJSON` e `ArticleCSV` (vedremmo anche `ArticleXML` che sarà in seguito spiegato  nel punto __4.__), tutte classi che implementano l'interfaccia `Article`, una soluzione dinamica che ci permette quindi di creare in futuro ulteriori possibili classi articolo in cui memorizzare la serializzazione proveniente da altri tipi di sorgente. Tutto ciò è possibile con una semplice nuova implementazione dell'interfaccia `Article`.
+3.  Come già definito nel punto precedente nel nostro caso specifico trattiamo un processo di serializzazione in articoli in `ArticleJSON` e `ArticleCSV` (vedremo anche `ArticleXML` che sarà in seguito spiegato  nel punto __4.__), tutte classi che implementano l'interfaccia `Article`, una soluzione dinamica che ci permetterà di creare in futuro ulteriori possibili classi articolo con cui memorizzare la serializzazione di altri tipi di sorgente. Tutto ciò sarà possibile con una semplice nuova implementazione dell'interfaccia `Article`.
+    <br></br>
+4. Nel punto __2.__ abbiamo descritto il procedimento di serializzazione e deserializzazione, in particolar modo, dopo il secondo, vengono creati degli oggetti `ArticleXml` con cui poi è possibile lavorare per ottenere le informazioni necessarie per l'estrazione dei termini ed il conteggio effettivo.
    <br></br>
-4. Nel punto __2.__ abbiamo descritto il procedimento di serializzazione e deserializzazione, in particolar modo dopo il secondo di questi ultimi vengono creati degli oggetti `ArticleXml` con cui poi è possibile lavorare per ottenere le informazioni necessarie per l'estrazione dei termini ed il conteggio effettivo.
-   <br></br>
-5. Dato che il sistema deve poter supportare nuove strutture per memorizzare e poter accedere ai termini più importanti, abbiamo aggiunto uno __StrategyPattern__; quest'ultimo consente l'aggiunta di nuove strutture di memorizzazione e l'utilizzo di nuove tecniche algoritmiche per la ricerca dei caratteri in base a criteri specifici. Nel nostro caso il pattern è stato denominato come `WordCountStrategy` che si relaziona al _context object_ `WordCounter`, per far si che si possano selezionare nuove strategie in base alle eseigenze momentaneee dell'utente.
+5. Dato che il sistema deve poter supportare nuove strutture per memorizzare e poter accedere ai termini più importanti, abbiamo aggiunto uno __StrategyPattern__; quest'ultimo consente l'aggiunta di nuove strutture di memorizzazione e l'utilizzo di nuove tecniche algoritmiche per la ricerca dei caratteri in base a criteri specifici. Nel nostro caso il pattern è stato denominato come `WordCountStrategy` in relazione al _context object_ `WordCounter`, per far si che si possano selezionare nuove strategie in base alle eseigenze momentaneee dell'utente.
    ```java   
    public class WordCounter {
    private WordCountStrategy strategy; //Creazione strategia
@@ -73,14 +73,14 @@ In risposta alle richieste software abbiamo adottato le seguenti implementazioni
    
    }
    ```
-   Ad esempio noi abbiamo implementato `FrequencyPerArticleStrategy` che va a calcolare il peso-frequenza delle parole degli articoli come da iniziali richieste del progetto. 
+   Ad esempio abbiamo implementato `FrequencyPerArticleStrategy` che va a calcolare il peso-frequenza delle parole degli articoli come dalle richieste iniziali del progetto.
    <br></br>
-6. Abbiamo ideato attraverso la libreria `org.apache.commons.cli` dei prompt che l'utente può utilizzare per decidere cosa vuole fare e come vuole utilizzare il programma.
+6. Abbiamo ideato attraverso la libreria `org.apache.commons.cli` dei comandi prompt che l'utente può digitare per decidere cosa far fare, o come utilizzare, al programma. Nel dettaglio:
    
-   1. Nel dettaglio l'utente può scegliere se eseguire solo il download con il comando `-d`.
-   2. In sequenza l'utente può anche decidere se effettuare l'estrazione a partire dai file dove sono stati memorizzati gli articoli tramite il comando `-e`
-   3. Altrimenti un'ulteriore alternativa è quella di scaricare e fare l'estrazione contemporaneamente con il comando `-de`
-   4. Ulteriori comandi possibili sono elencati qua sotto:
+   1. L'utente può scegliere se eseguire solo il download del materiale con il comando `-d`.
+   3. In sequenza, l'utente può anche decidere se effettuare l'estrazione a partire dai file dove sono stati memorizzati gli articoli tramite il comando `-e`
+   4. Altrimenti un'ulteriore alternativa è quella di scaricare e fare l'estrazione sequenzialmente con il comando `-de`
+   5. Ulteriori comandi possibili sono elencati qua sotto:
 
    ```terminal 
       usage: App -{ak} -{d,de} [OPTION]...
