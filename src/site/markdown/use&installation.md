@@ -1,12 +1,12 @@
 # Come installare correttamente ed utilizzare il software
 
 ### Installazione e compilazione del progetto Maven
-Dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice è necessario digitare nel terminale il seguente comando:
+Dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice è necessario digitare da terminale il seguente comando:
 ```terminal
 mvn package
 ```
 __NOTA__: I file jar verranno creati in automatico da Maven nella directory `Progetto_Ids/target`.
-In particolare verranno create 
+In particolare verranno create
 - `progetto-1.0-SNAPSHOT.jar`
 - `progetto-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
@@ -17,33 +17,31 @@ Per generare i javadocs
     mvn javadoc:javadoc
 ### Mavensite
 Abbiamo creato la cartella `Progetto_Ids/src/site` che contiene i file sorgenti per creare il sito.
-Le istruzioni necessarie per creare e rendere disponibile il sito sono:
-```
-mvn site
-mvn site:run
-```
+Le istruzioni necessarie per creare e rendere accessibile il sito sono:
+
+    mvn site
+    mvn site:run
+
 Il sito sarà quindi disponibile al seguente indirizzo: [http://localhost:8080/](http://localhost:8080/)
 
-Inoltre per generare l'output relativo ai test tramite il plug-in `surefire-report` nella cartella `Proggetto_Ids/target/site` dopo aver compilato i test, è necessario la digitazione del seguente comando:
+Inoltre per generare l'output relativo ai test tramite il plug-in `surefire-report` nella cartella `Proggetto_Ids/target/site` dopo aver compilato i test, è necessaria la digitazione del seguente comando:
 ```terminal
 mvn test
 mvn surefire-report:report
 ```
-### Esecuzione del programma 
-Per eseguire il programma sono possibili diversi prompt tra quelli qua sotto elencati :
+### Esecuzione del programma
+Per eseguire il programma sono possibili diversi comandi prompt sotto elencati:
 ```terminal 
-usage: App -{d,e,de,h} [OPTION]...
+ usage: App -{ak} -{d,de} [OPTION]...
  -ak,--api-key <arg>       Set the guardian API
  -csv,--csv-input <arg>    Set new york times .csv file input path
- -d,--download             Dowload articles form all the sources
- -de,--download-extract    Download articles and extract terms
- -e,--extract              Extract terms from all the downloaded files
+ -d,--download             Dowload all articles form all the resources
+ -de,--download-extract    Download and extract terms
  -h,--help                 Print this help message
- -o,--output <arg>         Set results output file path
- -xml,--xml-output <arg>   Set xml articles files input path (deserialize
-                           from) or output path (serialize in)
-```
-In particolar modo come già anticipato nel file delle info sul progetto, l'utente può richiedere solo di effettuare il download con il comando:
+ -o,--output <arg>         Set results output file path          
+ -xml,--xml-output <arg>   Set xml files input path (deserialize from) or output path (serialize in)
+   ```  
+In particolar modo come già anticipato nel file delle info sul progetto, l'utente può richiedere di effettuare solo il download con il comando:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -d
 ```
@@ -51,18 +49,18 @@ In seguito può richiedere di effettuare l'estrazione e dunque procedere con la 
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -e
 ```
-In alternativa a questi due comandi si può direttamente lanciarli insieme tramite:
+In alternativa a questi due comandi si può scegliere l'azione unica tramite:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -de
 ```
-Dopo aver eseguito il programma in base al comando digitato verranno inseriti nella cartella `output` che conterrà le sotto cartelle
-`outputJsonTheGuardian` e `outputXml`. La prima si occuperà della memorizzazione dei file provenienti dall' API del _The Guardian_, mentre la seconda cartella conterrà tutti i file __JSON__ e __CSV__ nel formato "universale" `.xml`.
+Dopo aver eseguito il programma in base al comando digitato, i file generati verranno inseriti nella cartella `output` che conterrà le sottocartelle
+`outputJsonTheGuardian` e `outputXml`. La prima si occuperà della memorizzazione dei file provenienti dall' API del _The Guardian_, mentre la seconda cartella conterrà tutti i file __JSON__ e __CSV__ nel formato standard `.xml`.
 
-Il parametro `-xml` può essere utilizzato in fase di download per specificare la cartella in cui vengono salavati gli articoli serializzati. Opurre può essere utilizzato in fase di estrazione per estrarre gli articoli dala cartella specificata : 
+Il parametro `-xml` può essere aggiunto nella fase di download per specificare la cartella in cui inserire i file serializzati degli articoli. In alternativa può essere utilizzato nella fase di estrazione per impostare la cartella specifica dove estrarre gli articoli:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -xml <Path> -d
 ```
-Infine con il parametro `-csv` si può settare un ulteriore file esterno, ovviamente compatibile con gli header prefissati :
+Infine con il parametro `-csv` si può importare un ulteriore file esterno, ovviamente compatibile con gli header prefissati:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -csv <Path> -d
 ```
