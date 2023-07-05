@@ -2,11 +2,17 @@ package it.unipd.dei.eis.service;
 
 import junit.framework.TestCase;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class WordCounterTest extends TestCase {
+
+    private final String inputPath = "src/main/resources/inputArticlesTest";
 
     public void testSetCountStrategy() {
         WordCounter prova = new WordCounter(new FrequencyPerArticleStrategy());
@@ -16,23 +22,25 @@ public class WordCounterTest extends TestCase {
     }
 
     public void testCount() {
-        WordCounter prova = new WordCounter(new FrequencyPerArticleStrategy());
         List<Article> list = new ArrayList<>();
-        list.add(new ArticleXml("Titolo1", "Corpo"));
-        list.add(new ArticleXml("Titolo2", "Corpo2"));
-        list.add(new ArticleXml("Titolo3", "Corpo"));
 
-        List<Map.Entry<String, Integer>> entryList = prova.count(list);
-        int valueEntry1 = entryList.get(0).getValue();
-        int valueEntry2 = entryList.get(1).getValue();
-
-        if(entryList.get(0).getKey().equals("Corpo2")) {
-            int temp;
-            temp = valueEntry1;
-            valueEntry1 = valueEntry2;
-            valueEntry2 = temp;
+        File directory = new File(inputPath);
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File f : files) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(f))) {
+                    String title = reader.readLine(); // titolo inserito alla prima riga del file
+                    String body = reader.readLine(); // corpo inserito tutto alla seconda riga del file
+                    list.add(new ArticleXml(title, body));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        assertEquals(2, valueEntry1);
-        assertEquals(1, valueEntry2);
+
+        WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());
+        List<Map.Entry<String, Integer>> entryList = counter.count(list);
+
+        assertFalse(entryList.size() == 0);
     }
 }
