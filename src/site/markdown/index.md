@@ -2,9 +2,9 @@
 ## Indice
 
 
-- [Info Progetto](info.html): Pagina contenente informazioni sul progetto.
+- [Info Progetto](info.html): Pagina contenente tutte le informazioni sul progetto.
 
-- [Come installare correttamente ed utilizzare il software](use&amp;installation.html): Guida dettagliata sull'installazione e l'utilizzo corretto del software.
+- [Installazione ed utilizzo software](use&amp;installation.html): Guida dettagliata all'installazione e corretto utilizzo del software.
 
-- [Librerie progetto](libreries.html): Pagina dedicata alle librerie utilizzate nel progetto.
+- [Librerie](libreries.html): Pagina dedicata alle librerie utilizzate nel progetto.
 
