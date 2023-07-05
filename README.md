@@ -1,6 +1,6 @@
 # Info Progetto
 ### Use case, Domain model, Desing Model
-La parte dedicata agli use case, al domain model e al desing model è stata separata dal manuale per motivi pratici di formattazione essendo che generalmente i grafici __UML__ occupano uno spazio di rilveante importanza.
+La parte dedicata agli use case, al domain model e al desing model è stata separata dal manuale per motivi di formattazione dato che generalmente i grafici __UML__ occupano spazio di rilevante importanza.
 
 ### Sistema Software
 Il software verte sulla comunicazione con due sorgenti differenti (Api del The Guardian e un file CSV) per poter interfacciarsi e quindi scaricare
