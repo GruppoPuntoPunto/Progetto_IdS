@@ -192,7 +192,6 @@ public class GuardianJsonSource implements Source {
 
         // deserializzo tutti gli articoli scaricati dalle risposte
         ObjectMapper mapper = new ObjectMapper();
-        ResponseWrapper response = new ResponseWrapper();
 
         // lista in cui salvo tutti gli articoli
         List<Article> tmp = new ArrayList<>(1000);
@@ -201,12 +200,11 @@ public class GuardianJsonSource implements Source {
         if (jsonFiles != null) {
             for (File f : jsonFiles) {
                 try { 
-                    response = mapper.readValue(f, ResponseWrapper.class); 
-                } catch (IOException e) { 
+                    ResponseWrapper response = mapper.readValue(f, ResponseWrapper.class);
+                    tmp.addAll(Arrays.asList(response.getResponse().getResults()));
+                } catch (IOException e) {
                     e.printStackTrace(); 
-                    continue;
                 }
-                tmp.addAll(Arrays.asList(response.getResponse().getResults()));
             }
         }
 

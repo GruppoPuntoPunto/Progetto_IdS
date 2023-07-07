@@ -39,7 +39,7 @@ public class App {
         OptionGroup grp = new OptionGroup();
         grp.addOption(new Option("d", "download", false, "Dowload articles form all the sources"));
         grp.addOption(new Option("e", "extract", false, "Extract terms from all the downloaded files"));
-        grp.addOption(new Option("de", "download-extract", false, "Download articles and extract terms"));
+        grp.addOption(new Option("de", "download-extract", false, "Download and extract terms"));
         grp.addOption(new Option("h", "help", false, "Print this help message"));
 
         grp.setRequired(true);
@@ -103,6 +103,7 @@ public class App {
                 return;
             }
 
+            // dowload degli articoli dalle sorgenti
             System.out.println("INFO - Dowloading articles");
             guardianContentApi.download();
             nyTimesCSV.download();
@@ -155,7 +156,7 @@ public class App {
                 e.printStackTrace();
                 return;
             }
-            System.out.println("INFO - You can find the results in \'" + resultsOutputPath + "\'");
+            System.out.println("INFO - You can find the results in '" + resultsOutputPath + "'");
         }
     }
 }
