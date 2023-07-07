@@ -1,7 +1,9 @@
 # Come installare correttamente ed utilizzare il software
 
 ### Installazione e compilazione del progetto Maven
-Dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice è necessario digitare da terminale il seguente comando:
+Per prima cosa bisogna modificare il file java `GuardianContentApiTest` inserendo la propria chiave api.
+
+Successivamente, dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice, è necessario digitare da terminale il seguente comando:
 ```terminal
 mvn package
 ```
@@ -32,10 +34,10 @@ mvn surefire-report:report
 ### Esecuzione del programma
 Per eseguire il programma sono possibili diversi comandi prompt sotto elencati:
 ```terminal 
- usage: App -{ak} -{d,de} [OPTION]...
+ usage: App -{d,e,de,h} [OPTION]...
  -ak,--api-key <arg>       Set the guardian API
  -csv,--csv-input <arg>    Set new york times .csv file input path
- -d,--download             Dowload all articles form all the resources
+ -d,--download             Dowload all articles form all the sources
  -de,--download-extract    Download and extract terms
  -h,--help                 Print this help message
  -o,--output <arg>         Set results output file path          
@@ -55,6 +57,7 @@ java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.e
 ```
 Dopo aver eseguito il programma in base al comando digitato, i file generati verranno inseriti nella cartella `output` che conterrà le sottocartelle
 `outputJsonTheGuardian` e `outputXml`. La prima si occuperà della memorizzazione dei file provenienti dall' API del _The Guardian_, mentre la seconda cartella conterrà tutti i file __JSON__ e __CSV__ nel formato standard `.xml`.
+Il risultato del conteggio si troverà in `output/results.txt'.
 
 Il parametro `-xml` può essere aggiunto nella fase di download per specificare la cartella in cui inserire i file serializzati degli articoli. In alternativa può essere utilizzato nella fase di estrazione per impostare la cartella specifica dove estrarre gli articoli:
 ```terminal

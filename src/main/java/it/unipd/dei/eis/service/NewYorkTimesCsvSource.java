@@ -86,7 +86,7 @@ public class NewYorkTimesCsvSource implements Source {
     public void download() {
         if (CSVInput == null) return;
 
-        Iterable<CSVRecord> records = null;
+        Iterable<CSVRecord> records;
         try { 
             records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(CSVInput); 
         } catch(IOException e) { 
