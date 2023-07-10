@@ -13,6 +13,7 @@
             <item name="Info sul progetto software" href="info.html"/>
             <item name="Come installare correttamente ed utilizzare il software" href="use&amp;installation.html"/>
             <item name="Librerie e dipendenze" href="libreries.html"/>
+            <item name="Grafici UML" href="uml.html"/>
         </menu>
 
         <menu ref="reports"/>

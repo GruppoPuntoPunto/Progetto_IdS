@@ -1,0 +1,155 @@
+@startuml
+
+interface Source {
+    dowload() : void
+    getArticles() : List<Article>
+}
+
+interface Article {
+    getTitle() : String
+    getBody() : String
+}
+
+interface WordCountStrategy {
+    execute(articles : List<Article>) : List<Entry<String,Int>>
+}
+
+class GuardianJsonSource {
+    - targetUrl : String
+    - directory : File
+    - apiKey : String
+    - os : String
+    - results : List<Article>
+    
+    + GuardianJsonSource(apiKey: String)
+    + dowload() : void
+    - executeShellCommand(cmd: String) : void
+    - getDirectoryPath() : String
+}
+
+class NewYorkTimesCsvSource {
+    - CSVInput : FileReader
+    - results : List<Article>
+
+    + NewYorkTimesCsvSource (CSVInput : FileReader )
+    + download() : void
+    + getCSVInput() : FileReader
+    + setCSVInput(imput : FileReader input) : void
+    + getArticles() :List<Article>
+    + setArticles(results : List<Article>) : void
+}
+
+class XmlSerializer {
+    - serializer : Serializer
+    - directory : File
+    - productionCount : int
+    
+    + XmlSerializer(directory: String)
+    + void serialize(articles : List<Article>)
+    + deserialize() : List<Article>
+}
+
+class ArticleJsonGuardian {
+    - title : String
+    - body : String
+    
+    + ArticleJsonGuardian(title : String, body : String)
+    + getTitle() : String
+    + setTitle(title : String) : void
+    + getBody() : String
+    + setBody(body : String) : void
+}
+
+class ArticleCsvNYTimes {
+    - title : String
+    - body : String
+    
+    + ArticleCsvNYTimes(title : String, body : String)
+    + getTitle() : String
+    + setTitle(title : String) : void
+    + getBody() : String
+    + setBody(body : String) : void
+}
+
+class ArticleXml {
+    - title : String
+    - body : String
+    
+    + ArticleXml(String title, String body)
+    + getTitle() : String
+    + setTitle(title : String) : void
+    + getBody() : String
+    + setBody(body : String) : void
+}
+
+class WordCounter {
+    - strategy : WordCountStrategy
+    
+    + WordCounter(strategy : WordCountStrategy)
+    + setCountStrategy(strategy : WordCountStrategy) : void
+    + count(articles : List<Article>) : List<Entry<String, int>
+}
+
+class FrequencyPerArticleStrategy {
+    + FrequencyPerArticleStrategy ()
+    + execute(articles : List<Article>) : List<Entry<String, int>>
+}
+
+class SourceFactory {
+    - instance : SourceFactory
+
+    - SourceFactory() 
+    + createSource(sourceType : String, args : Object[]) : Source
+    + getInstance() : SourceFactory
+}
+
+class ResponseWrapper {
+    - response : Response
+    
+    + ResponseWrapper()
+    + getResponse() : Response
+    + setResponse(response : Response) : void
+}
+
+class Response {
+    - status : String
+    - total : int
+    - pages : int
+    - results : ArticleJsonGuardian[]
+    
+    + Response()
+    + getStatus() : String
+    + getTotal() : int
+    + getPages() : int
+    + getResults() : ArticleJsonGuardian[]
+}
+
+class App {
+    + main(args : String[])
+    - getOptionValueOrDefault(cmd : CommandLine, opt : String, 
+    default : String) : String
+}
+
+Article <|.. ArticleJsonGuardian
+Article <|.. ArticleCsvNYTimes
+Article <|.. ArticleXml
+
+Source <|.. GuardianJsonSource
+Source <|.. NewYorkTimesCsvSource 
+
+SourceFactory "1" <-- "*" Source : creata da
+
+GuardianJsonSource "1" o-- "*" Article
+NewYorkTimesCsvSource "1" o-- "*" Article
+
+ArticleXml "*" <-- "1" XmlSerializer : serializza in
+
+FrequencyPerArticleStrategy ..|> WordCountStrategy
+
+WordCountStrategy "1" --o "1" WordCounter
+
+GuardianJsonSource "1" --> "1" ResponseWrapper : crea
+
+ResponseWrapper "1" *-- "1" Response
+
+@enduml

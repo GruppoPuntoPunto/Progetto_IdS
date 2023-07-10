@@ -83,6 +83,7 @@ public class App {
         // definisco il serializzatore
         XmlSerializer serializer = new XmlSerializer(xmlOutputPath);
 
+        // ### FASE DI DOWLOAD ###
         // effettuo il download dalle sorgenti e serializzo
         if (cmd.hasOption("d") || cmd.hasOption("de")) {
             // prelevo l'api
@@ -123,6 +124,7 @@ public class App {
             }
         }
 
+        // ### FASE DI ESTRAZIONE ###
         // deserializzo gli articoli partendo dai file xml
         if (cmd.hasOption("e") || cmd.hasOption("de")) {
             System.out.println("INFO - Deserializing articles");
@@ -142,7 +144,7 @@ public class App {
 
             // setto la strategia di conteggio delle parole ed effettuo il conteggio
             WordCounter counter = new WordCounter(new FrequencyPerArticleStrategy());
-            List<Map.Entry<String, Integer>> result = counter.count(deserializedArticles);
+            List<Map.Entry<String, Integer>> results = counter.count(deserializedArticles);
 
             // stampa le prime 50 parole
             System.out.println("INFO - Extracting terms");
@@ -150,7 +152,7 @@ public class App {
             try {
                 writer = new FileWriter(resultsOutputPath);
                 for (int i = 0; i < 50; i++)
-                    writer.write(result.get(i).getKey() + " " + result.get(i).getValue() + '\n');
+                    writer.write(results.get(i).getKey() + " " + results.get(i).getValue() + '\n');
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();

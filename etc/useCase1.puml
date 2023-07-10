@@ -1,0 +1,10 @@
+@startuml
+
+left to right direction
+
+Utente --> (Dowload articoli)
+Sorgente <-- (Dowload articoli)
+Serializzatore --> (Serializza in file xml)
+Serializzatore <-- (Dowload articoli)
+
+@enduml

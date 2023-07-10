@@ -1,0 +1,20 @@
+@startuml
+
+object Sorgente
+
+object Articolo {
+    titolo
+    corpo
+}
+
+object SerializzatoreDeserializzatore {
+    fileSerializzati
+}
+
+object AlgoritmoConteggioParole
+
+Sorgente .. Articolo
+SerializzatoreDeserializzatore .. Articolo
+Articolo .. AlgoritmoConteggioParole
+
+@enduml
