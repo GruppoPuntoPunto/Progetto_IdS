@@ -1,0 +1,70 @@
+@startuml
+
+participant User 
+
+User -> App : cmd
+activate App
+App -> XmlSerializer : <<create>>
+activate XmlSerializer
+XmlSerializer --> App
+deactivate XmlSerializer
+
+
+group Dowload
+App -> SourceFactory : createSource
+activate SourceFactory
+SourceFactory -> GuardianJsonSource : <<create>>
+activate GuardianJsonSource
+GuardianJsonSource --> SourceFactory
+deactivate GuardianJsonSource
+SourceFactory -> NewYorkTimesCsvSource : <<create>> 
+activate NewYorkTimesCsvSource
+NewYorkTimesCsvSource --> SourceFactory
+deactivate NewYorkTimesCsvSource
+SourceFactory --> App : guardianContentApi and nyTimesCSV
+deactivate SourceFactory
+App -> Source : download
+activate Source
+Source --> App
+deactivate Source
+App -> Source : download
+activate Source
+Source --> App
+deactivate Source
+App -> XmlSerializer : serialize
+activate XmlSerializer
+XmlSerializer -> ArticleXml : <<create>>
+activate ArticleXml
+ArticleXml --> XmlSerializer
+deactivate ArticleXml
+XmlSerializer --> App
+deactivate XmlSerializer
+end
+
+
+group Estrazione
+App -> XmlSerializer : deserialize
+activate XmlSerializer
+XmlSerializer --> App : deserializedArticles
+deactivate XmlSerializer
+App -> FrequencyPerArticleStrategy : <<create>> 
+activate FrequencyPerArticleStrategy
+FrequencyPerArticleStrategy --> App
+deactivate FrequencyPerArticleStrategy
+App -> WordCounter : <<create>>
+activate WordCounter
+WordCounter --> App
+deactivate WordCounter
+App -> WordCounter : count
+activate WordCounter
+WordCounter -> WordCountStrategy : execute
+activate WordCountStrategy
+WordCountStrategy --> WordCounter : results
+deactivate WordCountStrategy
+WordCounter --> App : results
+deactivate WordCounter
+end
+
+return results.txt
+
+@enduml
