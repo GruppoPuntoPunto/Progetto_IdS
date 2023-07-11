@@ -1,5 +1,12 @@
-# Informazioni Progetto
+# Indice 
 Il contenuto del README.md può essere visualizzato mediante maven site (organizzato meglio sul sito) con il comando `mvn site` successivamante `mvn site:run`
+
+[Informazioni progetto](#informazioni-software)
+[Guida all'installazione](#come-installare-correttamente-ed-utilizzare-il-software)
+[Librerie utilizzate](#librerie-utilizzate)
+[Grafici-UML]
+
+# Informazioni Progetto
 
 ## Sistema Software
 Il software verte sulla comunicazione con due sorgenti differenti: The Guardian e New York Times. Vengono scaricati ed analizzati in totale 2000 articli (1000 per sorgente). L'analisi consiste nel contare in quanti articoli compare ogni parola presente.
@@ -128,7 +135,7 @@ Ulteriori informazioni si trovano nella pagina dedicata all'installazione e uso 
 # Come installare correttamente ed utilizzare il software
 
 ## Installazione e compilazione del progetto Maven
-Per prima cosa bisogna modificare il file java `GuardianContentApiTest` inserendo la propria chiave api.
+Per prima cosa bisogna modificare il file java `GuardianJsonSourceTest` inserendo la propria chiave api.
 
 Successivamente, dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice, è necessario digitare da terminale il seguente comando:
 ```terminal
@@ -204,7 +211,7 @@ Infine con il parametro `-csv` si può importare un ulteriore file csv del New Y
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -csv <Path> -d
 ```
 
-# Librerie e versioni
+# Librerie utilizzate 
 
 ## Dipendenze
 | Nome        | Versione    | Usata per   |

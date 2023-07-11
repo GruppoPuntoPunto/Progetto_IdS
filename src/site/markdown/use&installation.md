@@ -1,7 +1,7 @@
 # Come installare correttamente ed utilizzare il software
 
 ## Installazione e compilazione del progetto Maven
-Per prima cosa bisogna modificare il file java `GuardianContentApiTest` inserendo la propria chiave api.
+Per prima cosa bisogna modificare il file java `GuardianJsonSourceTest` inserendo la propria chiave api.
 
 Successivamente, dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice, è necessario digitare da terminale il seguente comando:
 ```terminal
