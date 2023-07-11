@@ -1,7 +1,7 @@
 package it.unipd.dei.eis.service;
 
 /**
- *  Implementation of {@link Article} representing a csv file object.
+ *  Implementation of {@link Article} representing a New York Times csv file object.
  *
  * @author unascribed
  * @since  0.1

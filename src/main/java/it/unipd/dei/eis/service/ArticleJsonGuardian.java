@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /**
- *  Implementation of {@link Article} representing a json file object.
+ *  Implementation of {@link Article} representing a The Guardian json file object.
  *
  * @author unascribed
  * @since  0.1

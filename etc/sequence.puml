@@ -11,7 +11,7 @@ deactivate XmlSerializer
 
 
 group Dowload
-App -> SourceFactory : createSource
+App -> SourceFactory : createSource()
 activate SourceFactory
 SourceFactory -> GuardianJsonSource : <<create>>
 activate GuardianJsonSource
@@ -23,15 +23,15 @@ NewYorkTimesCsvSource --> SourceFactory
 deactivate NewYorkTimesCsvSource
 SourceFactory --> App : guardianContentApi and nyTimesCSV
 deactivate SourceFactory
-App -> Source : download
+App -> Source : download()
 activate Source
 Source --> App
 deactivate Source
-App -> Source : download
+App -> Source : download()
 activate Source
 Source --> App
 deactivate Source
-App -> XmlSerializer : serialize
+App -> XmlSerializer : serialize()
 activate XmlSerializer
 XmlSerializer -> ArticleXml : <<create>>
 activate ArticleXml
@@ -43,7 +43,7 @@ end
 
 
 group Estrazione
-App -> XmlSerializer : deserialize
+App -> XmlSerializer : deserialize()
 activate XmlSerializer
 XmlSerializer --> App : deserializedArticles
 deactivate XmlSerializer
@@ -55,9 +55,9 @@ App -> WordCounter : <<create>>
 activate WordCounter
 WordCounter --> App
 deactivate WordCounter
-App -> WordCounter : count
+App -> WordCounter : count()
 activate WordCounter
-WordCounter -> WordCountStrategy : execute
+WordCounter -> WordCountStrategy : execute()
 activate WordCountStrategy
 WordCountStrategy --> WordCounter : results
 deactivate WordCountStrategy
