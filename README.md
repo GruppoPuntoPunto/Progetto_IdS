@@ -2,9 +2,12 @@
 Il contenuto del README.md può essere visualizzato mediante maven site (organizzato meglio sul sito) con il comando `mvn site` successivamante `mvn site:run`
 
 [Informazioni progetto](#informazioni-software)
+
 [Guida all'installazione](#come-installare-correttamente-ed-utilizzare-il-software)
+
 [Librerie utilizzate](#librerie-utilizzate)
-[Grafici-UML]
+
+[Grafici-UML](#grafici-uml)
 
 # Informazioni Progetto
 
