@@ -1,5 +1,5 @@
 # Indice 
-Il contenuto del README.md può essere visualizzato mediante maven site (organizzato meglio sul sito) con il comando `mvn site` successivamante `mvn site:run`
+Il contenuto del README.md può essere visualizzato mediante maven site (organizzato meglio sul sito) con il comando `mvn site` e successivamante `mvn site:run`
 
 [Informazioni progetto](#informazioni-software)
 
