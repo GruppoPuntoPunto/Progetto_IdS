@@ -1,4 +1,4 @@
-# Librerie e versioni
+# Librerie utilizzate
 
 ## Dipendenze
 | Nome        | Versione    | Usata per   |
