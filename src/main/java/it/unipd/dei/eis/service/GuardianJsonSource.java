@@ -172,7 +172,7 @@ public class GuardianJsonSource implements Source {
                     .append(" && curl -o " + '\"' + filePath + '\"' +" ")
                     .append('\"' + TARGET_URL)
                     .append("&page-size=" + 200)
-                    .append("&page=" + i+1)
+                    .append("&page=" + (i+1))
                     .append("&api-key=" + apiKey + '\"');
             String cmd = buildCmd.toString();
 

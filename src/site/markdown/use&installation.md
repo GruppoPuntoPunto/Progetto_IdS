@@ -1,6 +1,6 @@
 # Come installare correttamente ed utilizzare il software
 
-### Installazione e compilazione del progetto Maven
+## Installazione e compilazione del progetto Maven
 Per prima cosa bisogna modificare il file java `GuardianContentApiTest` inserendo la propria chiave api.
 
 Successivamente, dopo essere entrati nella directory relativa al proggetto (`Progetto_Ids`), per creare il file jar e compilare il codice, è necessario digitare da terminale il seguente comando:
@@ -13,11 +13,13 @@ In particolare verranno create
 - `progetto-1.0-SNAPSHOT-jar-with-dependencies.jar`
 
 Inoltre verrà generata la cartella `output` che inizialmente dopo la compilazione conterrà solo quelli relativi ai test del proegetto.
-### javadocs
+
+## Generare Javadoc
 Per generare i javadocs
 
     mvn javadoc:javadoc
-### Mavensite
+
+## Mavensite
 Abbiamo creato la cartella `Progetto_Ids/src/site` che contiene i file sorgenti per creare il sito.
 Le istruzioni necessarie per creare e rendere accessibile il sito sono:
 
@@ -31,8 +33,9 @@ Inoltre per generare l'output relativo ai test tramite il plug-in `surefire-repo
 mvn test
 mvn surefire-report:report
 ```
-### Esecuzione del programma
+## Esecuzione del programma
 Per eseguire il programma sono possibili diversi comandi prompt sotto elencati:
+
 ```terminal 
  usage: App -{d,e,de,h} [OPTION]...
  -ak,--api-key <arg>       Set the guardian API
@@ -42,8 +45,11 @@ Per eseguire il programma sono possibili diversi comandi prompt sotto elencati:
  -h,--help                 Print this help message
  -o,--output <arg>         Set results output file path          
  -xml,--xml-output <arg>   Set xml files input path (deserialize from) or output path (serialize in)
-   ```  
-In particolar modo come già anticipato nel file delle info sul progetto, l'utente può richiedere di effettuare solo il download con il comando:
+```
+
+###  Download ed estrazione
+
+In particolar modo l'utente può richiedere di effettuare solo il download con il comando:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -d
 ```
@@ -55,15 +61,18 @@ In alternativa a questi due comandi si può scegliere l'azione unica tramite:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -ak <API-KEY> -de
 ```
-Dopo aver eseguito il programma in base al comando digitato, i file generati verranno inseriti nella cartella `output` che conterrà le sottocartelle
-`outputJsonTheGuardian` e `outputXml`. La prima si occuperà della memorizzazione dei file provenienti dall' API del _The Guardian_, mentre la seconda cartella conterrà tutti i file __JSON__ e __CSV__ nel formato standard `.xml`.
+Dopo aver eseguito il programma i file generati verranno inseriti nella cartella `output` che conterrà a sua volta le sottocartelle
+`outputJsonTheGuardian` e `outputXml`. La prima conterrà i file risposta delle chiamate API del _The Guardian_, la seconda cartella conterrà tutti i file __JSON__ e __CSV__ nel formato standard `.xml`.
 Il risultato del conteggio si troverà in `output/results.txt'.
 
-Il parametro `-xml` può essere aggiunto nella fase di download per specificare la cartella in cui inserire i file serializzati degli articoli. In alternativa può essere utilizzato nella fase di estrazione per impostare la cartella specifica dove estrarre gli articoli:
+
+### Comandi extra
+
+Il parametro `-xml` può essere aggiunto nella fase di download per specificare la cartella in cui inserire i file serializzati degli articoli. In alternativa può essere utilizzato nella fase di estrazione per impostare la cartella da cui deserializzare gli articoli:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -xml <Path> -d
 ```
-Infine con il parametro `-csv` si può importare un ulteriore file esterno, ovviamente compatibile con gli header prefissati:
+Infine con il parametro `-csv` si può importare un ulteriore file csv del New York Times che sia però compatibile con gli header prefissati:
 ```terminal
 java -cp ./target/progetto-1.0-SNAPSHOT-jar-with-dependencies.jar it.unipd.dei.eis.App -csv <Path> -d
 ```

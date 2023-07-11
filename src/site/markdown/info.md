@@ -1,11 +1,9 @@
-# Info Progetto
-## Use case, Domain model, Desing Model
-La parte dedicata agli use case, al domain model e al desing model è stata separata dal manuale per motivi di formattazione dato che generalmente i grafici __UML__ occupano spazio di rilevante importanza.
+# Informazioni Progetto
 
 ## Sistema Software
 Il software verte sulla comunicazione con due sorgenti differenti: The Guardian e New York Times. Vengono scaricati ed analizzati in totale 2000 articli (1000 per sorgente). L'analisi consiste nel contare in quanti articoli compare ogni parola presente.
 
-In risposta alle richieste software abbiamo adottato le seguenti scelte:
+Di seguito viene riportata una panoramica ad alto livello delle soluzioni adottate per le funzionalità richieste.
 
 ### Gestione di eventuali nuove sorgenti
 Per far si che il sistema possa supportare nuove sorgenti abbiamo sfruttato il __Facotry Pattern__ (chiamando la nostra classe `SourceFactory`). Il vantaggio è che l'introduzione di nuove sorgenti necessita solamente l'aggiunta della classe che modella la nuova sorgente e di una classe che modella gli articoli di tale sorgente. In questo modo non serve andare ad intaccare la struttura portante del progetto. Inoltre nell'implementare la `SourceFactory` abbiamo utilizzato il __Singleton Pattern__.
@@ -22,7 +20,7 @@ public Source createSource(String sourceType, Object... args) {
 ```
 
 ### La persistenza su file degli articoli
-In seguito alla fase di Download (fase in cui vengono crati gli oggetti `ArticleJsonGuardian` o `ArtcileCsvNYTimes`) il sistema serializza tutti gli articoli in file di formato `.xml` attraverso la classe `XmlSerializer`.  La stessa classe offre anche la possibilità di attuare il procedimento inverso, ovvero permette di deserializzare i file e creare degli oggetti che implementano l'interfaccia `Article`. La classe `XmlSerializer` di fatto implementa l'__Adapter Pattern__: abbiamo convertito l'interfaccia del serializzatore fornita dalla libreria utilizzata (`org.simpleframework.xml`) per il nostro scopo, ovvero serializzare articoli in file xml.
+In seguito alla fase di Download (fase in cui vengono creati gli oggetti `ArticleJsonGuardian` o `ArtcileCsvNYTimes`) il sistema serializza tutti gli articoli in file di formato `.xml` attraverso la classe `XmlSerializer`.  La stessa classe offre anche la possibilità di attuare il procedimento inverso, ovvero permette di deserializzare i file e creare degli oggetti che implementano l'interfaccia `Article`. La classe `XmlSerializer` di fatto implementa l'__Adapter Pattern__: abbiamo convertito l'interfaccia del serializzatore fornita dalla libreria utilizzata (`org.simpleframework.xml`) per il nostro scopo, ovvero serializzare articoli in file xml.
 <br></br>
  Di seguito vengono riportati i due metodi che permettono di serializzare e deserializzare gli articoli.
 
@@ -55,7 +53,7 @@ Nel paragrafo precedente è presente la funzione che permette di serializzare gl
     
 ### Supporto nuove strutture per memorizzare ed avere accesso ai termini più importanti
 Dato che il sistema deve poter supportare nuove strutture per memorizzare e poter accedere ai termini più importanti, abbiamo utilizzato lo __Strategy Pattern__. Quest'ultimo consente l'aggiunta di nuove strutture di memorizzazione e l'utilizzo di nuove tecniche algoritmiche per il conteggio delle parole in base a qualsiasi criterio. Abbiamo quindi creato l'interfaccia `WordCountStrategy`, questa deve essere implementata da tutte le strategie di conteggio. Il _context object_ è rappresentato dalla classe `WordCounter`, questo permette di settare la strategia e/o di cambiarla dinamicamente. Nel progetto abbiamo implementato la strategia `FrequencyPerArticleStrategy` che associa ad ogni termine il numero di articoli in cui appare.
-   ```java
+```java
     public class WordCounter {
 
        private WordCountStrategy strategy;
@@ -73,15 +71,59 @@ Dato che il sistema deve poter supportare nuove strutture per memorizzare e pote
        }
    }
 ```
-   
-### Dowload ed estrazione
+
+### Download articoli The Guardian tramite API
+Per poter scaricare gli articoli del The Guardian attraverso chiamate alle API, abbiamo deciso di utilizzare dei comandi shell. In particolare abbiamo utilizzato la classe `ProcessBuilder` di Java per creare un processo che eseguisse il comando da noi specificato.
+
+Il comando shell è il seguente
+
+```bash
+    echo > "<outFile>.json" && curl -o "<outFile>.json" "https://content.guardianapis.com/search?show-fields=all&page-size=200&page=<i>&api-key=<apiKey>"
+```
+
+Dove: `echo` viene utilizzato per creare il file di output in cui verrà salvata la risposta delle API; `curl` viene utilizzato per effettuare la chiamata vera e propria alle API.
+Il comando viene eseguito in totale 5 volte, quindi vengono creati esattamente 5 file con all'interno 200 articoli ciascuno salvati in formato Json. Il numero di articoli che vengono scaricati non può essere settato dall'utente: ogni richiesta di download alla sorgente del The Guardian, andrà a scaricare e salvare 1000 articoli in tutto.
+
+In fase di test del software abbiamo notato che l'esecuzione dei comandi shell costituiva un collo di bottiglia che rallentava significativamente le prestazioni. Per risolvere tale problema abbiamo deciso di parallelizzare l'esecuzione dei 5 comandi lanciando ciascuno su un thread diverso. Per farlo abbiamo utilizzato la classe `Thread` di Java.
+
+### Algoritmo di estrazione dei termini e dei pesi associati
+Abbiamo implementato una strategia (`WordCountStrategy`) di conteggio, la classe che la realizza è `FrequencyPerArticleStrategy`. L'algoritmo in pseudocodice è il seguente
+
+```
+    List<Entry<String, Integer> execute(List<Article> articles)
+        if articles.isEmpty()
+            return {}
+
+        map = new Map<String, int> // salvo tutte le parole e pesi associati di tutti gli articoli
+
+        for each article in articles
+            fullText = new List<String>
+            fullText.addAll(article.title().rimuoviPunteggiatura()) // aggiungo tutte le parole del titolo
+            fullText.addAll(article.body().rimuoviPunteggiatura()) // aggiungo tutte le parole del corpo
+
+            set = new Set<String>
+            set.addAll(fullText) // in questo modo rimuovo le parole doppie
+
+            for each word in set
+                value = map.getValue(word) // se la parola non è presente torna 0
+                map.insert(word, value+1)
+
+        lst = new List<Entry<String, int>>
+        lst.addAll(map.toList()) // inserisco tutte le entry della mappa nella lista
+        lst.sortByValue() // riordino la lista in base al peso della parola
+
+        return lst
+```
+
+### Interagire con il programma lato utente
 Per permettere all'utente di specificare se eseguire il download degli articoli, l'estrazione dei termini o entrambe le azioni in sequenza, abbiamo sfruttato la libreria `org.apache.commons.cli`. In particolare:
 
 1. L'utente può scegliere se eseguire solo il download degli articoli con il comando `-d`.
-3. L'utente può decidere se effettuare l'estrazione a partire dai file dove sono stati memorizzati gli articoli tramite il comando `-e`.
-4. L'utente può eseguire entrambe le operazioni in sequenza con il comando `-de`.
+2. L'utente può decidere se effettuare l'estrazione a partire dai file dove sono stati memorizzati gli articoli tramite il comando `-e`.
+3. L'utente può eseguire entrambe le operazioni in sequenza con il comando `-de`.
 
 Ulteriori informazioni si trovano nella pagina dedicata all'installazione e uso del software.
+
+
    
 - [Back to home](index.html)
-

@@ -7,14 +7,25 @@ object Articolo {
     corpo
 }
 
-object SerializzatoreDeserializzatore {
-    fileSerializzati
+object Serializzatore {
+    articoliSerializzati
+}
+
+object Deserializzatore {
+    articoliDeserializzati
 }
 
 object AlgoritmoConteggioParole
 
-Sorgente .. Articolo
-SerializzatoreDeserializzatore .. Articolo
-Articolo .. AlgoritmoConteggioParole
+object FileXml {
+    titolo 
+    corpo
+}
+
+Sorgente "1" .. "*" Articolo : contiene
+AlgoritmoConteggioParole "1" .. "*" Articolo  : estrae parole da
+Articolo "*" .. "1" Serializzatore : serializza 
+Serializzatore "1" .. "*" FileXml : salva in
+Deserializzatore "1" .. "*" FileXml : deserializza da
 
 @enduml
