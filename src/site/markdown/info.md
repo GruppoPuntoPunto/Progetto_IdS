@@ -11,13 +11,30 @@ Per far si che il sistema possa supportare nuove sorgenti abbiamo sfruttato il _
 In particolar modo con il metodo `createSource()` facciamo in modo di generare la sorgente derivante dal _The Guardian_ e quella relativa al _New York Times_:
 ```java
 public Source createSource(String sourceType, Object... args) {
+
      if (sourceType.equals("GuardianJsonSource") && args[0] instanceof String && args[1] instanceof String)
          return new GuardianJsonSource((String) args[0], (String) args[1]);
+
      else if (sourceType.equals("NewYorkTimesCsvSource") && args[0] instanceof FileReader)
          return new NewYorkTimesCsvSource((FileReader) args[0]);
+
      return null;
  }
 ```
+
+### Download articoli The Guardian tramite API
+Per poter scaricare gli articoli del The Guardian attraverso chiamate alle API, abbiamo deciso di utilizzare dei comandi shell. In particolare abbiamo utilizzato la classe `ProcessBuilder` di Java per creare un processo che eseguisse il comando da noi specificato.
+
+Il comando shell è il seguente
+
+```bash
+    echo > "<outFile>.json" && curl -o "<outFile>.json" "https://content.guardianapis.com/search?show-fields=all&page-size=200&page=<i>&api-key=<apiKey>"
+```
+
+Dove: `echo` viene utilizzato per creare il file di output in cui verrà salvata la risposta delle API; `curl` viene utilizzato per effettuare la chiamata vera e propria alle API.
+Il comando viene eseguito in totale 5 volte, quindi vengono creati esattamente 5 file con all'interno 200 articoli ciascuno salvati in formato Json. Il numero di articoli che vengono scaricati non può essere settato dall'utente: ogni richiesta di download alla sorgente del The Guardian, andrà a scaricare e salvare 1000 articoli in tutto.
+
+In fase di test del software abbiamo notato che l'esecuzione dei comandi shell costituiva un collo di bottiglia che rallentava significativamente le prestazioni. Per risolvere tale problema abbiamo deciso di parallelizzare l'esecuzione dei 5 comandi lanciando ciascuno su un thread diverso. Per farlo abbiamo utilizzato la classe `Thread` di Java.
 
 ### La persistenza su file degli articoli
 In seguito alla fase di Download (fase in cui vengono creati gli oggetti `ArticleJsonGuardian` o `ArtcileCsvNYTimes`) il sistema serializza tutti gli articoli in file di formato `.xml` attraverso la classe `XmlSerializer`.  La stessa classe offre anche la possibilità di attuare il procedimento inverso, ovvero permette di deserializzare i file e creare degli oggetti che implementano l'interfaccia `Article`. La classe `XmlSerializer` di fatto implementa l'__Adapter Pattern__: abbiamo convertito l'interfaccia del serializzatore fornita dalla libreria utilizzata (`org.simpleframework.xml`) per il nostro scopo, ovvero serializzare articoli in file xml.
@@ -72,20 +89,6 @@ Dato che il sistema deve poter supportare nuove strutture per memorizzare e pote
    }
 ```
 
-### Download articoli The Guardian tramite API
-Per poter scaricare gli articoli del The Guardian attraverso chiamate alle API, abbiamo deciso di utilizzare dei comandi shell. In particolare abbiamo utilizzato la classe `ProcessBuilder` di Java per creare un processo che eseguisse il comando da noi specificato.
-
-Il comando shell è il seguente
-
-```bash
-    echo > "<outFile>.json" && curl -o "<outFile>.json" "https://content.guardianapis.com/search?show-fields=all&page-size=200&page=<i>&api-key=<apiKey>"
-```
-
-Dove: `echo` viene utilizzato per creare il file di output in cui verrà salvata la risposta delle API; `curl` viene utilizzato per effettuare la chiamata vera e propria alle API.
-Il comando viene eseguito in totale 5 volte, quindi vengono creati esattamente 5 file con all'interno 200 articoli ciascuno salvati in formato Json. Il numero di articoli che vengono scaricati non può essere settato dall'utente: ogni richiesta di download alla sorgente del The Guardian, andrà a scaricare e salvare 1000 articoli in tutto.
-
-In fase di test del software abbiamo notato che l'esecuzione dei comandi shell costituiva un collo di bottiglia che rallentava significativamente le prestazioni. Per risolvere tale problema abbiamo deciso di parallelizzare l'esecuzione dei 5 comandi lanciando ciascuno su un thread diverso. Per farlo abbiamo utilizzato la classe `Thread` di Java.
-
 ### Algoritmo di estrazione dei termini e dei pesi associati
 Abbiamo implementato una strategia (`WordCountStrategy`) di conteggio, la classe che la realizza è `FrequencyPerArticleStrategy`. L'algoritmo in pseudocodice è il seguente
 
@@ -98,8 +101,8 @@ Abbiamo implementato una strategia (`WordCountStrategy`) di conteggio, la classe
 
         for each article in articles
             fullText = new List<String>
-            fullText.addAll(article.title().rimuoviPunteggiatura()) // aggiungo tutte le parole del titolo
-            fullText.addAll(article.body().rimuoviPunteggiatura()) // aggiungo tutte le parole del corpo
+            fullText.addAll(article.title().rimuoviPunteggiatura().toList()) // aggiungo tutte le parole del titolo
+            fullText.addAll(article.body().rimuoviPunteggiatura().toList()) // aggiungo tutte le parole del corpo
 
             set = new Set<String>
             set.addAll(fullText) // in questo modo rimuovo le parole doppie
