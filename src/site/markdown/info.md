@@ -93,7 +93,7 @@ Dato che il sistema deve poter supportare nuove strutture per memorizzare e pote
 Abbiamo implementato una strategia (`WordCountStrategy`) di conteggio, la classe che la realizza è `FrequencyPerArticleStrategy`. L'algoritmo in pseudocodice è il seguente
 
 ```
-    List<Entry<String, Integer> execute(List<Article> articles)
+    List<Entry<String, Integer>> execute(List<Article> articles)
         if articles.isEmpty()
             return {}
 
@@ -113,7 +113,7 @@ Abbiamo implementato una strategia (`WordCountStrategy`) di conteggio, la classe
 
         lst = new List<Entry<String, int>>
         lst.addAll(map.toList()) // inserisco tutte le entry della mappa nella lista
-        lst.sortByValue() // riordino la lista in base al peso della parola
+        lst.sortByValue() // riordino la lista in base al peso della parola (decrescente)
 
         return lst
 ```
