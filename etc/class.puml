@@ -50,8 +50,8 @@ class XmlSerializer {
 }
 
 class ArticleJsonGuardian {
-    - title : String
-    - body : String
+    - webTitle : String
+    - bodyText : String
     
     + ArticleJsonGuardian(title : String, body : String)
     + getTitle() : String
